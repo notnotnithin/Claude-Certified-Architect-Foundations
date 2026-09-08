@@ -1,0 +1,283 @@
+---
+title: "Prompt Evaluation Workflow — Full Notes"
+description: Combined slide notes + transcript + diagrams on why prompt engineering needs prompt evaluation, and how to build an eval pipeline for ShopAssist AI.
+author: Udemy
+source: https://www.udemy.com/course/claude-certified-architect-foundations-complete-course/learn/lecture/57042201#overview
+created: "2026-09-06"
+tags:
+  - hover-notes
+  - udemy
+  - full-notes
+slide-note: "[[10-Prompt-Evaluation-Workflow 1]]"
+transcript: "[[hover-notes-transcripts/10-Prompt-Evaluation-Workflow (transcript)|Transcript]]"
+---
+
+# Prompt Evaluation Workflow
+
+> Writing a good prompt is only half the job. This lecture introduces the *second* half — **prompt evaluation** — and walks through building a small, concrete eval pipeline for ShopAssist AI's intent classifier: a labeled test dataset, a loop that runs each case through Claude, and a pass/fail comparison that turns "does this prompt look good?" into a measurable score.
+
+![Captured video screenshot](../hover-notes-images/screenshot-01M1P8Y8NNR526C1M9M5KDRWNZ.png)
+
+## 1. Prompt Engineering + Prompt Evaluation
+
+- **Prompt engineering** improves the prompt itself:
+  - Clearer instructions
+  - Added examples
+  - Structured output requests
+  - XML tags to separate parts of the prompt
+- **[The Missing Half]** **Prompt evaluation** measures how well the prompt actually performs:
+  - Run it across many realistic examples
+  - Grade the results
+  - Decide objectively whether it improved
+
+```mermaid
+flowchart LR
+    A["Prompt engineering\n(clearer instructions, examples,\nstructured output, XML tags)"] --> B["+"]
+    B --> C["Prompt evaluation\n(run across realistic examples,\ngrade results, decide objectively)"]
+```
+
+> **Transcript color:** "All of these techniques help Claude understand what we want. But writing a good prompt is only the first part. The second part is prompt evaluation... this is where many AI projects become risky."
+
+---
+
+## 2. The Risks of Manual Testing
+
+- **[The Problem]** A prompt that looks successful in a controlled environment can still fail in production:
+  - It may work perfectly in a demo
+  - It may pass for the few examples you tested by hand
+- **[Why it fails]** Real users send inputs nobody planned for:
+  - Unclear or vague messages
+  - Unexpected edge cases
+  - Forgotten or missing details
+  - Multiple problems packed into a single message
+
+> **Example: ShopAssist AI** — a prompt designed to handle a single refund request can fail when a real customer message combines a refund, a missing package, a damaged item, a billing problem, and angry sentiment all at once — a case that likely needs human escalation.
+
+![00:00:33](../hover-notes-images/screenshot-01M1P8Z5XHCT57NZZFVK09MBMA.png)
+
+---
+
+## 3. Reframing Prompt Quality
+
+- **[The Shift]** Stop asking a subjective question and start asking an objective one:
+  - ~~"Does this prompt look good?"~~
+  - **"How does this prompt perform across many realistic examples?"**
+- **[The Goal of Evals]** Answer that second question objectively, across many cases — not by feeling.
+
+![00:01:22](../hover-notes-images/screenshot-01M1P919RT915GSD6GZ87BBRJE.png)
+
+---
+
+## 4. Three Paths After Writing a Prompt
+
+| Path | Description | Risk / Benefit |
+|---|---|---|
+| **Risky** | Test it once, decide it's "good enough" | May work in a notebook but fail in production |
+| **Better, but limited** | Test a few times, fix one or two obvious problems | Only covers the specific cases you happened to think of |
+| **Recommended** | Build an eval pipeline | Run against a whole dataset, grade the results, change the prompt, and re-run for an objective comparison |
+
+![00:01:51](../hover-notes-images/screenshot-01M1P927FSTAFQ5S0GQEV3TSV2.png)
+
+### The recommended path in more detail
+
+- Create a dataset of test cases
+- Run the prompt against every case in the dataset
+- Grade the results
+- Change the prompt and run the *exact same* eval again to compare
+
+---
+
+## 5. The Basic Eval Workflow
+
+Evaluation is a **repeatable loop**, not a one-off check:
+
+```mermaid
+flowchart LR
+    Step1["1. Draft a prompt"] --> Step2["2. Create an eval dataset"]
+    Step2 --> Step3["3. Run each case through Claude"]
+    Step3 --> Step4["4. Grade the output"]
+    Step4 --> Step5["5. Change the prompt"]
+    Step5 --> Step1
+```
+
+![00:02:21](../hover-notes-images/screenshot-01M1P934W5CVKH4ZMFES365ZDS.png)
+
+---
+
+## 6. ShopAssist AI Evaluation Dataset
+
+- **[The Dataset Structure]** To make an evaluation objective, each test case needs both an input and a known-correct answer:
+  - **Input** — the raw customer message
+  - **Expected Intent** — the ground-truth classification the AI should return
+
+> **Transcript color:** "We already know what the correct answer should be. This is what makes it an eval."
+
+```python
+test_cases = [
+    {
+        "input": "I want to return my shoes. They arrived damaged.",
+        "expected_intent": "refund_request"
+    },
+    {
+        "input": "Where is my order? It was supposed to arrive yesterday.",
+        "expected_intent": "order_status"
+    },
+    {
+        "input": "I was charged twice for the same order.",
+        "expected_intent": "billing_issue"
+    }
+]
+```
+
+![00:02:27](../hover-notes-images/screenshot-01M1P934W5P416X2R31RRQ25D9.png)
+
+**[Note on this screenshot's placement]** In the original slide note this capture was filed chronologically right after "The Basic Eval Workflow" section, but its content is clearly the `test_cases` dataset code shown here — the capture lagged the actual slide/scroll transition. It's placed here instead, where it matches.
+
+---
+
+## 7. Running the Evaluation Loop
+
+- To automate testing, iterate through `test_cases` and pass each input to the classification function:
+
+```python
+for test_case in test_cases:
+    response = classify_intent(test_case["input"])
+    print(response)
+```
+
+- At this point Claude returns an intent for each message, but the loop only *prints* the output — it doesn't yet check whether the result is correct.
+
+![00:03:22](../hover-notes-images/screenshot-01M1P94NTEC1PFR4F591YRY6WG.png)
+
+**[Note on this screenshot's placement]** The original slide note filed this capture under "Implementing `classify_intent`" (further down), but its visible content — the `test_cases` list plus the bare `for` loop with no comparison logic yet — matches this "Running the Evaluation Loop" section instead. Moved here for accuracy.
+
+---
+
+## 8. Implementing `classify_intent`
+
+- This function handles the communication between the application and Claude to categorize customer messages.
+- **[Configuration Details]**
+  - **Model**: `claude-sonnet-4-6` (per the slide note; not visible in the captured screenshot itself — the `model` variable is defined elsewhere in the notebook, off-screen)
+  - **Temperature**: `0`, because classification needs consistency and predictability, not creativity
+  - **Output format**: plain JSON, so the Python code can parse it directly
+
+```python
+def classify_intent(customer_message):
+    prompt = f'''
+Classify the customer's message into one of these intents:
+- refund_request
+- order_status
+- billing_issue
+- product_question
+- other
+
+Customer message: {customer_message}
+
+Return only a valid JSON object.
+Do not include markdown.
+Do not include explanations.
+Do not wrap the JSON in a code block.
+
+{{"intent": "refund_request"}}
+'''
+    message = client.messages.create(
+        model=model,
+        max_tokens=200,
+        temperature=0,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+    return json.loads(message.content[0].text)
+```
+
+![00:03:08](../hover-notes-images/screenshot-01M1P942DTTZVEGCK4TG81K41T.png)
+
+**[Note on this screenshot's placement]** The original slide note filed this capture under "ShopAssist AI Evaluation Dataset," but its content is the `classify_intent` function body (the prompt template and `client.messages.create` call) — it belongs here instead. Moved for accuracy.
+
+---
+
+## 9. Automating the Comparison
+
+- Just printing the response isn't enough — it gives no clear signal of correctness.
+- To automate grading, compare the actual intent against the expected intent from the test case:
+  - Match → test **passes**
+  - Mismatch → test **fails**
+
+```python
+for test_case in test_cases:
+    response = classify_intent(test_case["input"])
+    print(response)
+    actual = response["intent"]
+    expected = test_case["expected_intent"]
+    passed = actual == expected
+    print(passed)
+```
+
+Running this against the three-case dataset above produces:
+
+```
+{'intent': 'refund_request'}
+True
+{'intent': 'order_status'}
+True
+{'intent': 'billing_issue'}
+True
+```
+
+![00:03:58](../hover-notes-images/screenshot-01M1P95WW8NTBV5WKBK6CP4R49.png)
+
+---
+
+## 10. Measuring Results & the Prompt Engineering Workflow
+
+- **[The Core Loop]** Prompt engineering becomes a measurable engineering workflow instead of a feeling:
+
+```mermaid
+flowchart LR
+    A["Make a Change"] --> B["Run Evals"]
+    B --> C["Compare Results"]
+    C --> D["Decide\n(Improve or Revert)"]
+    D --> A
+```
+
+- **[Example Comparison]** Turning prompt changes into measurable data:
+
+| Metric | Description |
+|---|---|
+| `passed` | `actual == expected` — the model output matches the ground truth |
+| `failed` | `actual != expected` — the model output does not match the ground truth |
+
+| Version | Score |
+|---|---|
+| First prompt | 7 / 10 |
+| Improved prompt | 9 / 10 |
+
+> **Key idea (slide):** "Prompt engineering shouldn't be a feeling. Change → run evals → compare → decide. A good prompt isn't one that sounds well-written — it's one that performs well across realistic examples."
+
+![00:04:08](../hover-notes-images/screenshot-01M1P95WW87KHZB8REAAH1CG15.png)
+
+**[Note on this screenshot's placement]** The original slide note filed this capture under "Automating the Comparison," but its content is the closing "Turn prompt changes into measurable results" slide (the 7/10 → 9/10 bars) — it belongs in this final section instead. Moved for accuracy.
+
+**[De-duplication note]** The slide note's own text repeats "The Prompt Engineering Workflow" as two separate headers near the end, each with its own near-identical bullet list and an almost-identical copy of this same four-step Mermaid diagram (`Make a Change → Run Evals → Compare Results → Decide`). Both instances describe the same loop; they've been consolidated into the single diagram and bullet list above rather than repeated.
+
+---
+
+## Summary
+
+- **Prompt engineering** writes a better prompt; **prompt evaluation** proves it actually works — they're two halves of the same job.
+- Manual, ad-hoc testing (a demo, a few hand-picked examples) is risky because real users send inputs you never planned for.
+- The reframe: stop asking "does this look good?" and start asking "how does it perform across many realistic examples?"
+- Of the three common paths (test once, test a few times, build an eval pipeline), only the eval pipeline gives an **objective** answer.
+- The basic eval loop: draft a prompt → create an eval dataset (input + expected answer) → run each case through Claude → grade the output → change the prompt → repeat.
+- A minimal eval needs three ingredients: a labeled `test_cases` dataset, a function that calls Claude (temperature `0` for classification, JSON-only output), and a comparison (`actual == expected`) that turns responses into pass/fail.
+- A good prompt is defined by its measured performance across realistic examples (e.g., 7/10 → 9/10), not by how well-written it sounds.
+
+> **Transcript color (closing):** "A good prompt is not just a prompt that sounds good. A good prompt is a prompt that performs well across realistic examples. In the next lesson, we will make this more systematic by looking at code-based grading and model-based grading."
+
+---
+
+*Sources: [slide notes](../10-Prompt-Evaluation-Workflow%201.md) · [[hover-notes-transcripts/10-Prompt-Evaluation-Workflow (transcript)|full transcript]]*
