@@ -235,4 +235,32 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this lecture opens the black box — what is actually happening between you typing a message and Claude producing an answer? The short version: there's no magic, it's just a very good "guess the next word" machine, repeated over and over.
+
+**1. Your text gets broken down first**
+Your message gets split into small pieces (tokens), each piece gets converted into numbers, and those numbers get refined based on the surrounding words — so the same word can mean something different depending on what's around it (like "return" in "return an order" vs. "return a favor").
+
+**2. Generating a response = predicting one word at a time**
+Claude doesn't write a whole sentence in one shot. It looks at everything so far, calculates the probability of what word should come next, picks one, adds it to the text, and then repeats that entire process again for the NEXT word — over and over until the response is done.
+
+**3. The big architectural truth**
+Claude has ZERO automatic access to your systems. It doesn't know your database, doesn't remember past conversations, doesn't know who's logged in — unless YOUR application explicitly hands it that information as part of the current request.
+
+**4. Same question, wildly different answer, just based on what info you gave it**
+Ask "I want a refund" with no extra info, and Claude can only ask a generic follow-up question. Ask the exact same thing but also hand it the customer's verification status, delivery date, and policy — and Claude gives a specific, useful, actionable answer. Same model, same question — the only thing that changed is the information (context) it was given.
+
+**5. Division of labor**
+The model reasons, classifies, and decides what to say next. Your system controls what facts it's allowed to see and what actions it's allowed to actually perform.
+
+**6. The big unifying idea**
+Literally everything — the system prompt, chat history, documents, tool results, memory, even a multi-step agent workflow — is just different flavors of "context" being fed into that same simple predict-the-next-word loop.
+
+**One-sentence summary:** An LLM is not magic — it's a next-word prediction engine that repeats itself many times in a row, and the ONLY lever you have as a developer to control its answers is the context (information) you choose to feed it.
+
+---
+
 *Source: [slide notes](../04-What-An-LLM-Does.md) — no transcript was available for this lecture (see note above).*

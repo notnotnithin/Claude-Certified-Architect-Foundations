@@ -101,4 +101,29 @@ Pavelko's answer reframes the question around **intent and rigor**, which leads 
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** an interview about how two separate waves of AI tooling reshaped what it means to be a software architect — first no-code tools, then agentic coding tools like Claude Code.
+
+**1. Wave 1 — no-code/low-code**
+Let people with ZERO coding experience build simple things themselves, which spawned a wave of "AI agencies" automating processes. It didn't really demand any new skills from architects — it just opened the door to non-developers.
+
+**2. Wave 2 — agentic coding (like Claude Code)**
+This one hit differently. It changed HOW automation systems get built, and — importantly — it meant an architect's classic coding/design background alone stopped being enough. Suddenly you also needed to understand things like content management and orchestration — skills outside the traditional toolkit.
+
+**3. "Vibe coding" isn't inherently bad or good — it depends on intent**
+Is AI-assisted, fast, loosely-supervised coding producing 10x more useful code, or 10x more garbage? The answer given is that pure coding (vibe-coded or carefully hand-written) was never going to be enough for a real production system on its own.
+
+**4. The real problem with AI systems**
+You genuinely cannot guarantee exactly what an LLM will return, or which tool it'll decide to use. That means you have to design your whole system to expect and handle that unpredictability, rather than treating it as a rare edge case.
+
+**5. A demo vs. a real production system**
+A demo proving a model "can do something" is a very different bar from an actually reliable production system — production requires deliberately engineering for reliability on top of the AI, not just writing more code.
+
+**One-sentence summary:** No-code tools let anyone build simple things without needing new architect skills, but agentic coding tools like Claude Code demanded new expertise (content management, orchestration) — and because AI output is fundamentally unpredictable, turning any AI demo into a real production system takes deliberate engineering for reliability, not just more code.
+
+---
+
 *Sources: [slide notes](../34-Two-Waves-That-Changed-The-Architects-Job.md) · [[hover-notes-transcripts/34-Two-Waves-That-Changed-The-Architects-Job (transcript)|full transcript]]*

@@ -454,4 +454,35 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** lecture 15 stopped right after Claude asked for a tool. This lecture finishes the story — actually running the tool, sending the real answer back to Claude, and letting Claude keep going until it's truly done, possibly using several tools in a row.
+
+**1. The golden rule, repeated for emphasis**
+Claude never runs anything itself. It asks (`tool_use`) → your code runs it → your code replies with the real result (`tool_result`) → Claude decides what to do next.
+
+**2. Every tool request carries an ID tag**
+So when you send the result back, Claude knows exactly which of its earlier requests you're answering — this matters more once Claude asks for multiple things.
+
+**3. How to know when to keep going vs. stop**
+Check `stop_reason`. If it says `tool_use`, run the tool and continue the loop. If it says `end_turn`, Claude is finished — show that answer to the user. Don't try to guess by reading Claude's words for phrases like "I'm done" — that's fragile; the `stop_reason` field is the reliable signal.
+
+**4. This turns into a loop, not just one exchange**
+Claude can ask for a tool, get a result, decide it needs *another* tool, get that result too, and keep going — chaining multiple real actions together based on what it learns, instead of following a fixed script.
+
+**5. Claude decides WHICH tool; your backend decides if it's ALLOWED**
+Even if Claude asks for something, your code can refuse (e.g., customer not verified, amount too high).
+
+**6. A real demo shown**
+Given "I want a refund, item arrived damaged," Claude on its own chained three tool calls in a row — look up the customer, look up the order, then process the refund — purely by reasoning through the conversation, with no hard-coded script telling it that exact order.
+
+**7. Safety net**
+Always have a maximum number of loop iterations as a backup safety limit — not as the normal way the loop ends, but purely to prevent an infinite loop if something behaves unexpectedly.
+
+**One-sentence summary:** The complete tool-use loop is: Claude asks → your code runs it → your code replies with the real result → repeat until Claude's `stop_reason` says `end_turn` — and this simple loop is what lets Claude solve multi-step problems without you hard-coding the exact sequence of steps.
+
+---
+
 *Sources: [slide notes](../20-Understanding-The-Tool-Use-Lifecycle.md) · [[hover-notes-transcripts/20-Understanding-The-Tool-Use-Lifecycle (transcript)|full transcript]]*

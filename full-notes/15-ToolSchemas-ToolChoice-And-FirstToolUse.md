@@ -332,4 +332,35 @@ The full assistant workflow eventually spans three stages — **order lookup →
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** Claude can talk, but it can't see your real data. This lecture is about giving Claude a "menu" of real actions it can request — while being very clear that Claude only ever *asks*, it never actually *does* anything itself.
+
+**1. The problem**
+Claude shouldn't guess real-world facts (like "is this order still returnable"). It needs to look them up for real, not make it up.
+
+**2. What a "tool" actually is**
+Just a function your own code already has (like `lookup_order`), described to Claude in a strict format called a schema — so Claude knows its exact name and exactly what info it needs to provide.
+
+**3. The loop, in one line**
+Claude asks → your backend actually runs the function → your backend sends the real answer back → Claude replies using real facts. Claude never touches your database itself.
+
+**4. How you know Claude wants a tool**
+Check `stop_reason`. If it says `tool_use`, Claude is waiting for you to run something and hand back the result — it hasn't finished talking yet.
+
+**5. Good tool design**
+Give the schema a clear name and a good description of *when* to use it, and mark which fields are absolutely required — this stops Claude from making stuff up just to fill in a blank.
+
+**6. `tool_choice`**
+This is just how much freedom you give Claude: `auto` = Claude decides itself, `any` = it must pick some tool, `tool` (with a name) = it's forced to use exactly this one every time.
+
+**7. Where ShopAssist gets to by the end**
+All this lecture builds is Claude successfully producing the request "please look up order 12345." Actually running that lookup and replying is the next lecture's job.
+
+**One-sentence summary:** This lecture teaches you how to describe a real function to Claude so it understands it, how to read Claude's request for that function, and how to control how much freedom Claude has to decide when to ask for it — while making sure Claude itself never has the power to execute anything.
+
+---
+
 *Sources: [slide notes](../15-ToolSchemas-ToolChoice-And-FirstToolUse.md) · [[hover-notes-transcripts/15-ToolSchemas-ToolChoice-And-FirstToolUse (transcript)|full transcript]]*

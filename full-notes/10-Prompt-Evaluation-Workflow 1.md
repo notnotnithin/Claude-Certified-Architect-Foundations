@@ -280,4 +280,29 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** writing a good prompt is only half the job — this lecture is about the other half, proving the prompt actually works well by testing it against many realistic examples instead of just eyeballing a couple of test messages.
+
+**1. The risky shortcut most people take**
+Try the prompt on a couple of examples by hand, it looks good, ship it. The problem: real users send messy, unexpected inputs nobody planned for — multiple issues crammed into one message, vague wording, missing details — and a prompt that "looked fine" in your quick test can quietly fail on all of that.
+
+**2. The mindset shift**
+Stop asking "does this prompt look good to me?" and start asking "how does this prompt actually perform across a bunch of realistic examples?" — turn it into something measurable, not a feeling.
+
+**3. The actual recipe for an eval**
+Build a small dataset where each test case has both an input AND the known-correct answer, then loop through every case, send it to Claude, and compare what Claude actually returned to what you already know the correct answer should be — literally: did it match, yes or no.
+
+**4. Why this beats hand-testing**
+Now every time you change the prompt, you can rerun the exact same dataset and get an objective number (like "7 out of 10 passed") instead of just a vague feeling that "it seems better now."
+
+**5. This turns prompt writing into a real loop, not a one-off**
+Make a change → run the evals → compare the score → decide whether to keep it or roll it back → repeat.
+
+**One-sentence summary:** A good prompt isn't one that "sounds well-written" — it's one you've actually proven works, by running it against a labeled test dataset and measuring pass/fail, so you can objectively compare prompt version 1 against prompt version 2 instead of just guessing.
+
+---
+
 *Sources: [slide notes](../10-Prompt-Evaluation-Workflow%201.md) · [[hover-notes-transcripts/10-Prompt-Evaluation-Workflow (transcript)|full transcript]]*

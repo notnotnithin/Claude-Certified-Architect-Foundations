@@ -289,4 +289,35 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** the same Claude Code you use interactively in your terminal behaves very differently — and needs to be used very differently — when it's running unattended inside an automated pipeline (CI/CD) that can't wait around for you to answer questions.
+
+**1. The core problem**
+Interactive Claude Code is built around a back-and-forth conversation — asking you questions, waiting for your approval. A CI job can't do that; if you run it the normal interactive way inside a pipeline, it will just hang forever waiting for input that's never coming.
+
+**2. The fix — "print mode"**
+Run it with a special flag (`claude -p` / `claude --print`) that makes it run once, print its answer, and exit immediately — no conversation, no waiting.
+
+**3. Make the output something a machine can actually use**
+Plain paragraphs of text are fine for a human to read, but a computer can't reliably act on them. Ask for the output as structured JSON (with an enforced shape) instead — then your pipeline can automatically post comments, fail a build, or file a ticket based on it.
+
+**4. Avoid spamming the same complaint over and over**
+Since a PR might get re-reviewed multiple times as new commits come in, give each finding a stable "fingerprint" (basically a fixed ID based on file, line, and category) so if the same issue gets found again, your pipeline recognizes it and skips posting a duplicate comment.
+
+**5. Give the review real context, not just a bare diff**
+Feed it your project's `CLAUDE.md` file, the existing tests, and known example outputs — so it's actually checking the change against how your project is supposed to work, not just judging code in a vacuum.
+
+**6. Not every finding should block the merge**
+Split findings by how serious they are — genuinely critical stuff (security holes, broken tests) blocks the merge outright; smaller stuff (code style, minor suggestions) just gets posted as a comment so it doesn't slow anyone down, and a separate, deeper review can run overnight instead of on every single PR.
+
+**7. The most important idea in the whole lecture — never let the same session grade its own work**
+The Claude session that wrote the code already has all its own assumptions and reasoning baked in, which makes it a biased reviewer of its own work. Always use a completely separate, fresh Claude Code session — one that never saw the original conversation — to actually review the change.
+
+**One-sentence summary:** Running Claude Code in CI means running it non-interactively with structured JSON output and stable fingerprints to avoid spam and hangs, feeding it real project context so its review means something, and — most importantly — always reviewing with a fresh, separate session rather than letting the code's own author grade its own work.
+
+---
+
 *Sources: [slide notes](../31-ClaudeCode-In-CI-CD-And-Independent-Review.md) · [[hover-notes-transcripts/31-ClaudeCode-In-CI-CD-And-Independent-Review (transcript)|full transcript]]*

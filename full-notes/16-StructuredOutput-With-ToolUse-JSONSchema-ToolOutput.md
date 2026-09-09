@@ -372,4 +372,32 @@ Even with a good schema, add explicit normalization rules to the prompt to keep 
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** Getting Claude to reliably produce clean data (instead of just hoping it writes valid JSON) is possible — you reuse the "tool" mechanism from the previous lecture, except this time the tool is never actually run.
+
+**1. The problem**
+Asking Claude "please just return valid JSON" in plain text is unreliable — it can add extra words, break formatting, or invent a field.
+
+**2. The fix**
+Give Claude a tool schema like before — but instead of using it to trigger a real action, you use it purely as a strict form for Claude to fill out. Claude "calling the tool" just means "filling in the form correctly" — nothing gets executed.
+
+**3. A clever trick: required vs. empty**
+A field can be required to *exist* in the answer while still being allowed to be empty/`null`. This lets Claude honestly say "I don't know the order number" instead of inventing one just to avoid a blank.
+
+**4. Force it, don't suggest it**
+Since you always want the structured form back (never a casual reply), you pin `tool_choice` to force that one specific tool, every single time.
+
+**5. Only one round trip**
+Because nothing is executed, the conversation stops right after Claude fills the form — no second call is needed, unlike a real-action tool.
+
+**6. The catch**
+A schema only checks that the *shape* is correct (right fields, right types). It does **not** check that Claude's actual decision was right. Claude can fill the form in perfectly and still pick the wrong category.
+
+**One-sentence summary:** Reuse Claude's tool-calling ability to force it to hand back clean, structured data instead of free-text JSON — but remember a valid-looking form is not the same thing as a correct one.
+
+---
+
 *Sources: [slide notes](../16-StructuredOutput-With-ToolUse-JSONSchema-ToolOutput.md) · [[hover-notes-transcripts/16-StructuredOutput-With-ToolUse-JSONSchema-ToolOutput (transcript)|full transcript]]*

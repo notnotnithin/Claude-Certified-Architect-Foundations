@@ -260,4 +260,35 @@ Building an effective RAG system involves several key tuning decisions:
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** RAG (Retrieval-Augmented Generation) solves one specific problem — you can't cram your entire company's documentation into every single prompt — by searching for just the relevant pieces first, then handing only those to Claude to answer from.
+
+**1. The problem RAG solves**
+A company might have thousands of support articles and policy documents. Stuffing all of it into every prompt is expensive, slow, sometimes literally doesn't fit, and actually makes answers worse (too much irrelevant noise to sift through).
+
+**2. The fix, in one sentence**
+Search first, generate second — find just the handful of relevant chunks of text, then hand only those (plus the question) to Claude.
+
+**3. The three-step pipeline**
+Prepare (chop your documents into small chunks and store them somewhere searchable) → Retrieve (when a real question comes in, search for the most relevant chunks) → Generate (hand those specific chunks plus the question to Claude, which writes the answer using only that evidence).
+
+**4. The most important thing to understand about RAG**
+It does NOT make Claude magically "know" your documents forever — there's no memorizing or retraining happening. It's just handing Claude the right few paragraphs at exactly the right moment, fresh, every single time.
+
+**5. Three ways to search for the relevant chunks**
+Keyword search (looks for exact word matches — fast, great for exact IDs, but misses different phrasing of the same idea, like "money back" not matching a document that only says "refund"), semantic/vector search (converts both the question and documents into numbers based on MEANING, so it can match "money back" to "refund eligibility" even with zero overlapping words), and hybrid search (uses both together — semantic for catching the meaning, keyword for nailing exact IDs/codes).
+
+**6. The most important lesson**
+Your final answer is only as good as what you retrieved. If you searched for and pulled the WRONG documents, Claude's answer will be confidently wrong no matter how smart the model is — so when something goes wrong, the first question to ask isn't "why did the model answer badly," it's "did we actually retrieve the right evidence."
+
+**7. There are real tuning decisions to make when building a RAG system**
+How big should each chunk be, how many chunks to retrieve, which search type to use, whether to re-rank results, whether to show citations, and which documents even belong in the searchable set to begin with.
+
+**One-sentence summary:** RAG means searching for the small handful of genuinely relevant document chunks first, then generating the answer only from those — it doesn't make Claude "know" your documents permanently, and since a wrong or incomplete search means a wrong answer no matter how good the model is, retrieval quality (not the model) is usually the real bottleneck.
+
+---
+
 *Sources: [slide notes](../13-RAG-Overview-Retrieval-Before-Generation.md) · [[hover-notes-transcripts/13-RAG-Overview-Retrieval-Before-Generation (transcript)|full transcript]]*

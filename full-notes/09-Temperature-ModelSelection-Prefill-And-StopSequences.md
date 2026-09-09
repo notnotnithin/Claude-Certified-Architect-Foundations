@@ -217,4 +217,32 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** three separate knobs that control HOW Claude responds (not what it knows) — which model to use, how random/creative vs. predictable its answers are, and how to force it to stop generating at an exact spot. (Note: despite the title, this lecture doesn't actually cover "prefill" — that's a separate topic elsewhere.)
+
+**1. Picking a model**
+Don't just always reach for "the biggest/most powerful one." Think about the actual task — a fast, cheap model is fine for simple classification/routing jobs; save the more expensive, more capable model for genuinely complex or high-risk decisions. You can even chain them: a fast model to sort/classify, then a stronger model to write the final reply.
+
+**2. Temperature — how "risk-taking" Claude is with word choice**
+Claude always calculates a probability for every possible next word. Low temperature (near 0) makes it almost always pick the most likely word — consistent, predictable, boring. High temperature (near 1) lets it pick less-obvious words more often — more variety, more creative, less predictable. Even at temperature 0, answers still aren't 100% identical every single time.
+
+**3. Match temperature to the job**
+Low temperature for support replies, policy answers, classification — anything where you want consistency. High temperature for brainstorming, creative writing — anything where variety is actually the goal.
+
+**4. Stop sequences — a hard stop marker**
+Give the API a specific string (like `<END>`), and tell the model in your PROMPT to actually write that string when it's done. The moment that exact text shows up in the output, the API cuts generation off immediately, no matter what.
+
+**5. How you know it triggered**
+The response tells you `stop_reason = "stop_sequence"` (why it stopped) plus exactly which string caused it (`stop_sequence` field).
+
+**6. The important warning**
+A stop sequence only controls WHERE the text stops — it says absolutely nothing about whether what came before it is actually correct. You still need real validation in your own code for anything that matters.
+
+**One-sentence summary:** Pick your model based on the task (not just "biggest is best"), use low temperature for consistent/predictable answers and high temperature for creative ones, and use stop sequences as a hard boundary marker to stop generation at an exact point — but never mistake a stop sequence for actual output validation.
+
+---
+
 *Sources: [slide notes](../09-Temperature-ModelSelection-Prefill-And-StopSequences.md) · [[hover-notes-transcripts/09-Temperature-ModelSelection-Prefill-And-StopSequences (transcript)|full transcript]]*

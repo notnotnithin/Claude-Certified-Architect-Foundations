@@ -281,4 +281,35 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** once a support case runs long (many messages, tool calls, days of back-and-forth), you can't just keep piling everything into the chat history and hoping Claude remembers correctly — the chat itself is not a reliable database.
+
+**1. The core rule**
+The conversation is not your database. Important facts (order numbers, dates, refund amounts) need to live somewhere solid outside the chat, not just buried inside a growing wall of messages.
+
+**2. Why long chats go wrong**
+As a conversation grows, old messages pile up, repeated info clutters things, and models tend to "lose" facts stuck in the middle of a huge chat history — a real date or amount can quietly get confused or dropped.
+
+**3. The fix — a "case facts" block**
+Keep a small, structured object (like a simple form: customer id, order id, refund amount, what's missing) that's the actual source of truth, separate from the chat, and reload it fresh every time instead of trusting the conversation to remember.
+
+**4. Recovery plan for interruptions**
+If work gets interrupted, don't guess where you left off by rereading the whole chat — keep a small "recovery manifest" that literally records the last completed step and what's still pending, plus which actions are safe to simply redo (like drafting a message) versus dangerous to redo (like actually processing a refund twice).
+
+**5. Rules that must always hold belong in code, not just instructions**
+Telling Claude "don't refund without checking" is a suggestion; the code that actually processes refunds should double-check for itself and refuse if something's not verified.
+
+**6. Don't overload Claude with everything a tool *can* return**
+Only give it what it actually needs for the current step, and put the most important facts at the start, not buried at the end of a huge blob.
+
+**7. Helper agents — "forking" in practice**
+When you spin off a helper agent to investigate one piece of a case, it should get only the specific facts it needs (not the whole conversation) and should hand back a short, structured result (not a long wall of reasoning) — this keeps things clean and easy to check.
+
+**One-sentence summary:** For long-running cases, keep the real facts (IDs, dates, amounts, progress) in a small structured object outside the chat, since the conversation itself is not a reliable place to store or recover them from.
+
+---
+
 *Sources: [slide notes](../26-SessionState-Forking-Scratchpads-And-LargeContextWorkflows.md) · [[hover-notes-transcripts/26-SessionState-Forking-Scratchpads-And-LargeContextWorkflows (transcript)|full transcript]]*

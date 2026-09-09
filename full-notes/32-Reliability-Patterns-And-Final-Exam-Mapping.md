@@ -231,4 +231,35 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this is the capstone/review lecture — it doesn't teach anything brand new, it takes everything built for ShopAssist so far and asks the final question: how do you make this whole thing actually safe and trustworthy for real customers, then maps every pattern back onto the five exam domains.
+
+**1. Don't escalate based on mood**
+A frustrated customer might have a simple problem, and a calm customer might be sitting on something genuinely risky. Escalate based on explicit rules instead — the customer directly asked for a human, the policy doesn't cover this case, the system can't make progress, or the backend results are ambiguous. And if a customer explicitly asks for a human, honor it immediately — don't stall with more automated checks first.
+
+**2. Never guess at someone's identity**
+If a lookup returns two different customers with the same name, don't just silently pick "the most recent one." Ask a clarifying question or escalate — this rule applies specifically whenever identity, permissions, or money are involved.
+
+**3. Errors should never just vanish**
+A vague failure message like "search unavailable" gives the system nothing to work with. A good error tells you exactly what was attempted, what partial results exist, and what alternatives are available — so the system can decide to retry, ask the customer, continue with partial info, or escalate, instead of just quietly failing.
+
+**4. Always know where a fact came from**
+When summarizing information for a final answer, don't lose track of which source backs which claim. If two sources genuinely disagree (like an old 30-day policy vs. a newer 45-day exception memo), don't silently pick one — flag the conflict, note which source is newer, and escalate if money or policy is on the line.
+
+**5. Format the answer to fit the content**
+Numbers belong in tables, policy reasoning belongs in bullets, a reply to a customer belongs in plain prose — don't force everything into the same shape.
+
+**6. How it maps to the exam**
+Agentic Architecture & Orchestration is the biggest chunk of the exam. Tool Design & MCP, Claude Code Configuration, and Prompt Engineering & Structured Output are all large. Context Management & Reliability is officially the smallest slice, but it's a "cross-cutting" concern — meaning its ideas (escalation, error handling, provenance) actually show up baked into scenario questions across every other domain too.
+
+**7. The one mental model to remember for the whole exam**
+A reliable system knows when to Act, when to Ask, when to Stop, and when to Escalate — and when a scenario question presents a genuine conflict plus real risk, the answer is almost never "just pick a side," it's "explain, preserve the conflict, and escalate."
+
+**One-sentence summary:** A trustworthy Claude-based system escalates on explicit rules (not mood), never guesses at identity when stakes are high, never lets an error just disappear, always preserves where a fact came from, and — when given a real conflict with real risk — the right move is almost always to explain, preserve, and escalate rather than confidently pick a side.
+
+---
+
 *Sources: [slide notes](../32-Reliability-Patterns-And-Final-Exam-Mapping.md) · [[hover-notes-transcripts/32-Reliability-Patterns-And-Final-Exam-Mapping (transcript)|full transcript]]*

@@ -622,4 +622,38 @@ mindmap
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** another hands-on build lecture — actually writing the five real ShopAssist backend functions, then re-exposing that exact same logic through a proper MCP server so any Claude-compatible tool can discover and use it.
+
+**1. The five tools built**
+Find a customer by email, look up an order by ID, check if a refund is allowed by policy, actually process a refund (the sensitive one), and escalate a case to a human.
+
+**2. Not every agent gets every tool**
+The everyday support agent only gets the safe lookup/eligibility tools; only a narrower "refund agent" is trusted with the sensitive `process_refund` tool.
+
+**3. Every function returns a structured result, success or failure**
+No crashes, no vague strings — always something like `{isError, errorCategory, customerMessage, developerMessage}` so the calling code (and Claude) always knows exactly what happened.
+
+**4. A live demo of the escalation path**
+An old order that's outside the 30-day refund window automatically gets escalated to a human with a real ticket number — showing the whole "lookup → check eligibility → fails → escalate" flow actually working end to end.
+
+**5. Moving the same logic into MCP**
+Nothing about the actual business logic changes — you just wrap each function with a decorator (`@mcp.tool()`) so it becomes something an MCP-compatible client (like Claude) can discover and call through a standard protocol, instead of you hard-coding every tool into your app by hand.
+
+**6. Docstrings matter a lot in MCP**
+The text inside each function's docstring becomes the tool's actual description that Claude reads to decide when to use it — same "when to use / when not to use" guidance from lecture 21, just written as a Python docstring instead of a JSON field.
+
+**7. Testing it live**
+A browser tool called the MCP Inspector lets you connect to your running server, list every tool it exposes, and actually run one (like looking up a customer by email) to confirm both the business logic and the "is it properly exposed" plumbing work correctly — without needing a real Claude conversation yet.
+
+**8. The big architectural payoff**
+Instead of your main app manually maintaining every single tool definition and execution path itself, MCP servers can be built once and reused across multiple different clients (Claude Code, Claude Desktop, your own internal agents, etc.).
+
+**One-sentence summary:** The exact same five ShopAssist backend functions get built first as plain Python, then re-packaged as a discoverable, reusable MCP server — proving that MCP changes *how tools are found and called*, not the need for solid backend logic and structured error handling underneath.
+
+---
+
 *Sources: [slide notes](../23-BUILD-ShopAssist-Backend-Tools-And-MCP-Integration.md) · [[hover-notes-transcripts/23-BUILD-ShopAssist-Backend-Tools-And-MCP-Integration (transcript)|full transcript]]*

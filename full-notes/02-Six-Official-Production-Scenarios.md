@@ -210,4 +210,23 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** the official exam guide is built around six real-world scenario types, and this lecture walks through all six so you know exactly what kind of "story" a question might drop you into.
+
+**1. The six scenarios**
+(1) a customer support agent handling refunds/billing/account issues, (2) using Claude Code to generate/refactor/debug/test code, (3) multiple agents working together on a research task (search → analyze → synthesize → report), (4) using Claude to make developers more productive (exploring codebases, understanding legacy code), (5) using Claude Code inside an automated CI/CD pipeline, and (6) pulling clean structured data out of messy documents (invoices, tickets, forms).
+
+**2. None of these are pure textbook categories**
+Each one pulls in several different exam topics at once. A support-agent scenario touches agent design, tools, MCP, and human escalation all together, not just "agents" in isolation.
+
+**3. The course's own running example — ShopAssist AI**
+It starts as a simple customer support chatbot and gradually grows to touch literally every one of these six scenario types as the course progresses: real API calls, structured output, tools, MCP, multi-step agent workflows, Claude Code, CI/CD, and document extraction.
+
+**One-sentence summary:** The exam is organized around six official real-world scenario types (support agent, code generation, multi-agent research, developer productivity, CI/CD, and structured extraction) — and every one of them blends multiple exam topics together, which is exactly how the course's own ShopAssist project is built up.
+
+---
+
 *Sources: [slide notes](../02-Six-Official-Production-Scenarios.md) · [[hover-notes-transcripts/02-Six Official Production Scenarios (transcript)|full transcript]]*

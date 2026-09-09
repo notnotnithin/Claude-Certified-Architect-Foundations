@@ -422,4 +422,35 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this lecture switches gears completely — instead of building ShopAssist's API, it's about setting up Claude Code (the terminal coding assistant) so it actually understands YOUR specific project instead of behaving like a generic helper every single time.
+
+**1. Two different things — don't confuse them**
+With the Agent SDK, YOU build the whole agent yourself (tools, memory, everything). With Claude Code, the agent already exists as a product — your job is just to configure and guide it.
+
+**2. The core problem**
+Claude Code doesn't automatically know your team's coding style, your testing setup, or your project's specific business rules — you have to tell it, and repeating that in every single chat is wasteful.
+
+**3. The fix — a `CLAUDE.md` file**
+One file at the root of your project that Claude Code reads and remembers, describing things like coding conventions, common test/lint commands, and your project's specific do's-and-don'ts. Running `/init` auto-generates a starting draft by scanning your codebase — but you still need to edit it by hand to make it genuinely useful.
+
+**4. Memory has different "levels," like nested folders**
+Personal preferences that are just for you (never shared with the team), project-wide rules everyone on the team follows (checked into version control), and even more specific rules for just one subfolder (like "API code has these extra rules").
+
+**5. For big projects, split the file up**
+Instead of one giant `CLAUDE.md`, break instructions into separate topic files (coding standards, testing, API patterns) and pull them all into the main file with a simple import line — keeps things organized and easy to review.
+
+**6. Even more precise targeting**
+You can write a rule file that only applies to files matching a specific pattern (like "everything under `routes/` and `controllers/`") no matter which folders they're actually scattered across.
+
+**7. Two handy commands**
+Typing `#` followed by a note instantly saves a new rule to memory as you discover it; `/memory` lets you see exactly what rules are currently loaded — which is the very first thing to check if Claude Code starts behaving oddly or ignoring a rule you thought you'd set.
+
+**One-sentence summary:** A well-written `CLAUDE.md` file (plus its more targeted variants) turns Claude Code from a generic assistant into one that actually knows your project's conventions, commands, and rules — so you stop repeating yourself in every single prompt.
+
+---
+
 *Sources: [slide notes](../28-ClaudeCode-Project-Configuration-CLAUDE-Rules-And-Memory.md) · [[hover-notes-transcripts/28-ClaudeCode-Project-Configuration-CLAUDE-Rules-And-Memory (transcript)|full transcript]]*

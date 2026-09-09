@@ -94,4 +94,29 @@ Asked directly which AI architecture he'd "ban" if he could, given how it's bein
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** three practical risk areas an AI architect has to manage at once — the model sometimes being confidently wrong, giving it too much unchecked power, and building something way more complicated than the problem actually needs.
+
+**1. Don't try to eliminate hallucinations — design around them instead**
+No matter how good your prompt is, the model can still give you a confidently wrong answer. Accept that as a given and build your system to catch and handle it, rather than assuming it just won't happen.
+
+**2. Limit what the model is actually allowed to do**
+Don't let it perform risky actions (like processing a refund or a financial transaction) without solid confidence it's warranted — and for genuinely sensitive actions, put a human review step in before anything gets finalized.
+
+**3. Don't reach for AI when you don't need it**
+If a problem can be solved with plain, deterministic code, just use that — bolting AI onto a problem that didn't need it can actually make the system worse, not better.
+
+**4. The single thing worth "banning" in 2026, in the speaker's own words**
+Multi-agent systems used everywhere, blindly, just because they're trendy. If a complicated multi-agent setup can be replaced by one simple function making a couple of calls to the model, do that instead — simpler is usually better.
+
+**5. Important clarification**
+This isn't an anti-agent stance — agents are fine when they're actually needed. It's specifically anti-*unnecessary* complexity — adding sophistication because it's exciting to build, not because the problem actually requires it.
+
+**One-sentence summary:** Design your system assuming the model WILL sometimes be confidently wrong, strictly limit what risky actions it's allowed to take without human review, and resist the trendy pull toward complex multi-agent architectures when a single function with a couple of model calls would solve the problem just as well.
+
+---
+
 *Sources: [slide notes](../39-Hallucinations-Permissions-And-Unnecesary-Complexity.md) · [[hover-notes-transcripts/39-Hallucinations-Permissions-And-Unnecesary-Complexity (transcript)|full transcript]]*

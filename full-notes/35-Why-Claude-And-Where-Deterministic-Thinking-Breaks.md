@@ -110,4 +110,29 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** an interview explaining why the course centers on Claude specifically (a modest, practical answer), and — more importantly — the exact moment in a project where old "traditional software" thinking habits stop working and you have to think differently.
+
+**1. Why Claude, honestly**
+Not framed as "the objective best AI" — Claude is just one of several tools the speaker uses daily (alongside ChatGPT and Gemini), but it happens to be particularly strong at coding and enterprise-level work, and it's what's currently running his own production project. Importantly: the underlying architectural skills you learn (tools, gates, orchestration) transfer to other models too — they're not Claude-exclusive knowledge.
+
+**2. His own experience with Claude Code improved a lot over time**
+Early on, it sometimes felt faster to just build something from scratch than fix what the model produced. More recently, it's gotten good enough that he used it to build two entire mobile apps in a tech stack he'd never worked in before — but he's clear that this worked BECAUSE he already understood general software architecture, not because the AI replaced that understanding.
+
+**3. AI-generated code can be surprisingly good — and can also quietly hide vulnerabilities**
+("White coding," a play on "vibe coding" — a cybersecurity friend jokes it'll keep security professionals employed for years fixing what AI quietly breaks.) Point: AI-written code still needs real security review, it can't be blindly trusted.
+
+**4. The core idea of the whole lecture — where deterministic thinking actually breaks**
+Using Claude as your own personal coding helper only requires a normal developer/architect skillset — nothing special. But the MOMENT you decide to put an LLM INSIDE your actual product (not just as a personal tool, but as a real component customers depend on), everything changes. Traditional software is deterministic (same input always gives the same output). An LLM embedded in a product is probabilistic (same input CAN give different, unpredictable results) — and that single shift is exactly why deeper knowledge (validation, confidence handling, human review) suddenly becomes necessary.
+
+**5. There's a real ceiling on what AI assistance alone can do**
+Past a certain complexity, you genuinely need real architecture knowledge that the AI itself can't supply — the AI can handle implementation details, but a human still has to supply the high-level structural thinking, or you lose control over what you're actually building.
+
+**One-sentence summary:** Claude was chosen as a strong, practical tool (not framed as objectively "the best"), but the real lesson of this lecture is that the moment an LLM moves from being your personal coding helper to being embedded inside an actual product, you cross from deterministic software (predictable) into probabilistic software (never fully predictable) — and that shift is exactly why deeper architectural knowledge like validation, gates, and human review becomes necessary.
+
+---
+
 *Sources: [slide notes](../35-Why-Claude-And-Where-Deterministic-Thinking-Breaks.md) · [[hover-notes-transcripts/35-Why-Claude-And-Where-Deterministic-Thinking-Breaks (transcript)|full transcript]]*

@@ -119,4 +119,32 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** a forward-looking conversation about which AI/architecture skills will actually still matter in five years, versus which ones are just riding the current hype wave.
+
+**1. Will certifications still matter in five years?**
+The underlying knowledge should stay useful — but the certification itself might eventually become just a basic, expected thing rather than something that makes you stand out, similar to how many industry certifications evolve over time.
+
+**2. The real value was never the badge — it's what you learn while preparing for it**
+The actual knowledge and hands-on experience gained during study is what's durable, independent of whether the certificate itself stays impressive.
+
+**3. The recommended path for a software engineer wanting to move into architecture**
+Learn the fundamentals first → build something real (at work or as a personal project) → THEN prepare for and pass a certification. And to figure out what to actually study, go read the official exam guides directly — they tell you exactly what the industry expects from that role.
+
+**4. Core skills to prioritize**
+LLM fundamentals, application engineering, and agentic workflows — plus understanding that AI gets used in two different ways: as a feature INSIDE your product, and as a tool that helps you BUILD the product in the first place.
+
+**5. The trend to watch for the next 12 months**
+"AI SDLC" (using AI to help build and ship software itself, not just as a product feature) — currently underrated, expected to become a much bigger deal.
+
+**6. Overhyped vs. underrated, the speaker's actual verdict**
+Prompt engineering as its own standalone job title is overhyped — it's becoming just one part of what an AI engineer/architect already does, not a separate career. AI SDLC, on the other hand, is underrated and about to get a lot bigger.
+
+**One-sentence summary:** The knowledge behind a certification should outlast the current hype (roughly a five-year shelf life), the smart path into AI architecture is fundamentals → build something real → then certify, and prompt engineering as a standalone job is overhyped while "AI SDLC" (using AI to help build software itself) is the underrated trend worth watching.
+
+---
+
 *Sources: [slide notes](../42-The-Five-Year-View-Which-Skills-Keep-Their-Value.md) · [[hover-notes-transcripts/42-The-Five-Year-View-Which-Skills-Keep-Their-Value (transcript)|full transcript]]*

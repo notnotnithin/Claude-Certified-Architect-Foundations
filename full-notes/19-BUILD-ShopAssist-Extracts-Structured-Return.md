@@ -418,4 +418,38 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this is a hands-on "put it all together" lecture — take a messy customer message and turn it into a clean, validated, structured return request your code can actually act on, using everything learned so far (schemas, forced tool use, validation, retries, human review).
+
+**1. The whole job in one sentence**
+Turn "Hi, my headphones arrived broken, order was maybe 12345" into a clean object like `{order_id, item, reason, confidence, human_review_required, ...}`.
+
+**2. Step 1 — define the shape**
+Build a schema where missing fields (like `order_id`) are allowed to be `null` instead of made up, and the `reason` field can only be one of a fixed list of options — not just any word Claude feels like using.
+
+**3. Step 2 — force the extraction**
+Pin Claude to always use this one specific extraction tool, so it never just chats back instead of giving you the structured data.
+
+**4. Steps 3 & 4 — read it, then check it**
+Pull the filled-in data out of Claude's response, then run it through your own validation function that checks things like "is the order_id missing," "is confidence too low," "did they say 'other' without explaining why."
+
+**5. Step 5 — retry only when it can actually help**
+If Claude clearly made a fixable mistake, ask again with the exact error. If the customer just never gave the info, don't keep asking Claude to guess — mark it missing and move on.
+
+**6. Step 6 — decide who handles it**
+Low confidence, unclear reason, contradictions, or a policy exception → send to a human. Otherwise, let it proceed automatically.
+
+**7. Real test cases shown**
+A clean request works fine; a policy exception (bought 6 months ago) and a contradiction (item works perfectly but arrived broken) both correctly get flagged for a human — with the model even writing a reasonable explanation of *why* it flagged it.
+
+**8. The big lesson**
+Reliability doesn't come from writing a clever prompt — it comes from the surrounding architecture (schema + forced tool use + validation + smart retries + human routing) working together.
+
+**One-sentence summary:** This lecture wires together schema + forced extraction + validation + retries + human-review-routing into one working pipeline that turns a messy customer message into a trustworthy structured object — proving that good architecture, not clever prompting, is what makes it reliable.
+
+---
+
 *Sources: [slide notes](../19-BUILD-ShopAssist-Extracts-Structured-Return.md) · [[hover-notes-transcripts/19-BUILD-ShopAssist-Extracts-Structured-Return (transcript)|full transcript]]*

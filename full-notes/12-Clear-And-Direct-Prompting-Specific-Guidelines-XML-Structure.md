@@ -304,4 +304,32 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** three techniques that stack together to make prompts more reliable — being crystal clear instead of vague, spelling out exactly what "good" behavior looks like, and organizing a growing prompt with clear labeled sections instead of one giant paragraph.
+
+**1. Don't make Claude guess**
+A good prompt tells Claude, up front, who it should be (role), what it should do (task), what rules to follow, and what format to return the answer in. Leave any of that out and Claude has to fill in the blanks itself — inconsistently.
+
+**2. Vague vs. clear, side by side**
+"Help this customer" leaves a dozen unanswered questions (write a reply? classify it? approve a refund?). "You are a support assistant... write a short helpful response... if they want a refund, ask for the order number... don't promise the refund is approved... keep it under 80 words" leaves nothing to guess.
+
+**3. Spell out what "good" actually means**
+Instead of vaguely saying "handle this well," give an explicit list of guidelines (be polite, don't mention internal policies, ask for missing info, acknowledge frustration briefly, ask one clarifying question if unclear) — now "well" has an actual definition.
+
+**4. A real production prompt has distinct parts**
+Role, task, context, rules, the actual input data, the output format, and success criteria — trying to cram all of that into one paragraph gets messy fast as a project grows.
+
+**5. XML tags are the fix**
+Wrap each part in its own tag (`<role>`, `<task>`, `<rules>`, `<customer_message>`, `<output_format>`) so Claude can clearly tell instructions apart from data, and so a developer can update just one section (like the rules) without touching everything else.
+
+**6. The final, most important reminder**
+None of this prompting technique replaces backend enforcement. A prompt can guide Claude to draft a polite reply and decide it needs an order number — but the actual refund approval, permissions, and real actions still have to be controlled by your application code, not just requested nicely in a prompt.
+
+**One-sentence summary:** Clear, unambiguous prompts (role/task/rules/format), explicit behavior guidelines instead of vague words, and XML tags to organize a growing prompt all combine to make Claude's output more reliable — but for anything that's actually financially or operationally critical, your backend code still has to enforce it, not the prompt.
+
+---
+
 *Sources: [slide notes](../12-Clear-And-Direct-Prompting-Specific-Guidelines-XML-Structure.md) · [[hover-notes-transcripts/12-Clear-And-Direct-Prompting-Specific-Guidelines-XML-Structure (transcript)|full transcript]]*

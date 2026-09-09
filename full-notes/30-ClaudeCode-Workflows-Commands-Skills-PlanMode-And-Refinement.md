@@ -251,4 +251,32 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** now that Claude Code is configured (lecture 28) and you know how to manage a session (lecture 29), this lecture is about making Claude Code genuinely useful for a WHOLE TEAM, not just one person typing prompts from scratch every time.
+
+**1. Slash commands — reusable shortcuts**
+Save a commonly-used prompt (like "review this PR for these five specific things") as a command file. Put it in the project folder and the whole team automatically shares it through version control; put it in your personal folder and it's just for you.
+
+**2. Skills — for bigger, more structured jobs**
+When a task is more involved than a simple one-line command (like "analyze our whole support workflow"), define it as a Skill — a small file describing what it does, when to use it, and — importantly — exactly which tools it's allowed to touch (e.g., only allowed to read and search, never edit files), so it can explore safely without risking accidental changes.
+
+**3. `CLAUDE.md` vs. Skills, simply put**
+`CLAUDE.md` is knowledge that's ALWAYS loaded (your standing rules); a Skill is a workflow you invoke only WHEN you need it.
+
+**4. Plan mode vs. just doing it**
+For a big, multi-file, "there are several ways to do this" kind of change, have Claude design and get your approval on a plan FIRST, before touching any code. For a small, obvious fix (like "don't allow negative refund amounts"), just let it make the change directly — no need for a whole planning ceremony.
+
+**5. Getting better results out of Claude — don't be vague**
+Instead of saying "improve refund classification" (too vague), give it real examples — "this exact message should be classified as X, this other one as Y." Concrete input-to-output examples work far better than fuzzy descriptions.
+
+**6. Three specific refinement tricks**
+(1) Write the test first, then give Claude the failing test and let it fix the code to match. (2) If requirements are unclear, ask Claude to interview YOU with questions first, before writing any code. (3) If two problems are related, describe them together in one message — but if they're unrelated, fix them one at a time instead of dumping a big list at once.
+
+**One-sentence summary:** Make Claude Code work well for a whole team by giving it reusable commands and Skills (with tightly scoped permissions), choosing "plan first" only for genuinely complex work, and always refining with concrete examples and precise feedback instead of vague requests.
+
+---
+
 *Sources: [slide notes](../30-ClaudeCode-Workflows-Commands-Skills-PlanMode-And-Refinement.md) · [[hover-notes-transcripts/30-ClaudeCode-Workflows-Commands-Skills-PlanMode-And-Refinement (transcript)|full transcript]]*

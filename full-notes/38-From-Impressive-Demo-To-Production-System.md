@@ -124,4 +124,29 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** an interview about the specific gap between "this AI demo works great" and "this is safe to actually ship to real customers" — and why that gap is bigger than most engineers expect.
+
+**1. The single biggest misconception engineers bring from traditional software**
+Assuming AI behaves deterministically (same input, same output every time) like regular code does. It doesn't — it's probabilistic, meaning you genuinely never know exactly what it'll return, and that changes how you have to think about permissions and what the system is allowed to do.
+
+**2. Two separate questions, not one**
+It's not enough to ask "what CAN this model do?" — you also have to explicitly decide what it SHOULD be allowed to do. For anything risky (like processing a refund), a human needs to be part of the loop, not just the model's own judgment.
+
+**3. Why a working demo doesn't mean you're ready to ship**
+A demo only proves the model is capable of doing a task under ideal conditions. Real production readiness means understanding exactly what happens when it FAILS — because it will, eventually.
+
+**4. Demos live in a clean, idealized world; production doesn't**
+A demo gets well-defined tasks and clean input. Real users send messy, incomplete input, tools sometimes fail, and permission/authorization issues come up constantly — the system has to be ready for all of that, not just the happy path.
+
+**5. Real users rarely ask for just one thing at a time**
+A single customer message might bundle together a refund request, an order status question, AND a totally unrelated product question, all at once. A production system has to be built to detect and correctly handle all of those bundled intents — not just assume one message equals one clean request.
+
+**One-sentence summary:** A demo only proves an AI model CAN do something under clean, ideal conditions — a real production system has to additionally decide what the model SHOULD be allowed to do, keep a human in the loop for risky actions, and be architected to survive messy real-world input, tool failures, and customers bundling multiple unrelated requests into a single message.
+
+---
+
 *Sources: [slide notes](../38-From-Impressive-Demo-To-Production-System.md) · [[hover-notes-transcripts/38-From-Impressive-Demo-To-Production-System (transcript)|full transcript]]*

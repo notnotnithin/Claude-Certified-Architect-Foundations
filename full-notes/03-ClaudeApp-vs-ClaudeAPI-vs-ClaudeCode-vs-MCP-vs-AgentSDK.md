@@ -255,4 +255,35 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this lecture separates five things people mix up constantly — Claude App, Claude API, Claude Code, MCP, and Agent SDK — by explaining what each one actually is and, more importantly, which of them actually runs *inside your production system*.
+
+**1. Claude App**
+The app/website/desktop app you or anyone else chats with directly. It's a finished consumer product — not something you build with, just something you can look at for inspiration. It's not part of your own system at all.
+
+**2. Claude API**
+This is the actual thing your backend code calls to talk to the model. Sending messages, getting a response back — this is the real, literal connection point to Claude inside your own application.
+
+**3. The API doesn't remove your responsibility**
+Just because Claude can reason and decide things doesn't mean your backend can skip checking things itself — like verifying a customer before letting a refund actually go through. A rule spoken in a prompt is a suggestion; a rule enforced in your backend code is a guarantee.
+
+**4. Claude Code**
+A completely different thing — it's a tool for developers writing/reviewing/testing code in their own repository. It doesn't run inside your live product; it helps *build* the product.
+
+**5. Agent SDK**
+For when a task needs more than one back-and-forth step — like a support case that needs to classify the issue, verify the customer, look something up, and decide what to do next. It gives you structure for building that kind of multi-step, decision-making workflow.
+
+**6. MCP (Model Context Protocol)**
+A standardized way to expose tools/data to Claude so it's easy to use correctly and hard to misuse by accident — clear names, defined inputs, predictable outputs.
+
+**7. How they all fit together in one real system (ShopAssist)**
+The customer talks to your frontend → your backend calls the Claude API → Claude might request a tool, which is exposed via MCP → for more complex multi-step work, the Agent SDK orchestrates it all → and separately, the whole time, your engineering team is using Claude Code to actually build and maintain all of this.
+
+**One-sentence summary:** Claude App is a product you don't own, Claude Code is a tool for building your codebase, and Claude API + MCP + Agent SDK are the three pieces that actually run inside your production system — with your backend, not the model, always responsible for guaranteeing the rules that really matter.
+
+---
+
 *Sources: [slide notes](../03-ClaudeApp-vs-ClaudeAPI-vs-ClaudeCode-vs-MCP-vs-AgentSDK.md) · [[hover-notes-transcripts/03-ClaudeApp-vs-ClaudeAPI-vs-ClaudeCode-vs-MCP-vs-AgentSDK (transcript)|full transcript]]*

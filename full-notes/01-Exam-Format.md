@@ -235,4 +235,29 @@ pie title Exam Domain Distribution
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this lecture is pure exam logistics — what the real exam looks like, how the practice exam differs, how scoring works, and what topics get tested how much.
+
+**1. The numbers to remember**
+60 questions, 120 minutes (~2 min/question), typically 1 correct answer and 3 wrong ones. Passing score is 720 on a 100–1000 scale, reported as simple Pass/Fail.
+
+**2. The wrong answers are sneaky**
+Incorrect options often sound reasonable, might even work in a simple demo, or solve only part of the problem — you have to pick the one that fully fits the *specific production scenario*, not just the one that "sounds right."
+
+**3. The practice exam is easier than the real one**
+Same 60 questions but only 90 minutes, and by the instructor's own admission it's not a perfect difficulty match — good for getting familiar with the style and spotting weak topics, but don't assume "I found the practice exam easy" means you're ready.
+
+**4. The exam is split into five topic areas, weighted differently**
+Agentic Architecture & Orchestration is the biggest chunk (27%) — multi-step workflows, coordinators/subagents. Claude Code Configuration & Workflows and Prompt Engineering & Structured Output are tied at 20% each. Tool Design & MCP Integration is 18%. Context Management & Reliability is the smallest at 15%.
+
+**5. The exam doesn't test bare definitions**
+It wraps every concept inside a realistic production scenario and asks you to apply it — which is exactly why the next lecture walks through six official example scenarios.
+
+**One-sentence summary:** The exam is 60 scenario-based questions in 120 minutes (pass at 720/1000), weighted heavily toward agentic architecture and orchestration, and it tests whether you can apply a concept to a real production situation — not whether you can recite a definition.
+
+---
+
 *Sources: [slide notes](../01-Exam-Format.md) · [[hover-notes-transcripts/01-Exam Format (transcript)|full transcript]]*

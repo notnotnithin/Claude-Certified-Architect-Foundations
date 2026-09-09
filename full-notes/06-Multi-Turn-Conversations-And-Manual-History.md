@@ -268,4 +268,32 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** sending one message to Claude and getting one answer back isn't a chat app — Claude has zero memory between requests, so "having a conversation" is something YOUR code has to build by hand, not a feature that's just switched on.
+
+**1. Claude remembers nothing on its own**
+Every single API call is completely independent. If you want Claude to remember what was said two messages ago, YOU have to resend the entire conversation, every single time.
+
+**2. The product (Claude App) hides this from you**
+When you chat with Claude in the browser, the app is quietly doing all this history-management work behind the scenes. When you're the one calling the API directly, none of that convenience exists — you own it all yourself.
+
+**3. The most common beginner mistake**
+When the user sends a follow-up message, only sending THAT new message (forgetting to include everything said before it). Claude then has no idea what's being discussed and responds like the conversation just started from scratch — even giving generic "I'm just an AI, contact the retailer" type answers.
+
+**4. The actual fix**
+Keep a running list of every message (both what the user said AND what Claude replied), tagged with who said it (`"role": "user"` or `"role": "assistant"`), and resend that ENTIRE growing list on every single request.
+
+**5. Why this works**
+Because Claude sees the whole history again each time, it can connect new information (like "my order number is 12345") back to what was said earlier (like "I want to return my order") — even though Claude itself never actually "remembers" anything between calls.
+
+**6. In a real production app**
+This history can't just live in a Python variable that disappears when the program stops — it needs to be saved somewhere durable, like a database.
+
+**One-sentence summary:** Claude's API has zero memory between requests, so a real multi-turn conversation only works if your own code keeps a running list of every message and resends the entire thing on every single request — forget this and Claude will act like the conversation never happened.
+
+---
+
 *Sources: [slide notes](../06-Multi-Turn-Conversations-And-Manual-History.md) · [[hover-notes-transcripts/06-Multi-Turn-Conversations-And-Manual-History (transcript)|full transcript]]*

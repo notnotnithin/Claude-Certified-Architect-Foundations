@@ -311,4 +311,37 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** getting a valid-looking answer from Claude isn't the same as getting a correct one. Lecture 16 got Claude to reliably fill out a form (structured JSON). This lecture is about what to do *after* the form comes back — because a form can be perfectly filled out and still contain wrong answers.
+
+**1. Two different kinds of checking**
+- **Shape check (schema validation):** "Did Claude fill in every box? Did it pick from the allowed list?" — like checking a form for blank fields or an invalid dropdown choice. Easy for code to catch.
+- **Meaning check (semantic validation):** "Even though every box is filled correctly, does the *answer* actually make sense?" e.g. customer clearly asked for a replacement, but Claude wrote down "refund." The form looks fine — it's just wrong. This is the harder, more important check.
+
+**2. When something's wrong, should you ask Claude again?**
+- **Yes, retry** — but only if the answer exists somewhere in what the customer said, and Claude just filled it in wrong. And don't just say "try again" — tell it exactly what it got wrong ("you picked X, that's not allowed, pick from this list, don't make anything up").
+- **No, don't retry** — if the customer simply never gave that info. Asking Claude again and again won't make it invent a real order number out of thin air. Instead, just mark that field as "missing" and move on. Retrying here just pressures the model into guessing/hallucinating.
+
+**3. What if the message is genuinely confusing?**
+If a customer says something like "I want a refund, or maybe just send a new one" — don't force Claude to pick one. Let it say "this is unclear" and flag it, instead of silently guessing and being wrong half the time.
+
+**4. Don't trust one confidence score for everything**
+- Confidence should be per *field*, not one number for the whole answer. Claude might be very sure about the order number but very unsure about what the customer actually wants — treat those separately.
+- And "high confidence" doesn't mean "correct" — you have to actually test that against real labeled examples to know if the model's confidence can be trusted at all.
+
+**5. Not everything should go to a human, and not everything should be automated**
+- Automate the clear, confident, no-red-flags cases.
+- Send to a human when: confidence is low, there's a contradiction, info is missing, it's a policy exception, or money/refund amounts are big.
+- Also spot-check a few "high confidence" cases too — because a model that's confidently wrong is worse than one that admits uncertainty, and you'd never catch that if you only ever double-check the low-confidence ones.
+
+**6. Who does what — the golden rule of this whole lecture**
+Claude's job is only to extract. Your application's job is to validate, decide, and enforce. Never let the model's own confidence be the only gatekeeper for something risky.
+
+**One-sentence summary:** Getting structured data out of Claude is just step one — real systems then check whether that data is actually correct, fix what's fixable, refuse to fake what's missing, and send anything risky or confusing to a human instead of blindly trusting it.
+
+---
+
 *Sources: [slide notes](../17-Validation-RetryLoops-Confidence-And-HumanReview.md) · [[hover-notes-transcripts/17-Validation-RetryLoops-Confidence-And-HumanReview (transcript)|full transcript]]*

@@ -494,4 +494,35 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** ShopAssist stops being "one message in, one tool call, done" and becomes a real loop — Claude reads the situation, decides what to check, reviews what comes back, and only stops once the case is actually resolved (or properly escalated).
+
+**1. The loop in four words**
+READ (the customer's message) → CHOOSE (which tools to use) → REVIEW (what came back) → STOP (once it's actually done or needs a human).
+
+**2. Five jobs, five different owners**
+Claude reasons about what to do; your tools actually run the work; gates block things that must never happen (like an unverified refund); hooks catch and redirect specific risky situations (like a refund that's too big); and handoffs carry all the facts when something needs to go to a human.
+
+**3. A real customer example, three problems at once**
+Damaged item + wants a refund not a replacement + thinks they were charged twice: the agent doesn't need a rigid script — it works through verifying the customer, looking up the order, checking the return policy, and investigating the possible double charge, more or less as it discovers it needs each piece.
+
+**4. A blocked refund is a feature, not a bug**
+A refund that's too big automatically gets blocked by the backend (not by Claude deciding) — and that "blocked" response is exactly the signal the agent needs to know it should escalate to a human instead of forcing the refund through.
+
+**5. Escalations go out as a full package**
+When something needs a human, it's not a vague "please look into this" — it goes as a full package: who it's about, what happened, the exact dollar amount, the evidence gathered, and what's still missing.
+
+**6. The final reply comes only from verified facts**
+The system writes its answer to the customer from the *verified, confirmed facts* it collected along the way — not from Claude's own memory of the conversation — which reduces the chance of the final message getting something wrong.
+
+**7. Unexpected situations get escalated, not improvised**
+If something totally unexpected happens (a response the system doesn't recognize), the system doesn't guess — it plays it safe and escalates to a human automatically.
+
+**One-sentence summary:** ShopAssist becomes a real agentic system by looping Claude through read → choose tools → review results → stop, while backend gates and hooks (not Claude itself) enforce the rules that must never be broken, and anything risky gets handed to a human as a complete, structured package instead of a vague ask.
+
+---
+
 *Sources: [slide notes](../27-BUILD-ShopAssist-Becomes-An-Agentic-System%201.md) · [[hover-notes-transcripts/27-BUILD-ShopAssist-Becomes-An-Agentic-System 1 (transcript)|full transcript]]*

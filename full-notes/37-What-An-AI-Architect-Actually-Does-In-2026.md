@@ -105,4 +105,26 @@ transcript: "[[hover-notes-transcripts/37-What-An-AI-Architect-Actually-Does-In-
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** an interview defining what actually separates an "AI Architect" from a regular software architect who just happens to use AI coding tools.
+
+**1. The defining line isn't the tools you use**
+It's whether the LLM is a core, fundamental part of the PRODUCT itself. Using Claude Code to help you write regular software = you're still a classic architect/developer. Designing a product where the LLM itself is a core feature = that's when you're an AI Architect.
+
+**2. The role boundaries are blurry in real life**
+AI Architect (decides the overall design and direction), AI Engineer (builds what's already been decided), and Prompt Engineer (focuses specifically on making prompts effective) often aren't three separate people at all — very often it's literally the same one person wearing multiple hats.
+
+**3. Choosing which model to use is just ONE small decision — it is NOT the whole architecture**
+The actual architecture is the entire system built around the model: how context is managed, how reliable it is, how it's evaluated, how it's monitored (observability), how it's governed, and how it's secured.
+
+**4. The single most underrated skill, called out explicitly: evaluation**
+Because LLM behavior is inherently unpredictable (probabilistic), you genuinely cannot guarantee your system is reliable unless you're actually measuring and testing its outputs systematically — and this is the skill even experienced developers most commonly underestimate or skip.
+
+**One-sentence summary:** An "AI Architect" is defined by building a product where the LLM is a core component (not just by using AI coding tools) — the real job is architecting the whole system around the model (context, reliability, evaluation, security), and evaluation specifically is called out as the single most underrated skill in the entire field.
+
+---
+
 *Sources: [slide notes](../37-What-An-AI-Architect-Actually-Does-In-2026.md) · [[hover-notes-transcripts/37-What-An-AI-Architect-Actually-Does-In-2026 (transcript)|full transcript]]*

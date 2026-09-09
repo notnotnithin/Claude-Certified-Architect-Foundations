@@ -107,4 +107,29 @@ The episode closes on an unscripted, personal note rather than more slide conten
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** the closing lecture of the entire course — the tail end of the bonus interview, covering common exam mistakes, some predictions for where the field is headed, and a rapid-fire Q&A before signing off.
+
+**1. The most common exam mistakes**
+Trying to pass with zero practical experience, relying purely on memorizing facts, and just guessing at answers. The actual fix: go build real, working things first (even something simple and self-made) — that's what makes the scenario questions actually answerable.
+
+**2. The final prediction on certifications vs. experience**
+Real-world, actually-delivered work will matter more than any badge — but a certification is still a genuinely useful baseline, and companies increasingly care about what you've actually built and shipped, not just what you're certified in.
+
+**3. The recommended starting point for anyone feeling overwhelmed**
+Read all four of Anthropic's official exam guides (Associate, Developer, Architect Foundations, Architect Professional) first — that alone tells you exactly what's expected at each level and gives you an instant roadmap, before you even touch a course.
+
+**4. The recommended progression**
+Build something small first → Launch it and actually run it in production → THEN pursue certification to formalize what you've already proven you can do.
+
+**5. The rapid-fire round, straight answers**
+Real experience beats certification, every time. The biggest architecture mistake companies will likely make in 2026: over-relying on multi-agent systems everywhere ("multi-agents for everything"). The hardest skill to sustain as a standalone career right now: prompt engineering. The most underrated skill: evaluation.
+
+**One-sentence summary:** The course closes by reinforcing its central theme one last time — skip memorization and guessing, build real things, use Anthropic's own exam guides as your roadmap, follow build → launch → certify, and remember that real, delivered experience will always outweigh a certification — while flagging over-reliance on multi-agent systems as 2026's likely biggest architecture mistake and evaluation as the most underrated skill to invest in.
+
+---
+
 *Sources: [slide notes](../44-Biggest-Mitakes-Final-Predictions-And-The-Fire-Round.md) · [[hover-notes-transcripts/44-Biggest-Mitakes-Final-Predictions-And-The-Fire-Round (transcript)|full transcript]]*

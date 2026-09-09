@@ -300,4 +300,42 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this lecture is about scaling up — what do you do when you have one document working reliably (lecture 17), but now you have 10,000 of them, or the stakes are too high to trust a single Claude response checking its own work?
+
+**1. Two different problems, two different fixes**
+- Problem A: too many requests to handle live → solved by **batch processing**.
+- Problem B: the output is too important to trust after just one pass → solved by having a **second, separate** Claude call review it.
+
+**2. Batch processing, in plain words**
+Instead of asking Claude one question and waiting right there for the answer, you submit a big pile of questions at once and come back later (up to 24 hours) to collect all the answers. It's roughly half the cost — but you can't use it for anything a user is actively waiting on.
+
+**3. Why every item needs its own ID**
+Your huge batch of answers can come back in random order, so you tag every request with a unique ID (like a claim ticket) so you know exactly which answer belongs to which original question.
+
+**4. You can't use tools mid-batch**
+In a live conversation, Claude can pause, ask you to run a tool, and continue. In a batch job there's no pausing — you have to gather absolutely everything Claude might need *before* submitting.
+
+**5. Don't go big immediately**
+Test your prompt/schema on a small handful of documents first, fix the mistakes you find, *then* run it on all 10,000 — otherwise you waste a lot of money re-running a flawed prompt at scale.
+
+**6. If some items fail**
+Don't rerun the whole batch — just rerun the specific ones that failed (this is exactly what those unique IDs are for).
+
+**7. Self-review isn't enough for important stuff**
+If Claude wrote something risky, don't just ask that same response "are you sure?" — its blind spots stay blind. Use a completely separate Claude call, with a different prompt/role, purely to review the first one's work.
+
+**8. Multi-pass review**
+Draft it (pass 1) → have a different call critique it (pass 2) → combine/route the findings (pass 3).
+
+**9. For big codebases/documents**
+Check each file separately first (small, easy-to-trace results), then run one more pass that looks across all those results together — never try to review everything in one giant prompt.
+
+**One-sentence summary:** Match your processing style to the size of the job (one live request vs. a big offline batch) and match your review rigor to how risky the output is (a second, independent Claude check beats trusting the first response to grade itself).
+
+---
+
 *Sources: [slide notes](../18-Batch-Processing-And-MultiPass-Review-Architectures.md) · [[hover-notes-transcripts/18-Batch-Processing-And-MultiPass-Review-Architectures (transcript)|full transcript]]*

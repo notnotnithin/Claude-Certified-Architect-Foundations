@@ -314,4 +314,32 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this is the very first hands-on moment of the whole course — proving Python can actually talk to Claude — and along the way it introduces the handful of things (API key, client, messages, max_tokens, stop_reason) you'll use in almost every single lecture after this.
+
+**1. Getting set up**
+The course uses Python in a Jupyter Notebook (in VS Code) so you can run one small chunk of code at a time and immediately see what Claude sends back — but the actual concepts (client → send message → set parameters → read response) work identically no matter what programming language you use.
+
+**2. Getting an API key, safely**
+Create it once in the Anthropic Console, copy it immediately (you can't view it again later), and NEVER put it directly in your code or push it to GitHub — store it in a special `.env` file instead, which your code reads from automatically.
+
+**3. The actual request, boiled down**
+`client.messages.create(model=..., max_tokens=300, messages=[{"role": "user", "content": "..."}])` — that's genuinely it. `max_tokens` is just a hard ceiling on how long the reply can get, not a target Claude tries to hit.
+
+**4. Reading the answer**
+The actual reply text lives at `message.content[0].text`.
+
+**5. `stop_reason` — the single most important field to check**
+It tells you WHY Claude stopped talking. `end_turn` means it finished naturally (safe to show the user). `max_tokens` means it got cut off mid-thought (the reply might be incomplete). `tool_use` means Claude is waiting on your app to run something before it can continue (covered much later in the course).
+
+**6. The full response object has way more in it than just the text**
+An ID, which exact model handled it, token usage counts, etc. — useful for debugging while building, even though a real user would only ever see the plain text.
+
+**One-sentence summary:** The whole first Claude request boils down to `client.messages.create(model, max_tokens, messages)`, reading the reply from `message.content[0].text`, and always checking `stop_reason` to know whether the answer is complete, cut off, or actually a request to run a tool.
+
+---
+
 *Sources: [slide notes](../05-First%20Request%20-%20api-key%2C%20messages%2C%20max_tokens%2C%20stop_reason.md) · [[hover-notes-transcripts/05-First Request - api-key, messages, max_tokens, stop_reason (transcript)|full transcript]]*

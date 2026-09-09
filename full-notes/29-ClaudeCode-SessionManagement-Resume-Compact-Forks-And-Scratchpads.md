@@ -300,4 +300,38 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this is specifically about Claude Code's own built-in features for managing a long coding session — pausing and picking it back up later, shrinking a session that's gotten too big, and trying out different approaches without messing up your main work. (Note: this sounds like lecture 26, but that one was about patterns YOU build into your own app via the API — this one is about buttons/commands that already exist inside the Claude Code tool itself.)
+
+**1. Resuming a session**
+Claude Code automatically saves your work, so you're never stuck starting over — you can pick up the most recent session, choose from a list, resume by a specific ID, or even give a session a memorable name up front so you can find it again easily later.
+
+**2. The golden rule when resuming**
+Just because you're continuing the same conversation doesn't mean the code hasn't changed since you last worked on it — always double-check the current state of the files/tests before touching anything, don't just trust what the old chat says.
+
+**3. Sometimes it's better to NOT resume**
+If your previous session got messy (you explored a bunch of dead ends, opened a ton of unrelated files, pasted huge logs), starting a brand-new clean session with a short written summary of "here's the goal, here's what I know" beats dragging all that noise forward.
+
+**4. Shrinking a session (`/compact`)**
+Once a session gets huge, this command summarizes it down to save space — but summaries can accidentally drop exact details (like an exact error message or file name), so make sure important specifics get explicitly preserved, not lost in the summary.
+
+**5. Scratchpads**
+Just a plain text file in your project (like a personal notes doc) where you jot down the goal, decisions made, and what's done/in-progress/next — so even if the chat session is lost, crashes, or gets handed to someone else, that key info survives.
+
+**6. Forks**
+Instead of trying two different coding approaches inside your one main conversation (and risking a mess), branch off separate explorations that only report back their findings (without actually changing any files) — then you compare the results and only apply the one you actually like in your main session.
+
+**7. Same idea for helper agents and command outputs**
+Don't ask a helper agent for a giant wall of reasoning, and don't paste a massive log back into the chat — ask for just the useful, structured facts (what file, what's broken, what's the fix).
+
+**8. Why this actually matters, not just "nice to have"**
+For everyday small tasks, good session habits are just about being efficient. But for really risky stuff — payments, security/login code, database migrations, production bugs — managing your session properly becomes a matter of actually getting the work right, not just tidy.
+
+**One-sentence summary:** Claude Code has built-in tools (resume, start fresh, compact, scratchpads, forks) for keeping a long coding session under control — use the right one so old, messy, or oversized context never quietly corrupts your work, especially on high-stakes changes.
+
+---
+
 *Sources: [slide notes](../29-ClaudeCode-SessionManagement-Resume-Compact-Forks-And-Scratchpads.md) · [[hover-notes-transcripts/29-ClaudeCode-SessionManagement-Resume-Compact-Forks-And-Scratchpads (transcript)|full transcript]]*

@@ -93,4 +93,29 @@ transcript: "[[hover-notes-transcripts/41-Certification-Paths-First-Project-And-
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** a practical follow-up to "do you even need a certification" — this one is concrete: which certification path should you actually pick, what should you build first, and what do real interviewers actually ask about.
+
+**1. Don't ask "which cert is best" — ask "why do I need one at all"**
+If an employer requires a specific one, just ask them directly which one. If it's for your own growth, start with Associate — it's the broad, general starting point.
+
+**2. The four certification tracks, roughly in order of depth**
+Associate (broad entry point), Developer (implementation-focused), Architect (designing whole systems), and AI Professional (advanced, enterprise-scale).
+
+**3. Even for the hardest cert (Architect), don't start with studying — start with building**
+If you can't build something real at your job, build a standalone project just to get real hands-on practice (the course's own ShopAssist example is exactly this kind of reference project). The order that actually works: Build first → Learn (use exam materials to find your gaps) → THEN certify.
+
+**4. What real interviewers actually ask**
+From someone who's personally done 100+ technical AI interviews: "What AI system have you actually built?" and "What happened when the model behaved differently than you expected?" — they're not grading whether you fixed it perfectly, they're listening to HOW you reasoned through the problem.
+
+**5. Why interviewers use scenario-based questions on purpose**
+Giving several technically-valid answers and asking which is genuinely the best is specifically designed to be unbeatable by memorization — it forces you to show real decision-making, not recite facts.
+
+**One-sentence summary:** Pick a certification path based on your actual reason for wanting one (not prestige), build something real before you study for the harder certifications, and expect real interviews to test genuine hands-on reasoning through scenario questions rather than memorized facts.
+
+---
+
 *Sources: [slide notes](../41-Certification-Paths-First-Project-And-Real-Interviews.md) · [[hover-notes-transcripts/41-Certification-Paths-First-Project-And-Real-Interviews (transcript)|full transcript]]*

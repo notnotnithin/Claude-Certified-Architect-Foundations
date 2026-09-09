@@ -311,4 +311,38 @@ This directly echoes the "verification gate" idea from lecture 3 (Claude App vs 
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** this is the next step up from "just follow this instruction" — it's about getting Claude to make a consistent JUDGMENT CALL (is this serious? should this be escalated?) the same way, every single time, instead of guessing differently depending on mood.
+
+**1. Why judgment tasks are harder**
+"Classify this message" or "should this be escalated" depends on a boundary — and if that boundary is fuzzy, Claude has to guess where it falls, and different guesses mean inconsistent results.
+
+**2. The core problem**
+Words like "be conservative" or "escalate serious cases" sound like real instructions but actually define nothing — what counts as "serious"? Left undefined, that decision just gets pushed back onto the model to guess, and it'll guess differently sometimes.
+
+**3. The fix**
+Replace vague words with an actual checklist of concrete triggers — instead of "escalate serious cases," spell out exactly which situations qualify (asks for a manager, threatens legal action, mentions their bank, reports a safety issue, etc.). Now the boundary is fixed, not guessed at.
+
+**4. Handling messages that could fit more than one category**
+If a message could plausibly belong to two categories at once (like "damaged item, and I was also charged twice"), define a priority order up front so the same overlapping case is always resolved the same way, not randomly.
+
+**5. Few-shot examples do two jobs**
+They teach Claude exactly how to handle tricky/ambiguous cases by example, AND they lock in the exact output format every time (so your code doesn't break because Claude randomly used a different field name one time).
+
+**6. Show BOTH sides of the line, not just the "yes" cases**
+Give an example of something that SHOULD be flagged, and also an example of something that looks similar but should NOT be flagged (like "I don't like the color, want to return it" — unhappy customer, but still just a totally normal return, not an escalation). This prevents Claude from over-flagging harmless messages.
+
+**7. You don't need to list every possible case**
+A handful of good, representative examples is enough for Claude to correctly generalize to brand-new messages it's never seen before that follow the same underlying pattern.
+
+**8. The same reliability rule from earlier lectures still applies here**
+Prompting (criteria + examples) makes Claude's judgment more reliable, but your application still has to validate the output (is it one of the allowed categories? is it valid JSON?) and enforce any real action (like an actual refund) in code — prompting alone is never the final safety net.
+
+**One-sentence summary:** Replace vague judgment words ("be conservative," "serious cases") with an explicit checklist of concrete triggers, use few-shot examples that show both the "yes" and "no" side of the boundary, and remember your application still has to validate the result and enforce real actions in code — good prompting makes judgment more consistent, it doesn't make it guaranteed.
+
+---
+
 *Sources: [slide notes](../14-Explicit-Criteria-And-Few-Shots-Examples.md) · [[hover-notes-transcripts/14-Explicit-Criteria-And-Few-Shots-Examples (transcript)|full transcript]]*

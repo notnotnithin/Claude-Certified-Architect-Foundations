@@ -287,4 +287,35 @@ MCP (Model Context Protocol) servers expose external capabilities to Claude, spl
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** even with well-designed tools (lecture 21), giving one single agent access to every tool in your whole system is a mistake — this lecture is about deciding who gets access to what, plus a quick tour of two separate toolkits: Claude Code's own dev tools, and MCP server configuration.
+
+**1. The mistake to avoid**
+Don't hand one "do everything" agent all fifteen of your tools (refunds, inventory, marketing, even risky ones like "run SQL query"). It's not really a security problem first — it's that too many overlapping tools make Claude *worse* at picking the right one.
+
+**2. The fix**
+Split into specialized agents, each with only the small set of tools its job actually needs — a refund agent doesn't need inventory tools, an inventory agent doesn't need refund tools. It's fine for two agents to share one tool if they both genuinely need it.
+
+**3. `tool_choice` recap (same three modes as before)**
+`auto` (Claude decides), `any` (must use something, picks which), `tool`/forced (must use this one specific tool) — with a warning not to overuse the forced mode, since it removes Claude's ability to pick something more appropriate.
+
+**4. Claude Code's own built-in tools (separate from your business tools)**
+`Read` a file, `Write`/overwrite a file, `Edit` a specific piece of text, `Bash` to run commands, `Grep` to search file *contents*, `Glob` to find files by *name/path pattern*.
+
+**5. MCP tools vs. MCP resources**
+Tools *do things* (look up a customer, process a refund); resources are just reference material Claude can read (a policy document, a support macro list) — resources don't take actions, they just provide context.
+
+**6. Where MCP servers get configured**
+`.mcp.json` belongs to the whole project (shared by the team, secrets should come from environment variables, never hardcoded); `~/.claude.json` belongs to one individual developer's own personal setup.
+
+**7. Availability ≠ permission**
+Just because a tool is *available* doesn't mean every agent should use it — configuration decides what tools *exist*; your agent design still decides what each specific agent is *allowed* to touch.
+
+**One-sentence summary:** Give each agent only the small set of tools its specific job needs (never "just give it everything"), and remember Claude Code's own dev tools and MCP server configuration are two separate toolkits with their own scoping rules.
+
+---
+
 *Sources: [slide notes](../22-ToolAccess-BuiltInTools-And-MCPConfiguration.md) · [[hover-notes-transcripts/22-ToolAccess-BuiltInTools-And-MCPConfiguration 1 (transcript)|full transcript]]*

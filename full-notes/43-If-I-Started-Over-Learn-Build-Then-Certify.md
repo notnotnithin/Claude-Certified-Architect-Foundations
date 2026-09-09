@@ -84,4 +84,26 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** asked "if you were starting your AI career over today, knowing what you know now, what would you do?" — the answer is a specific, deliberate sequence, not just a list of topics to study.
+
+**1. Don't randomly bounce between YouTube tutorials and long generic courses**
+Instead, use an actual certification exam guide as your roadmap first — it tells you exactly which topics genuinely matter, and THEN you pick courses to reinforce those specific topics, rather than letting a random course define your whole curriculum for you.
+
+**2. The full sequence**
+Use the exam guide as a roadmap → study those specific topics → build something real and practical → only then go attempt the certification exam or ship real production work.
+
+**3. What actually keeps someone relevant in AI over five years**
+NOT vendor-specific or tool-specific knowledge (because which model or platform is popular constantly changes) — it's the durable fundamentals: context management, reliability, and evaluation. Those don't expire the way a specific tool does.
+
+**4. Why this whole course is built around one real running project (ShopAssist AI)**
+Instead of teaching topics in complete isolation: seeing exactly how theoretical knowledge actually gets applied in a real, practical context is simply the best way to make it stick — pure disconnected theory is much harder to retain.
+
+**One-sentence summary:** Use a certification's exam guide as your study roadmap (not random tutorials), follow the sequence learn → build something real → then certify, and invest in durable fundamentals (context management, reliability, evaluation) instead of vendor-specific tooling that will inevitably go out of date.
+
+---
+
 *Sources: [slide notes](../43-If-I-Started-Over-Learn-Build-Then-Certify.md) · [[hover-notes-transcripts/43-If-I-Started-Over-Learn-Build-Then-Certify (transcript)|full transcript]]*

@@ -311,4 +311,35 @@ flowchart TD
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** once you have an eval loop running (previous lecture), you still need a way to actually decide if each individual answer was good or bad — this lecture covers the three ways to grade an output, and how they trade off speed, cost, and accuracy.
+
+**1. Three grading methods, in order of cost**
+Code-based grading (a plain program checks the answer — fast, cheap, 100% consistent, but can ONLY check things reducible to a strict rule), model-based grading (a second Claude call reads and judges the first one's answer — good for fuzzy stuff like "was this polite?"), and human review (a real person reads it — most accurate by far, but way too slow and expensive to run on every single case).
+
+**2. What code-based grading is actually good at**
+Is this valid JSON? Are all the required fields present? Is this value one of the allowed options? These are all yes/no questions a simple script can answer perfectly.
+
+**3. What code-based grading can NEVER answer**
+Was the tone polite? Did it explain the policy clearly? Did it avoid promising something too early? Judging meaning and quality requires something that actually understands language.
+
+**4. How model-based grading works**
+You write a SECOND prompt (a grading prompt) with specific rules, hand it both the original customer message and Claude's response, and ask THIS second Claude call to score/pass-fail/explain — it's not answering the customer, it's judging the answer.
+
+**5. Vague grading criteria = useless scores**
+Telling the grader "is this response good?" gives you a mushy, inconsistent score. Telling it "does this follow the refund policy? Does it avoid unsupported promises? Does it ask for missing info?" gives you something actually actionable.
+
+**6. Real systems combine both**
+Use code checks for the structural stuff (valid JSON, allowed values) and model-based checks for the judgment stuff (tone, policy-following), then average them into one combined score per test case.
+
+**7. The trap to avoid**
+Don't just trust a rising average score. A new prompt might score higher overall while secretly breaking something else entirely (like fixing refunds but now messing up billing questions) — always actually look at the specific cases that failed, not just the aggregate number.
+
+**One-sentence summary:** Grade Claude's outputs with fast/cheap code checks for anything that's a strict rule (valid JSON, allowed values), a second Claude call for anything that requires judgment (tone, policy), save expensive human review for what automation can't cover — and always inspect the actual failures, since a rising average score can hide a real regression.
+
+---
+
 *Sources: [slide notes](../11-Grading-Claude-Outputs-Code-Model-And-Human-Review.md) · [[hover-notes-transcripts/11-Grading-Claude-Outputs-Code-Model-And-Human-Review (transcript)|full transcript]]*

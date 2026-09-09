@@ -113,4 +113,35 @@ A memorable framing device not present in lecture 01: imagine Claude is replaced
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** a follow-up interview giving candid, practitioner-level color on the exam — not new logistics (that's covered in lecture 01), but real talk about what the exam actually feels like and what it's really testing.
+
+**1. Confirms the exam is scenario-based, not a definitions quiz**
+This matches lecture 01 exactly — you're tested on applying architectural thinking to real situations, not reciting facts.
+
+**2. A new way of splitting exam questions**
+Broad/universal questions (apply to any LLM system — like hallucinations or general infrastructure) vs. vendor-specific questions (tied specifically to Claude's own SDK/implementation). Worth noting: there's a real discrepancy in the source material here about which type is actually the majority, so this note flags it rather than presenting a firm number as fact.
+
+**3. Universal knowledge that transfers no matter what model you use**
+Context management, evaluation, availability, permissions — this is described as the bulk of what's tested.
+
+**4. The single hardest part of the exam**
+Confirmed independently by actual student feedback (not just the instructor's opinion): several answer choices are all technically correct, and you have to pick the genuinely BEST one for that specific scenario — exactly matching lecture 01's warning that wrong answers are often plausible-sounding, not obviously wrong.
+
+**5. What exam prep teaches that just using Claude day-to-day never really would**
+Formal evaluation methodology — described as one of the most painful but valuable parts of studying.
+
+**6. There's no single "most important" topic to focus on**
+You genuinely need a broad, solid grasp of everything (context management, reliability, security) rather than betting on one area.
+
+**7. A useful mental test for judging how much of what you're learning is durable**
+Imagine Claude disappeared tomorrow and you had to rebuild the same system on a totally different model — how much of what you learned would still be useful? Answer given: most of it — the exam is mostly built around universal system-design principles, with only a smaller slice being genuinely Claude-specific trivia.
+
+**One-sentence summary:** This interview independently confirms lecture 01's exam-format claims from a real test-taker's perspective — the hardest part is picking the single best answer among several correct-sounding ones, most of what's tested (context management, reliability, evaluation, security) would still be useful even if you swapped Claude for a different model entirely, and exam prep's biggest unique payoff was learning formal evaluation methodology.
+
+---
+
 *Sources: [slide notes](../40-How-The-Certification-Exam-Actually-Works.md) · [[hover-notes-transcripts/40-How-The-Certification-Exam-Actually-Works (transcript)|full transcript]] · see also [[01-Exam-Format]] full notes*

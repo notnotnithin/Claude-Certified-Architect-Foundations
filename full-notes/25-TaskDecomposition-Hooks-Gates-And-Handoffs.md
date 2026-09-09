@@ -340,4 +340,35 @@ flowchart LR
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** building on the coordinator/helpers idea (lecture 24), this lecture is about three separate design questions: how do you plan out the work itself, where do you put a "hard stop" rule Claude can't talk its way around, and how does work get handed off cleanly from one agent (or person) to the next?
+
+**1. Two ways to plan the work**
+If you already know the exact steps (a standard refund always goes verify → check order → check policy → decide → respond), just hard-code that fixed sequence. If you *don't* know the steps in advance (a confusing, one-off customer complaint), let Claude investigate first and figure out the path as it goes — map the situation, then act.
+
+**2. For big/unclear jobs, look locally first, then combine**
+Check each individual piece separately (billing facts, order history, policy) in its own focused pass, and only after all of those are done, run one more pass that looks across all of them together to find the real root cause. Don't dump everything into one giant prompt at once.
+
+**3. The most important rule of the whole lecture**
+A prompt can *guide* Claude's behavior, but it can never *guarantee* it. If a rule absolutely must always hold (like "never refund an unverified customer"), that rule has to live in your actual code — not just in the instructions you give Claude.
+
+**4. Prerequisite gates**
+Literal code that blocks an action no matter what Claude decides — e.g., the refund function itself refuses to run unless the customer object says `verified: true`, and it automatically escalates anything over $100 regardless of what Claude wants to do.
+
+**5. Hooks — two flavors**
+A "before" hook checks and can block/redirect a tool call before it's even allowed to run (e.g., stop an unverified refund and redirect to "verify the customer first"); an "after" hook cleans up a tool's raw, messy result into a tidy, consistent shape before Claude even sees it.
+
+**6. Handoffs — passing work along properly**
+When something needs to go to a human (or another agent), don't just say "please review this refund" with no context. Hand over a structured package of facts: who it's about, what actually happened, the dollar amount, what you'd recommend, the evidence you have, and what's still missing — so whoever picks it up next doesn't have to re-read the entire conversation from scratch.
+
+**7. The overall balance**
+Let Claude be flexible and creative in *how* it investigates a problem, but keep the things that absolutely must always be true (verification, dollar limits, policy rules) locked down in code, completely outside of Claude's control.
+
+**One-sentence summary:** Match your plan to the task (fixed steps vs. investigate-as-you-go), put anything that must *always* be true into hard-coded gates and hooks instead of just a prompt, and hand off work as a structured packet of facts so the next person or agent never has to start from zero.
+
+---
+
 *Sources: [slide notes](../25-TaskDecomposition-Hooks-Gates-And-Handoffs.md) · [[hover-notes-transcripts/25-TaskDecomposition-Hooks-Gates-And-Handoffs (transcript)|full transcript]]*

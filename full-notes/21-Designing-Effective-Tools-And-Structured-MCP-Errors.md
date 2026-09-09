@@ -309,4 +309,35 @@ For ShopAssist, that means: better names, better descriptions, clear input bound
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** two very practical, very exam-relevant skills — writing tool descriptions good enough that Claude never confuses one tool for another, and designing error messages good enough that Claude (and your app) can actually recover instead of just seeing "it failed."
+
+**1. Weak descriptions cause real routing mistakes**
+If two tools are named/described vaguely ("get customer data" / "get order data"), Claude can pick the wrong one — e.g., a customer only gives an email, but Claude reaches for the order lookup because the message mentioned "order."
+
+**2. The fix is simple but very effective**
+Rename tools to be specific (`get_customer_by_email`, `lookup_order_by_id`) and write descriptions that explicitly say *when* to use it AND *when not to* ("use this first if only an email is given, don't use this for orders").
+
+**3. When to split tools vs. combine them**
+Split into separate tools when it makes each one's job clearer; combine several tiny tools into one only when they're always used together anyway — splitting reduces confusion, consolidating reduces unnecessary extra steps.
+
+**4. Bad error handling gives Claude nothing to work with**
+A reply like `{"error": "something went wrong"}` doesn't tell Claude whether to try again, ask the customer for better info, or give up and escalate.
+
+**5. The fix: return a structured error every time, with a category**
+Is it a broken input (fix and retry), a permission problem (don't retry, maybe escalate), a business rule blocking it (explain, don't retry), or a temporary glitch (safe to just retry)? Each category tells Claude — and your code — exactly what to do next.
+
+**6. An empty result is NOT an error**
+If a valid order ID simply doesn't exist in the system, that's a normal "no results," not a failure — mixing these up would make your app retry things that will never succeed.
+
+**7. Don't escalate to a human immediately**
+First let the system try to recover on its own (retry a one-off glitch, clean up messy input, just ask the user for a missing field) — only escalate once that quiet recovery attempt has failed or the situation genuinely needs a person's judgment.
+
+**One-sentence summary:** Specific tool names + descriptions that state clear boundaries stop Claude from picking the wrong tool, and structured, categorized error messages let both Claude and your app recover intelligently instead of treating every failure the same way.
+
+---
+
 *Sources: [slide notes](../21-Designing-Effective-Tools-And-Structured-MCP-Errors.md) · [[hover-notes-transcripts/21-Designing-Effective-Tools-And-Structured-MCP-Errors (transcript)|full transcript]]*

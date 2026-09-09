@@ -243,4 +243,32 @@ sequenceDiagram
 
 ---
 
+## In Plain English
+
+Here's the whole file in plain, everyday language:
+
+**The big picture:** the conversation history from the last two lectures tells Claude WHAT has been said — this lecture is about giving it a personality and behavior rules, i.e., telling it HOW to act, using something called a system prompt.
+
+**1. Two separate jobs, two separate slots in the request**
+`messages` = the conversation so far (context). `system` = a standing set of instructions about who Claude should be and how it should behave (persona, tone, hard rules) — sent fresh on every single request, independent of any one message.
+
+**2. A good system prompt does four things**
+Says who the assistant is (persona), what it's allowed to help with (scope), how it should sound (tone), and specific hard rules it must follow (constraints) — like "never promise a refund until the order has actually been checked."
+
+**3. It actually works, immediately**
+With literally zero business logic written yet, just from the system prompt alone, the assistant reliably avoids saying "your refund is approved" and instead asks for the order number first — proving how much a well-written system prompt can shape behavior on its own.
+
+**4. But — and this is the important twist — a prompt only ever GUIDES behavior, it never GUARANTEES it**
+A system prompt is a soft suggestion the model could, in theory, ignore or get talked out of by a persistent user. If a rule is actually important (especially anything involving money), your backend CODE has to check and enforce it — not just hope the prompt worked.
+
+**5. Looking ahead**
+This is exactly why later lectures wire up real backend tools (lookup order, process refund, escalate to human) with actual code-level checks in front of them — a system prompt says "please verify before refunding," but only code can actually block an unverified refund from happening.
+
+**6. Scaling reality check**
+You can't just keep sending an infinitely growing raw history forever in a real production app — eventually you need strategies like summarizing older turns or pulling out just the key facts into separate structured fields.
+
+**One-sentence summary:** A `system` prompt (persona + scope + tone + rules) gives Claude behavior on top of the conversation history — but a prompt is only ever guidance that CAN be ignored, so anything that actually matters (like money) still needs to be enforced by real backend code, not just asked for nicely.
+
+---
+
 *Sources: [slide notes](../08-System-Prompts-Behavior-And-Application-Enforcement.md) · [[hover-notes-transcripts/08-System-Prompts-Behavior-And-Application-Enforcement (transcript)|full transcript]]*
