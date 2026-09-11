@@ -80,6 +80,7 @@ hovernotes-id: doc_3b34ff37-4787-47e4-8513-b3cbd970608e
     - **Step 2**: Result returned: `delivered, no refund on file`
     - **Step 3**: Claude calls `check_refund_policy()`
     - **Step 4**: Result returned: `eligible`
+    - **Step 5**: end_turn: `explains the refund to the customer`
 
 ![00:03:28](hover-notes-images/screenshot-01M25DTRW8QWT40Q0FKETDQFFY.png)
 [00:03:28](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57908963#overview)
