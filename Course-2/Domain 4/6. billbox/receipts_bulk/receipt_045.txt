@@ -1,0 +1,11 @@
+Green Valley Kirana
+Kothrud, Pune
+GSTIN: 27ABCDE1045F1Z5
+Date: 02/10/2026
+
+Salt 1kg               Rs. 28.00
+Milk 1L                Rs. 66.00
+Sunflower Oil 1L       Rs. 165.00
+Subtotal: Rs. 259.00
+GST (5%): Rs. 12.95
+Total: Rs. 271.95

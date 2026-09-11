@@ -1,0 +1,13 @@
+QuickMart Grocers
+Viman Nagar, Pune
+GSTIN: 27ABCDE1016F1Z5
+Date: 07/10/2026
+
+Sunflower Oil 1L       Rs. 165.00
+Tea 500g               Rs. 240.00
+Amul Butter 500g       Rs. 275.00
+Sugar 1kg              Rs. 55.00
+Wheat Flour 5kg        Rs. 250.00
+Subtotal: Rs. 985.00
+GST (5%): Rs. 49.25
+Total: Rs. 1034.25

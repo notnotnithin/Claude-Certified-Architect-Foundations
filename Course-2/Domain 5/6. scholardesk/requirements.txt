@@ -1,0 +1,9 @@
+# ScholarDesk - Python dependencies
+#
+#   anthropic       -> calling the Claude API
+#   python-dotenv   -> loading your API key from a .env file
+#   pydantic        -> validating structured output in later parts
+
+anthropic>=0.40.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0

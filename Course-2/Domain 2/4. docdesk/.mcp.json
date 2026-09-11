@@ -1,0 +1,30 @@
+{
+  "//": "PROJECT-SCOPED MCP CONFIG (.mcp.json). Lives in the repo root and is",
+  "//2": "committed to version control, so EVERY teammate who clones the repo",
+  "//3": "gets these same MCP servers automatically. Use this for SHARED tools.",
+  "//4": "Secrets are NOT written here — they use ${ENV_VAR} expansion instead.",
+
+  "mcpServers": {
+    "docdesk": {
+      "//": "Our OWN custom MCP server that exposes the DocDesk documents.",
+      "//2": "Custom server = reserved for team-specific workflows like this one.",
+      "command": "python",
+      "args": ["mcp_servers/docdesk_server.py"],
+      "env": {
+        "DOCDESK_DOCS_DIR": "${DOCDESK_DOCS_DIR}"
+      }
+    },
+
+    "github": {
+      "//": "A COMMUNITY MCP server for a standard integration (GitHub).",
+      "//2": "Prefer an existing community server over writing your own for",
+      "//3": "standard tools. The token is injected via env-var expansion so no",
+      "//4": "secret is ever committed to the repo.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  }
+}

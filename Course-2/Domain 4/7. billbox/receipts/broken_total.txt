@@ -1,0 +1,14 @@
+QuickMart Grocers
+Baner Road, Pune 411045
+GSTIN: 27XYZAB9999C1Z2
+--------------------------------
+Date: 12/10/2026   Bill: 8823
+
+Wheat Flour 5kg      Rs. 250.00
+Cooking Oil 2L       Rs. 340.00
+Sugar 1kg            Rs.  55.00
+Tea 500g             Rs. 240.00
+--------------------------------
+Total:               Rs. 985.00
+
+Paid via card

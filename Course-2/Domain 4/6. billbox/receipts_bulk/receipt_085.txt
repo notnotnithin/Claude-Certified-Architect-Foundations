@@ -1,0 +1,9 @@
+City Power Ltd
+Consumer: Asha Kulkarni
+Address: Aundh, Pune
+Date: 05/10/2026
+
+Units Consumed: 174 kWh
+Energy Charges: Rs 1044.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 1278.00

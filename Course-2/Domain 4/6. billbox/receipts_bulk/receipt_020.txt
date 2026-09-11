@@ -1,0 +1,9 @@
+City Power Ltd
+Consumer: Asha Kulkarni
+Address: Baner, Pune
+Date: 03/10/2026
+
+Units Consumed: 253 kWh
+Energy Charges: Rs 1518.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 1800.00

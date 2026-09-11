@@ -1,0 +1,13 @@
+FreshMart Supermarket
+Baner, Pune
+GSTIN: 27ABCDE1013F1Z5
+Date: 18/10/2026
+
+Tea 500g               Rs. 240.00
+Toor Dal 1kg           Rs. 145.00
+Sugar 1kg              Rs. 55.00
+Salt 1kg               Rs. 28.00
+Basmati Rice 5kg       Rs. 480.00
+Subtotal: Rs. 948.00
+GST (5%): Rs. 47.40
+Total: Rs. 995.40

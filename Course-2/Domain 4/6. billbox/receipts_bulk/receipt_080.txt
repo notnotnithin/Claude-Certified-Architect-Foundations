@@ -1,0 +1,9 @@
+Pune Water Works
+Consumer: Asha Kulkarni
+Address: Viman Nagar, Pune
+Date: 09/10/2026
+
+Units Consumed: 392 kWh
+Energy Charges: Rs 2352.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 2717.00

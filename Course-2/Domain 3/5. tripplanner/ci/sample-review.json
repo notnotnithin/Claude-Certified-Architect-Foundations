@@ -1,0 +1,34 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "session_id": "sample-session-id-for-teaching",
+  "total_cost_usd": 0.0142,
+  "result": "Review complete. Found 3 issues in storage/trip_store.py.",
+  "structured_output": {
+    "findings": [
+      {
+        "file": "storage/trip_store.py",
+        "line": 41,
+        "severity": "high",
+        "issue": "save_trip overwrites the file directly, so a crash mid-write can corrupt the saved trip.",
+        "suggestion": "Write to a temporary file first, then rename it over the original."
+      },
+      {
+        "file": "storage/trip_store.py",
+        "line": 19,
+        "severity": "medium",
+        "issue": "TRIP_FILE is relative to the current working directory, so the app finds a different file depending on where it is run from.",
+        "suggestion": "Build the path from the module's own location instead."
+      },
+      {
+        "file": "storage/trip_store.py",
+        "line": 24,
+        "severity": "low",
+        "issue": "load_trip does not validate the shape of the loaded data.",
+        "suggestion": "Check each stop has place/date/nights and raise a clear ValueError if not."
+      }
+    ],
+    "verdict": "needs_changes"
+  }
+}

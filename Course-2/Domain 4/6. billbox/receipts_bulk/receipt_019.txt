@@ -1,0 +1,13 @@
+FreshMart Supermarket
+MG Road, Pune
+GSTIN: 27ABCDE1019F1Z5
+Date: 10/10/2026
+
+Wheat Flour 5kg        Rs. 250.00
+Basmati Rice 5kg       Rs. 480.00
+Sugar 1kg              Rs. 55.00
+Salt 1kg               Rs. 28.00
+Amul Butter 500g       Rs. 275.00
+Subtotal: Rs. 1088.00
+GST (5%): Rs. 54.40
+Total: Rs. 1142.40

@@ -1,0 +1,11 @@
+QuickMart Grocers
+FC Road, Pune
+GSTIN: 27ABCDE1028F1Z5
+Date: 10/10/2026
+
+Sunflower Oil 1L       Rs. 165.00
+Wheat Flour 5kg        Rs. 250.00
+Salt 1kg               Rs. 28.00
+Subtotal: Rs. 443.00
+GST (5%): Rs. 22.15
+Total: Rs. 465.15

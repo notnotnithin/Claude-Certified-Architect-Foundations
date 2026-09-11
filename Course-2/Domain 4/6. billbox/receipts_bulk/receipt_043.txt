@@ -1,0 +1,9 @@
+City Power Ltd
+Consumer: Asha Kulkarni
+Address: Camp, Pune
+Date: 10/10/2026
+
+Units Consumed: 226 kWh
+Energy Charges: Rs 1356.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 1622.00

@@ -1,0 +1,11 @@
+FreshMart Supermarket
+Kothrud, Pune
+GSTIN: 27ABCDE1089F1Z5
+Date: 06/10/2026
+
+Salt 1kg               Rs. 28.00
+Sugar 1kg              Rs. 55.00
+Basmati Rice 5kg       Rs. 480.00
+Subtotal: Rs. 563.00
+GST (5%): Rs. 28.15
+Total: Rs. 591.15

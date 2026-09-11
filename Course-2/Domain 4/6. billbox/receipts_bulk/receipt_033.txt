@@ -1,0 +1,13 @@
+FreshMart Supermarket
+FC Road, Pune
+GSTIN: 27ABCDE1033F1Z5
+Date: 13/10/2026
+
+Amul Butter 500g       Rs. 275.00
+Tea 500g               Rs. 240.00
+Basmati Rice 5kg       Rs. 480.00
+Sugar 1kg              Rs. 55.00
+Sunflower Oil 1L       Rs. 165.00
+Subtotal: Rs. 1215.00
+GST (5%): Rs. 60.75
+Total: Rs. 1275.75

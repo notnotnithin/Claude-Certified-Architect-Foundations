@@ -1,0 +1,8 @@
+{"custom_id": "receipt_001", "result": {"type": "succeeded", "message": {"content": [{"text": "{\"merchant\": \"Tandoor House\", \"date\": \"2026-10-23\", \"total\": 446.25}"}]}}}
+{"custom_id": "receipt_002", "result": {"type": "succeeded", "message": {"content": [{"text": "{\"merchant\": \"FreshMart Supermarket\", \"date\": \"2026-10-07\", \"total\": 1194.90}"}]}}}
+{"custom_id": "receipt_003", "result": {"type": "succeeded", "message": {"content": [{"text": "{\"merchant\": \"City Power Ltd\", \"date\": \"2026-10-15\", \"total\": 1748.00}"}]}}}
+{"custom_id": "receipt_004", "result": {"type": "errored", "error": {"type": "invalid_request", "message": "input exceeded context limit"}}}
+{"custom_id": "receipt_005", "result": {"type": "succeeded", "message": {"content": [{"text": "{\"merchant\": \"Cafe Sunrise\", \"date\": \"2026-10-11\", \"total\": 388.50}"}]}}}
+{"custom_id": "receipt_006", "result": {"type": "succeeded", "message": {"content": [{"text": "{\"merchant\": \"Green Valley Kirana\", \"date\": \"2026-10-19\", \"total\": 623.00}"}]}}}
+{"custom_id": "receipt_007", "result": {"type": "expired", "error": {"type": "expired", "message": "request expired before processing"}}}
+{"custom_id": "receipt_008", "result": {"type": "succeeded", "message": {"content": [{"text": "{\"merchant\": \"Pune Water Works\", \"date\": \"2026-10-03\", \"total\": 540.00}"}]}}}

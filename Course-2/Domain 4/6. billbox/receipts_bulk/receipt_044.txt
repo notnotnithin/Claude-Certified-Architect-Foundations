@@ -1,0 +1,11 @@
+QuickMart Grocers
+Viman Nagar, Pune
+GSTIN: 27ABCDE1044F1Z5
+Date: 13/10/2026
+
+Amul Butter 500g       Rs. 275.00
+Sugar 1kg              Rs. 55.00
+Wheat Flour 5kg        Rs. 250.00
+Subtotal: Rs. 580.00
+GST (5%): Rs. 29.00
+Total: Rs. 609.00

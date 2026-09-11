@@ -1,0 +1,14 @@
+# BillBox - Python dependencies
+#
+# Part 0 (this setup) needs NOTHING from this list - it is pure standard-library
+# Python. These packages are used from later parts:
+#
+#   anthropic       -> from Part 1 on: calling the Claude API to extract data
+#   python-dotenv   -> from Part 1 on: loading your API key from a .env file
+#   pydantic        -> from Part 4 on: validating the extracted data
+#
+# Installing them now is harmless and saves a step later.
+
+anthropic>=0.40.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0

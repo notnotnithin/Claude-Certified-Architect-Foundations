@@ -1,0 +1,14 @@
+Green Valley Kirana
+Aundh, Pune
+GSTIN: 27ABCDE1042F1Z5
+Date: 02/10/2026
+
+Basmati Rice 5kg       Rs. 480.00
+Bread                  Rs. 45.00
+Sunflower Oil 1L       Rs. 165.00
+Tea 500g               Rs. 240.00
+Milk 1L                Rs. 66.00
+Wheat Flour 5kg        Rs. 250.00
+Subtotal: Rs. 1246.00
+GST (5%): Rs. 62.30
+Total: Rs. 1308.30

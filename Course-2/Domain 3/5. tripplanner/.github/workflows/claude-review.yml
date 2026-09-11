@@ -1,0 +1,43 @@
+# TripPlanner - automated code review in CI
+#
+# This is a REAL GitHub Actions workflow showing how the pieces from Part 4 fit
+# together in a live pipeline. You do not need to run this to learn the concepts
+# (the demos in DEMO-PROMPTS.md cover them in cmd), but this is what it looks
+# like in production.
+
+name: Claude Code Review
+
+# Run on every pull request.
+on:
+  pull_request:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Review the changed files
+        env:
+          # In CI there is no browser to log in with, so we authenticate with a
+          # key stored in the repository's secrets. NEVER paste a key in here.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "Review storage/trip_store.py against our project standards." \
+            --output-format json \
+            --json-schema ci/review-schema.json \
+            --allowedTools "Read,Grep,Glob" \
+            --max-turns 5 \
+            > ci/review-output.json
+
+      - name: Turn the findings into a pass/fail decision
+        run: python ci/ci_review.py ci/review-output.json
+
+      # If ci_review.py exits with code 1 (a high-severity finding), this job
+      # fails and the pull request is blocked. That is the whole point of asking
+      # for structured JSON instead of prose.

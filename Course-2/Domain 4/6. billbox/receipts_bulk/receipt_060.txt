@@ -1,0 +1,14 @@
+Green Valley Kirana
+Aundh, Pune
+GSTIN: 27ABCDE1060F1Z5
+Date: 14/10/2026
+
+Basmati Rice 5kg       Rs. 480.00
+Toor Dal 1kg           Rs. 145.00
+Amul Butter 500g       Rs. 275.00
+Bread                  Rs. 45.00
+Sugar 1kg              Rs. 55.00
+Salt 1kg               Rs. 28.00
+Subtotal: Rs. 1028.00
+GST (5%): Rs. 51.40
+Total: Rs. 1079.40

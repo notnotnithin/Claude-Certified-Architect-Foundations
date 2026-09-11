@@ -1,0 +1,12 @@
+QuickMart Grocers
+Camp, Pune
+GSTIN: 27ABCDE1066F1Z5
+Date: 20/10/2026
+
+Sunflower Oil 1L       Rs. 165.00
+Salt 1kg               Rs. 28.00
+Amul Butter 500g       Rs. 275.00
+Milk 1L                Rs. 66.00
+Subtotal: Rs. 534.00
+GST (5%): Rs. 26.70
+Total: Rs. 560.70

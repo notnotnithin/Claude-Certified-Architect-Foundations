@@ -1,0 +1,11 @@
+FreshMart Supermarket
+Aundh, Pune
+GSTIN: 27ABCDE1074F1Z5
+Date: 03/10/2026
+
+Tea 500g               Rs. 240.00
+Salt 1kg               Rs. 28.00
+Toor Dal 1kg           Rs. 145.00
+Subtotal: Rs. 413.00
+GST (5%): Rs. 20.65
+Total: Rs. 433.65

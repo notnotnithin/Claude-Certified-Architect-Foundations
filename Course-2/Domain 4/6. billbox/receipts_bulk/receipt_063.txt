@@ -1,0 +1,11 @@
+QuickMart Grocers
+FC Road, Pune
+GSTIN: 27ABCDE1063F1Z5
+Date: 04/10/2026
+
+Sugar 1kg              Rs. 55.00
+Toor Dal 1kg           Rs. 145.00
+Tea 500g               Rs. 240.00
+Subtotal: Rs. 440.00
+GST (5%): Rs. 22.00
+Total: Rs. 462.00

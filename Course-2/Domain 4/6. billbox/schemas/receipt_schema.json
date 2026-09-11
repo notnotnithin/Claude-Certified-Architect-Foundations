@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "merchant": {
+      "type": "string",
+      "description": "The shop or business name."
+    },
+    "date": {
+      "type": "string",
+      "description": "The receipt date in YYYY-MM-DD form."
+    },
+    "total": {
+      "type": "number",
+      "description": "The final total amount as a plain number, no currency symbol."
+    },
+    "gst_number": {
+      "type": ["string", "null"],
+      "description": "The GST/GSTIN number if present, otherwise null. Never invent one."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["grocery", "restaurant", "utility", "other"],
+      "description": "The kind of receipt. Use 'other' if it fits none of the named types."
+    },
+    "category_detail": {
+      "type": ["string", "null"],
+      "description": "If category is 'other', a short description of what it is. Otherwise null."
+    }
+  },
+  "required": ["merchant", "date", "total", "gst_number", "category", "category_detail"]
+}

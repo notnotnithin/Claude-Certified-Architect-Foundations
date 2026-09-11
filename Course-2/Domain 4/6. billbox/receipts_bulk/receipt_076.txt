@@ -1,0 +1,11 @@
+Green Valley Kirana
+MG Road, Pune
+GSTIN: 27ABCDE1076F1Z5
+Date: 01/10/2026
+
+Basmati Rice 5kg       Rs. 480.00
+Sugar 1kg              Rs. 55.00
+Tea 500g               Rs. 240.00
+Subtotal: Rs. 775.00
+GST (5%): Rs. 38.75
+Total: Rs. 813.75

@@ -1,0 +1,14 @@
+QuickMart Grocers
+Kothrud, Pune
+GSTIN: 27ABCDE1081F1Z5
+Date: 10/10/2026
+
+Basmati Rice 5kg       Rs. 480.00
+Toor Dal 1kg           Rs. 145.00
+Sugar 1kg              Rs. 55.00
+Salt 1kg               Rs. 28.00
+Bread                  Rs. 45.00
+Wheat Flour 5kg        Rs. 250.00
+Subtotal: Rs. 1003.00
+GST (5%): Rs. 50.15
+Total: Rs. 1053.15

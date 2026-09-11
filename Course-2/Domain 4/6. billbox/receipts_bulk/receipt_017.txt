@@ -1,0 +1,14 @@
+Green Valley Kirana
+Aundh, Pune
+GSTIN: 27ABCDE1017F1Z5
+Date: 14/10/2026
+
+Wheat Flour 5kg        Rs. 250.00
+Bread                  Rs. 45.00
+Sunflower Oil 1L       Rs. 165.00
+Tea 500g               Rs. 240.00
+Milk 1L                Rs. 66.00
+Sugar 1kg              Rs. 55.00
+Subtotal: Rs. 821.00
+GST (5%): Rs. 41.05
+Total: Rs. 862.05

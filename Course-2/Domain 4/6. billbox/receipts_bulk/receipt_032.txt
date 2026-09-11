@@ -1,0 +1,12 @@
+FreshMart Supermarket
+Baner, Pune
+GSTIN: 27ABCDE1032F1Z5
+Date: 05/10/2026
+
+Toor Dal 1kg           Rs. 145.00
+Basmati Rice 5kg       Rs. 480.00
+Salt 1kg               Rs. 28.00
+Sunflower Oil 1L       Rs. 165.00
+Subtotal: Rs. 818.00
+GST (5%): Rs. 40.90
+Total: Rs. 858.90

@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "properties": {
+    "findings": {
+      "type": "array",
+      "description": "Every issue found in the reviewed file.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The file the issue is in."
+          },
+          "line": {
+            "type": "integer",
+            "description": "The line number the issue is on."
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "How serious the issue is."
+          },
+          "issue": {
+            "type": "string",
+            "description": "A one-line description of the problem."
+          },
+          "suggestion": {
+            "type": "string",
+            "description": "How to fix it."
+          }
+        },
+        "required": ["file", "line", "severity", "issue", "suggestion"]
+      }
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["approve", "needs_changes"],
+      "description": "Overall result of the review."
+    }
+  },
+  "required": ["findings", "verdict"]
+}

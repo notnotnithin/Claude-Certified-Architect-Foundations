@@ -1,0 +1,9 @@
+Pune Water Works
+Consumer: Asha Kulkarni
+Address: MG Road, Pune
+Date: 12/10/2026
+
+Units Consumed: 388 kWh
+Energy Charges: Rs 2328.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 2691.00

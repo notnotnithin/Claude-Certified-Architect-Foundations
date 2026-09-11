@@ -1,0 +1,7 @@
+Source: Public Charging Note, Pune (published 2026-02-05)
+
+As of early 2026, Pune had roughly 350 public charging points, mostly in
+malls, IT parks, and fuel stations. Fast chargers can bring a car battery
+to 80% in under an hour, while standard chargers take several hours. Home
+charging remains the most common option for two-wheeler owners, using a
+regular power socket overnight.

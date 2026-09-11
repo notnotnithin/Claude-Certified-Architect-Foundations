@@ -1,0 +1,13 @@
+Green Valley Kirana
+Baner, Pune
+GSTIN: 27ABCDE1092F1Z5
+Date: 09/10/2026
+
+Basmati Rice 5kg       Rs. 480.00
+Wheat Flour 5kg        Rs. 250.00
+Amul Butter 500g       Rs. 275.00
+Sugar 1kg              Rs. 55.00
+Milk 1L                Rs. 66.00
+Subtotal: Rs. 1126.00
+GST (5%): Rs. 56.30
+Total: Rs. 1182.30

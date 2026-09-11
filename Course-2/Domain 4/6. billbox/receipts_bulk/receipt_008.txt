@@ -1,0 +1,12 @@
+QuickMart Grocers
+Baner, Pune
+GSTIN: 27ABCDE1008F1Z5
+Date: 10/10/2026
+
+Tea 500g               Rs. 240.00
+Basmati Rice 5kg       Rs. 480.00
+Toor Dal 1kg           Rs. 145.00
+Sugar 1kg              Rs. 55.00
+Subtotal: Rs. 920.00
+GST (5%): Rs. 46.00
+Total: Rs. 966.00

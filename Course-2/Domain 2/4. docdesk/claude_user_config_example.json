@@ -1,0 +1,19 @@
+{
+  "//": "USER-SCOPED MCP CONFIG. The real file lives at ~/.claude.json in YOUR",
+  "//2": "home directory (Windows: C:\\Users\\<you>\\.claude.json). It is NOT in",
+  "//3": "the repo and is NOT shared with teammates. Use it for PERSONAL or",
+  "//4": "EXPERIMENTAL servers that only you want, e.g. a scratch/testing server.",
+  "//5": "This file here is only an EXAMPLE to copy from — rename to ~/.claude.json.",
+
+  "mcpServers": {
+    "my-scratch-notes": {
+      "//": "A personal experimental server only this developer uses.",
+      "//2": "Teammates never see this because it is user-scoped, not project-scoped.",
+      "command": "python",
+      "args": ["/absolute/path/to/my/personal/notes_server.py"],
+      "env": {
+        "NOTES_DIR": "${HOME}/my-notes"
+      }
+    }
+  }
+}

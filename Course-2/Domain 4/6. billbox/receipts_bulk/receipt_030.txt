@@ -1,0 +1,11 @@
+Green Valley Kirana
+MG Road, Pune
+GSTIN: 27ABCDE1030F1Z5
+Date: 02/10/2026
+
+Milk 1L                Rs. 66.00
+Basmati Rice 5kg       Rs. 480.00
+Tea 500g               Rs. 240.00
+Subtotal: Rs. 786.00
+GST (5%): Rs. 39.30
+Total: Rs. 825.30

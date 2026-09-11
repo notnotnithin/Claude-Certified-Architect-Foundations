@@ -1,0 +1,12 @@
+QuickMart Grocers
+Aundh, Pune
+GSTIN: 27ABCDE1038F1Z5
+Date: 23/10/2026
+
+Toor Dal 1kg           Rs. 145.00
+Sugar 1kg              Rs. 55.00
+Bread                  Rs. 45.00
+Salt 1kg               Rs. 28.00
+Subtotal: Rs. 273.00
+GST (5%): Rs. 13.65
+Total: Rs. 286.65

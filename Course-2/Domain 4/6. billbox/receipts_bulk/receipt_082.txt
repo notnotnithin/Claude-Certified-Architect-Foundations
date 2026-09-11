@@ -1,0 +1,9 @@
+City Power Ltd
+Consumer: Asha Kulkarni
+Address: FC Road, Pune
+Date: 23/10/2026
+
+Units Consumed: 330 kWh
+Energy Charges: Rs 1980.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 2308.00

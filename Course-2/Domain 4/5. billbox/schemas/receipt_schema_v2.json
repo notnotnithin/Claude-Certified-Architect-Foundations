@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "properties": {
+    "merchant": {
+      "type": "string",
+      "description": "The shop or business name."
+    },
+    "date": {
+      "type": "string",
+      "description": "The receipt date in YYYY-MM-DD form."
+    },
+    "line_items": {
+      "type": "array",
+      "description": "Each item and its price.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "price": {"type": "number"}
+        },
+        "required": ["name", "price"]
+      }
+    },
+    "stated_total": {
+      "type": ["number", "null"],
+      "description": "The total printed on the receipt. Null if there is no total on the receipt."
+    },
+    "calculated_total": {
+      "type": "number",
+      "description": "The sum of all line item prices, that YOU calculate."
+    },
+    "conflict_detected": {
+      "type": "boolean",
+      "description": "True if stated_total is present and does not equal calculated_total."
+    }
+  },
+  "required": ["merchant", "date", "line_items", "stated_total", "calculated_total", "conflict_detected"]
+}

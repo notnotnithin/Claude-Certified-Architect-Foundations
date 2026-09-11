@@ -1,0 +1,10 @@
+# Secrets never get committed — .mcp.json references them via ${ENV_VAR} instead
+.env
+
+# Your personal user-scoped config is never in the repo
+.claude.json
+
+__pycache__/
+*.pyc
+venv/
+.venv/

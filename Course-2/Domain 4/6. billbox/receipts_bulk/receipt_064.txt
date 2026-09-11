@@ -1,0 +1,11 @@
+FreshMart Supermarket
+FC Road, Pune
+GSTIN: 27ABCDE1064F1Z5
+Date: 27/10/2026
+
+Salt 1kg               Rs. 28.00
+Basmati Rice 5kg       Rs. 480.00
+Wheat Flour 5kg        Rs. 250.00
+Subtotal: Rs. 758.00
+GST (5%): Rs. 37.90
+Total: Rs. 795.90

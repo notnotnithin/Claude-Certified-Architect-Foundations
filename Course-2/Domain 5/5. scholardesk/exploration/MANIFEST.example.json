@@ -1,0 +1,16 @@
+{
+  "_comment": "A MANIFEST is a small structured record of exploration state, saved to disk. If a long session crashes or you close it, you can resume by loading this manifest instead of re-exploring everything from scratch. This is an EXAMPLE of what a filled-in manifest looks like.",
+  "project": "scholardesk",
+  "explored_at": "2026-10-20",
+  "modules_reviewed": [
+    {"file": "scholardesk/ask.py", "purpose": "entry point; loads one source; asks Claude"},
+    {"file": "scholardesk/_shared.py", "purpose": "API helper: get_client, ask_claude, source_path"},
+    {"file": "scholardesk/retrieval.py", "purpose": "source lookups: list_source_names, load_source, search_sources"}
+  ],
+  "data_flow": "cli question -> ask.py -> (retrieval.load_source) -> _shared.ask_claude -> answer",
+  "still_to_explore": ["error paths in retrieval.py", "how the single source is chosen"],
+  "key_findings": [
+    "all source I/O goes through retrieval._sources_dir()",
+    "retrieval returns structured {ok, results/error_type} results (Part 3 style)"
+  ]
+}

@@ -1,0 +1,11 @@
+Green Valley Kirana
+Baner, Pune
+GSTIN: 27ABCDE1054F1Z5
+Date: 27/10/2026
+
+Sunflower Oil 1L       Rs. 165.00
+Amul Butter 500g       Rs. 275.00
+Milk 1L                Rs. 66.00
+Subtotal: Rs. 506.00
+GST (5%): Rs. 25.30
+Total: Rs. 531.30

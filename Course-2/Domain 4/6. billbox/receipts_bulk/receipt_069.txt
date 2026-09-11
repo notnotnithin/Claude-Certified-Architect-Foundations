@@ -1,0 +1,11 @@
+FreshMart Supermarket
+Baner, Pune
+GSTIN: 27ABCDE1069F1Z5
+Date: 13/10/2026
+
+Bread                  Rs. 45.00
+Toor Dal 1kg           Rs. 145.00
+Salt 1kg               Rs. 28.00
+Subtotal: Rs. 218.00
+GST (5%): Rs. 10.90
+Total: Rs. 228.90

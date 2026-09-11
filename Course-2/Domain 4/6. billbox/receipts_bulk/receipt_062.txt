@@ -1,0 +1,9 @@
+Pune Water Works
+Consumer: Asha Kulkarni
+Address: Baner, Pune
+Date: 17/10/2026
+
+Units Consumed: 181 kWh
+Energy Charges: Rs 1086.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 1325.00

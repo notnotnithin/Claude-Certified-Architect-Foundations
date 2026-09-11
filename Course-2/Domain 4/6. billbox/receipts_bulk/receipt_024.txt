@@ -1,0 +1,9 @@
+Pune Water Works
+Consumer: Asha Kulkarni
+Address: Kothrud, Pune
+Date: 13/10/2026
+
+Units Consumed: 361 kWh
+Energy Charges: Rs 2166.00
+Fixed Charges: Rs 130.00
+Amount Payable: Rs 2513.00

@@ -1,0 +1,14 @@
+QuickMart Grocers
+Viman Nagar, Pune
+GSTIN: 27ABCDE1036F1Z5
+Date: 25/10/2026
+
+Tea 500g               Rs. 240.00
+Sugar 1kg              Rs. 55.00
+Milk 1L                Rs. 66.00
+Bread                  Rs. 45.00
+Salt 1kg               Rs. 28.00
+Wheat Flour 5kg        Rs. 250.00
+Subtotal: Rs. 684.00
+GST (5%): Rs. 34.20
+Total: Rs. 718.20

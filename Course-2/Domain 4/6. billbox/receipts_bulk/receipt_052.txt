@@ -1,0 +1,13 @@
+QuickMart Grocers
+Camp, Pune
+GSTIN: 27ABCDE1052F1Z5
+Date: 07/10/2026
+
+Tea 500g               Rs. 240.00
+Wheat Flour 5kg        Rs. 250.00
+Sunflower Oil 1L       Rs. 165.00
+Basmati Rice 5kg       Rs. 480.00
+Sugar 1kg              Rs. 55.00
+Subtotal: Rs. 1190.00
+GST (5%): Rs. 59.50
+Total: Rs. 1249.50
