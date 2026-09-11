@@ -1,0 +1,156 @@
+---
+title: "Course: Claude Certified Architect: Foundations Exam Guide - 2026 | Udemy"
+description: Agentic architecture, MCP tools, Claude Code, prompt engineering & context management for the CCA Foundations exam
+author: 2026 | Udemy
+source: https://www.udemy.com/course/claude-ai-certification/learn/lecture/57561047#overview
+created: "2026-09-11"
+tags:
+  - hover-notes
+  - udemy
+transcript: "[[hover-notes-transcripts/03-Error-Propagation-In-Multi-Agent-Systems (transcript)|Transcript]]"
+hovernotes-id: doc_a7c13a8d-bf3e-4b22-ace7-8e74814c2057
+---
+
+![Captured video screenshot](hover-notes-images/screenshot-01M27NKD6JVFY8CSXC3WDPSTAX.png)
+
+## Error Propagation in Multi-Agent Systems
+
+- The core challenge: ensuring a team doesn't collapse when a single worker fails
+- This concept combines two previous ideas:
+    - Building coordinator and subagent teams
+    - Implementing single-tool error handling
+- **Lecture Roadmap**:
+
+    1. The problem
+    2. Structured error handback
+    3. Failure types and partial results
+
+### The Problem: Silent Failures
+
+- **The Real Danger**: A silent failure is significantly worse than an explicit one
+    - A failure is only a disaster if the coordinator doesn't realize it happened
+- **The Mechanism of Failure**:
+    - A subagent fails and returns nothing (empty data/null)
+    - The coordinator, unable to distinguish between "no data" and "no error", proceeds with the task
+    - The coordinator builds a final answer based on missing information
+    - The system reports a result that is both confident and incorrect
+- **Key Insight**:
+    - The disaster isn't the failure itself, but the silence that follows it
+
+### The Goal: Making Failures "Loud"
+
+- **Expectation of Failure**: In any large-scale system, individual parts will occasionally fail
+    - This is a normal, expected occurrence
+- **The Engineering Objective**: The goal is not to achieve zero failures, but to ensure failures are visible
+    - We must avoid "papering over" gaps silently
+    - We need to make failures "loud" so the coordinator can detect the missing piece rather than proceeding as if nothing is wrong
+
+### Structured Error Handback
+
+- **The Fix**: Instead of returning nothing, subagents must report failures clearly using a fixed, predictable shape
+- **The Subagent's Responsibility**: When a failure occurs, the subagent should return a structured error containing:
+    - What exactly failed
+    - The reason for the failure
+    - Any partial data or results that *were* successfully retrieved
+- **The Core Motto**:
+
+    > Report, don't swallow.
+
+- **Two Paths for a Failing Subagent**:
+    - **Swallowing the error**: Returning nothing or null (leads to silent failures and incorrect final answers)
+    - **Reporting honestly**: Passing the structured error upward (allows the coordinator to reason about the gap and decide how to proceed)
+
+### Reusing Existing Error Formats
+
+- **The Core Structure**: We aren't inventing a new error format for multi-agent systems; we are repurposing the one established in previous work (e.g., Lecture 2.2)
+    - `is_error`: A flag indicating the status
+    - `category`: The classification of the error
+- **The Key Distinction**: The difference in a multi-agent context is not the *shape* of the error, but its *destination*
+    - In single-tool scenarios, the error might just stop at the user or the immediate caller
+    - In a team structure, the error **travels upward** to the coordinator
+- **The Coordinator's Role**: Because the error is passed up, the coordinator can receive the structured data and actively decide how to compensate for the failure
+
+### Distinguishing Failure Types
+
+- **[Goal]**: The subagent must communicate to the coordinator exactly what *kind* of failure occurred to guide the next steps.
+- **Access Failure (True Failure)**
+    - Occurs when the subagent simply cannot reach the intended data source
+    - **Cause**: The source might be down or unreachable
+    - **Implication**: This is a genuine error/retrieval failure that may be temporary, meaning it is often worth attempting again
+- **Empty Result (Valid Outcome)**
+    - Occurs when the subagent successfully reaches the source but finds zero matching results
+    - **Distinction**: Unlike an access failure, this is a valid state, not a system error
+
+### Refining the Failure vs. Result Distinction
+
+- **[Crucial Distinction]**: An empty result is a complete and correct answer, not a system failure
+    - If a subagent reaches the source and finds nothing, it has succeeded in its task of checking
+    - Treating an empty result as a failure leads to the "infinite retry trap," where the system wastes resources repeatedly searching for something that isn't there
+- **Reporting Partial Successes**
+    - Subagents should not just report binary success/failure; they should report the extent of their work
+    - **Example**: If a subagent was tasked with checking 5 sources but only successfully accessed 2, it should report the partial data rather than a total failure
+
+### Coordinator Recovery Strategies
+
+Once the error is passed upward, the coordinator uses the structured error data to choose one of three paths:
+
+1. **Retry**
+
+    - Used when the error is **transient**
+    - **Example**: A network timeout or a temporary service outage
+    - The coordinator attempts the task again, hoping the temporary issue has resolved
+
+2. **Skip and Note**
+
+    - Used when the failure is **non-critical**
+    - The coordinator acknowledges the gap in information but proceeds with the rest of the task
+    - The missing data is flagged in the final output so the user is aware of the limitation
+
+3. **Escalate**
+
+    - Used when the failure is **critical**
+    - The subagent's failure prevents the entire goal from being achieved
+    - The error is handed up to a higher level of authority or the user for manual intervention
+
+### The Principle of Honest Reporting
+
+- **The Core Requirement**: All error propagation depends on the sub-agent providing an "honest error"
+    - The sub-agent must clearly communicate exactly what went wrong
+    - This clarity allows the coordinator to map the specific error to the correct recovery path
+- **[Why it matters]**: To prevent "silently incomplete" reports
+    - A report that looks complete but has missing data is more dangerous than one that explicitly states its limitations
+    - **Example**: It is better to report "Findings complete, except news sources which were unavailable" than to provide a report that simply omits the news sources without explanation
+- **User Impact**: Honest reporting provides transparency
+    - Instead of a user receiving a report with a "quiet hole" in it, they receive a report that clearly defines the scope and the gaps in the information provided
+
+### Summary: Core Principles of Error Propagation
+
+- **Never fail silently**
+    - The primary danger in a multi-agent system is not the failure itself, but the silence that follows it
+    - Sub-agents must hand their failures upward using a structured format to ensure the coordinator is aware of the issue
+- **Name the failure**
+    - Errors must be explicit and descriptive
+    - A structured error should package two distinct pieces of information:
+        - The **failure type** (what went wrong)
+        - The **partial results** (what was actually achieved before the failure)
+    - **[Why this is necessary]**: This allows the system to distinguish between an access failure (an error) and an empty result (a valid outcome), preventing infinite retry loops on tasks that simply have no data to find
+
+### Summary: The Three Principles of Error Propagation
+
+To ensure a multi-agent team can survive individual worker failures, the system must adhere to these three rules:
+
+1. **Never fail silently**
+
+    - A sub-agent must always hand its failures up as a structured error
+    - **[Key Insight]**: The silence is the true danger to the system, not the failure itself
+
+2. **Name the failure**
+
+    - Explicitly distinguish between different failure types
+    - Differentiate between an actual access failure and an "empty result" (which is a valid answer, not a failure)
+
+3. **Recover and be honest**
+
+    - Choose the appropriate recovery path: **Retry**, **Skip and Note**, or **Escalate**
+    - Always report what is missing to the user
+    - **[Core Philosophy]**: An honest partial report is far more useful and trustworthy than a report that is silently incomplete
