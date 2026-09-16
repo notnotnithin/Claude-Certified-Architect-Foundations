@@ -349,3 +349,59 @@ To extract information from a claim, the `input_schema` might define the followi
 - Structured output kills syntax errors (the shape is guaranteed)
 - It does **not** guarantee the values are correct (the truth is not guaranteed)
 - **[Crucial distinction]** Valid JSON can still be wrong
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: If your code needs to trust Claude's answer 100% of the time, don't ask for a text reply — force Claude to fill out a "form" with an exact shape, using tool use.
+
+**The problem with plain text**
+
+```
+Prompt: "Extract the claim ID, amount, and date."
+Output: "Sure! Here's the data: Claim ID: CLM-2291, Amount: $450..."
+```
+A script parsing this has to survive "Sure! Here's the data:" and inconsistent formatting — one stray sentence breaks automation.
+
+**The fix — a tool schema instead of a sentence**
+
+```
+Tool schema: { "claim_id": "string", "amount": "number", "date": "string" }
+Claude's response (tool_use block): { "claim_id": "CLM-2291", "amount": 450, "date": "2026-03-03" }
+```
+No filler, no guessing labels — the script reads the fields directly, every time.
+
+**The trap — "required" fields can make Claude lie**
+
+```
+Schema: "phone": { "type": "string" }   // required, but document has no phone number
+Output: "phone": "555-0100"   ← invented out of thin air
+```
+Fix: allow `null` as an honest answer — `"type": ["string", "null"]` → `"phone": null` instead of a fabrication.
+
+**Enums need an escape hatch**
+
+```
+Schema: "type": { "enum": ["auto", "home", "health"] }
+Document describes a boat claim → forced into the wrong category: "auto"
+```
+Fix: add `"other"` plus a free-text `"detail"` field, so unusual cases have an honest place to land instead of being jammed into the nearest wrong option.
+
+**`tool_choice` — making sure the tool actually gets used**
+
+| Setting | Behavior |
+|---|---|
+| `auto` | Claude may call the tool, or reply in prose — no guarantee |
+| `any` | Forced to call *some* tool |
+| `tool` (named) | Forced to call *that exact* tool — strictest |
+
+**What this does NOT fix**
+
+Forcing a shape guarantees valid JSON — it says nothing about whether the *values* are true. `{"amount": 45000}` is perfectly valid JSON even if the real amount was $450.
+
+**Recap in 3 lines**
+
+1. **Force the shape with `tool_use` + a JSON schema** — no native "JSON mode" exists; this is how you get structure.
+2. **Design against fabrication in the schema** — nullable/optional fields, and an `other` + `detail` escape hatch for enums.
+3. **Syntax ≠ meaning** — valid JSON guarantees shape, never guarantees the data inside it is correct.

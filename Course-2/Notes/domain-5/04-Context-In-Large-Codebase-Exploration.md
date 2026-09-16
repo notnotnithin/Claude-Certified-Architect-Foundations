@@ -193,3 +193,44 @@ flowchart LR
 
 ![00:09:49](hover-notes-images/screenshot-01M27RHS02E8JECY7D2NKYQ26F.png)
 [00:09:49](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57569699#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Exploring a large codebase floods context just like a long chat does — each file read dumps its full contents in, and within dozens of files the window fills up. Four tools fight this: scratchpad files, `/compact`, crash-recovery manifests, and the Explore subagent.
+
+**Scratchpad files — extract and persist, made literal**
+
+Instead of keeping everything in the chat, write key findings to a file on disk: "Auth logic lives in `/auth`; bug is in `login()`." Disk is unlimited; context is not. You only re-read the specific note when it becomes relevant, keeping the active context lean.
+
+*Claude Code example*: my scratchpad directory in this session (`/private/tmp/claude-501/.../scratchpad`) exists for exactly this — writing intermediate findings to a file instead of keeping every detail live in our conversation forever.
+
+**`/compact` — proactive, not panicked**
+
+Summarizes the conversation and replaces the history with that summary, shrinking token usage. Best practice: trigger it around 70-75% full, at a natural break between tasks — not after the model's already started degrading, when you have less control over what survives.
+
+**Crash-recovery manifests — a safety net**
+
+A running log of current task, what's done, what's next. If a session dies mid-refactor at file 40, a new session reads the manifest and resumes at file 41 — instead of starting the whole thing over from file 1.
+
+**The Explore subagent — heavy reading, elsewhere**
+
+Sends the reading-heavy work to a separate context; only a tidy summary comes back. Large file reads never touch your main window.
+
+*Claude Code example*: this is the exact `Explore` agent I have access to in this session — dispatching it to dig through many files means the raw content never floods our main conversation, only its conclusions do.
+
+**Putting it together — the same extract → persist → trim workflow from the previous note**
+
+```
+Explore subagent → heavy reads happen elsewhere
+Scratchpad files → persist findings to disk
+/compact → shrink the conversation when it's too long
+Manifest → survive a crash without losing progress
+```
+
+**Recap in 3 lines**
+
+1. **Codebase exploration causes the same "context rot" as long chats** — just from files instead of dialogue.
+2. **Scratchpad files persist findings to disk** — unlimited storage, re-read only what's relevant.
+3. **`/compact` proactively, and use manifests + the Explore subagent** — control what survives, and never lose progress to a crash.

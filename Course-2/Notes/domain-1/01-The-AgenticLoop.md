@@ -215,3 +215,37 @@ flowchart TD
 
 ![00:07:30](hover-notes-images/screenshot-01M259HKPD0ZSMHSN6WQ7SPDDG.png)
 [00:07:30](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57908961#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: A chatbot only talks; an agent talks, *acts*, looks at what happened, and keeps going until the job is actually done.
+
+**Everyday analogy**
+
+A chatbot is like a friend who has the entire company handbook memorized but no computer — they can tell you policy from memory, but can't actually check your specific order. An agent is that same friend, now handed a laptop: they can look up your real order, check its real delivery status, and verify a real refund, then act on what they find.
+
+**The four-step cycle, with a Claude example**
+
+Every agent repeats: **Perceive → Reason → Act → Observe.**
+
+*Claude Code example*: Earlier in this very conversation, when you asked me to explain a note file:
+- **Perceive** — I read your request ("explain domain-4/05-Batch-Processing.md")
+- **Reason** — I decided I needed to find and read the actual file before I could explain it
+- **Act** — I called the `Read` tool on that file
+- **Observe** — I looked at the file's contents, and *that* shaped the explanation I wrote back to you
+
+If the file hadn't existed at the path I guessed, Observe would have shown me an error, and I'd have looped back to Reason (search for the right file) before trying Act again.
+
+**`stop_reason` — the signal that runs the whole show**
+
+Every reply carries a label: `tool_use` means "I want to run a tool, keep looping," and `end_turn` means "I'm done, stop." Crucially, **Claude decides this — not your code**. Capping an agent at a fixed number of tool calls (like "max 3 tool calls") can break it, since some tasks genuinely need more steps than that arbitrary number allows.
+
+*Claude Code example*: In this session, when I need to look something up, then read a file, then edit it, then verify the edit — that's four tool calls in a row for one request. If something artificially capped me at 3 calls, I'd be forced to stop before finishing your actual task.
+
+**Recap in 3 lines**
+
+1. **Loop = action** — the loop is what lets Claude go check something real, not just talk.
+2. **Four steps repeat**: Perceive, Reason, Act, Observe — until the job is finished.
+3. **`stop_reason` drives it, not a fixed counter** — `tool_use` keeps going, `end_turn` stops; trust the model's own signal.

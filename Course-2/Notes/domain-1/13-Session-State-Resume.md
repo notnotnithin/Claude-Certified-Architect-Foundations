@@ -132,3 +132,44 @@ flowchart TD
 
 ![00:06:45](hover-notes-images/screenshot-01M25MMS37XQJST5834ESV602V.png)
 [00:06:45](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57909007#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Resuming a session brings back everything Claude did before — including old tool results that might no longer be true, so a resumed session can confidently act on outdated information.
+
+**What a session actually is**
+
+It's the agent's memory saved to disk — every message, every tool call, every result. Because it's written to a file (not just kept in memory), it survives after you close the window. Without this, closing your terminal means starting completely from zero — every file read, every lookup, gone.
+
+*Claude Code example*: This is why, in this environment, our long conversation about explaining note files persists across turns — every file I've already read and every explanation I've written stays available to me, instead of vanishing the moment a new message arrives.
+
+**Resume vs. continue**
+
+- `continue` — picks up your most recent session; the everyday go-to.
+- `resume` — reopens one *specific* saved session, useful when you're juggling multiple separate pieces of work.
+
+Both bring back the full prior context — which is exactly where the risk shows up.
+
+**The stale-transcript trap — the dangerous part**
+
+A resumed session still holds *old* tool results, and nothing marks them as potentially outdated. If a file was edited while the session was inactive, Claude has no built-in way to know that — it will trust the old result exactly as confidently as a fresh one.
+
+*Everyday analogy*: it's like acting on a two-week-old sticky note without checking whether anything's moved since you wrote it.
+
+*Claude Code example*: Suppose in an earlier turn I read a config file and it said `debug: false`. If you then edited that file outside our conversation and later resumed this session, I might still "remember" `debug: false` from the old tool result — and confidently act on that, even though the real file now says `debug: true` — unless I re-read it.
+
+**Why this is worse than a normal mistake**
+
+Claude won't hesitate or flag doubt when using stale information — it acts with full confidence on an outdated premise. That combination (confident + wrong) is the most dangerous kind of error, because nothing about the response looks uncertain or suspicious.
+
+**The practical habit**
+
+Before resuming, ask: *"Has anything changed since I was last here?"* If files were edited or data updated while the session was inactive, treat the old context with suspicion — re-check rather than trust blindly.
+
+**Recap in 3 lines**
+
+1. **A session is the agent's saved memory** — every message, tool call, and result, written to disk.
+2. **`resume`/`continue` bring back the full history** — useful, but it includes old tool results with no "may be outdated" label.
+3. **Stale context makes Claude confidently wrong** — always ask "has anything changed?" before trusting a resumed session's old results.

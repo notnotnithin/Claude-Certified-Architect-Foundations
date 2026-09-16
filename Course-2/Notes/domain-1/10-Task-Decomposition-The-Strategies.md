@@ -196,3 +196,41 @@ flowchart LR
 
 ![00:07:13](hover-notes-images/screenshot-01M25JZNA1S93X8MB9KZMRGSF8.png)
 [00:07:13](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57908997#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Break a big job into pieces shaped by how those pieces actually depend on each other — sequential when they're linked, parallel when they're not, and adaptive when you can't even know the pieces in advance.
+
+**Why decompose at all**
+
+A giant task is a "solid block" — if it fails, you can't see inside it to find out why. Five small, focused subtasks let you pinpoint exactly which one broke, and small, clear pieces are just easier to get right than one giant, vague ask.
+
+**Sequential — a chain**
+
+Each step needs the previous one's output. `extract → validate → format`: you can't validate data you haven't extracted yet.
+
+*Claude Code example*: When I fixed a bug earlier in this session, the steps were naturally sequential — read the file, understand the bug, then edit it. I couldn't edit before reading, and I couldn't validate the fix before making it.
+
+**Parallel — a fan**
+
+Independent steps, no dependency between them, so they run at once. `check 5 files simultaneously` — since nothing waits on anything else, it finishes in roughly the time of *one* step, not five.
+
+*Claude Code example*: Earlier in this conversation, when I looked up multiple unrelated note files, I issued several `Read` calls together in one batch — since reading file A never depended on what was in file B, running them in parallel was both correct and faster than one-by-one.
+
+**Adaptive (dynamic) — following a trail**
+
+You genuinely don't know the subtasks upfront; the agent discovers them as it works. `investigate → find leads → spawn follow-ups`. It's like following a trail through woods: you take one step, look at what's actually there, and *only then* decide where the next step goes.
+
+*Claude Code example*: When I use the `Agent` tool for an open-ended research question, I can't list every file I'll need to check before I start — I read one file, it points me toward another, and the plan grows as I go. That's adaptive decomposition mapping directly onto the Act → Observe → Decide agentic loop.
+
+**The decision rule — not about speed**
+
+Don't pick sequential/parallel based on what "sounds" faster. Ask: *"Does this piece need the answer from that piece?"* Yes → sequential. No → parallel. If you can't even list the steps in advance, you're in adaptive territory.
+
+**Recap in 3 lines**
+
+1. **Decompose for focus and checkability** — small pieces reveal exactly what broke; one giant block hides it.
+2. **Sequential vs. parallel is decided by dependency, not speed preference** — chain when one step needs another's answer, fan out when it doesn't.
+3. **Adaptive is for the unknowable** — research, debugging, exploration — where the plan can only be discovered by actually doing the work.

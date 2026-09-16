@@ -124,3 +124,43 @@ To maintain reliability and prevent errors, agents must follow these three funda
 1. **Never Invent Policy**: If a scenario is not covered by existing rules (a **Policy Gap**), the agent must escalate. Do not attempt to create or assume a procedure.
 2. **Honor Explicit Requests**: An explicit demand for a human (e.g., "I want to talk to a person") is an instant escalation trigger. Do not attempt to talk the user out of the request; hand them over immediately.
 3. **Resolve Ambiguity via Disambiguation**: When multiple matches exist, ask a clarifying question to let the user choose. This is a tool for the agent to continue the task correctly and is distinct from a human handoff.
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: A confident wrong answer is worse than admitting "I'm not sure" — a good agent knows when to stop and ask, instead of guessing its way forward.
+
+**Escalation is a feature, not a failure**
+
+The agent you can trust is the one that recognizes its own limits, not the one that always has an answer. Knowing when to stop is valuable, not weak.
+
+*Claude Code example*: before something hard to reverse (force-pushing, deleting a branch), I'm supposed to stop and confirm with you rather than confidently pressing ahead on my own judgment — that's exactly this principle in practice.
+
+**Three triggers to escalate**: low confidence, high stakes (money/safety/legal), or a policy gap (never invent a rule to fill it).
+
+**Explicit human requests always win**
+
+If someone says "I want to talk to a person," escalate immediately — no "let me just try one more thing." Overriding that request damages trust even if the agent genuinely could help.
+
+**Disambiguation ≠ escalation**
+
+- **Disambiguation** — ask *you* a quick clarifying question, then keep working. A way to *continue* the task correctly.
+- **Escalation** — hand the whole task to a human because the agent genuinely can't proceed.
+
+*Claude Code example*: this is literally what the `AskUserQuestion` tool is for — if a request could match multiple files or approaches, I ask which one you meant instead of silently guessing and possibly acting on the wrong one.
+
+**The decision flow**
+
+```
+Uncertain, high-stakes, or a policy gap? → Escalate
+Explicit human request? → Escalate immediately, no argument
+Matches multiple things? → Ask a clarifying question (disambiguation), then continue
+Otherwise → proceed
+```
+
+**Recap in 3 lines**
+
+1. **A confident wrong guess is worse than asking** — pressing ahead under uncertainty is gambling, not competence.
+2. **Escalate on low confidence, high stakes, policy gaps, or an explicit human request.**
+3. **Disambiguation isn't escalation** — asking "which one?" lets the agent keep working correctly.

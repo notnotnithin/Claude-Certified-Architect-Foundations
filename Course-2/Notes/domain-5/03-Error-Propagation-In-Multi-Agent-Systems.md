@@ -154,3 +154,40 @@ To ensure a multi-agent team can survive individual worker failures, the system 
     - Choose the appropriate recovery path: **Retry**, **Skip and Note**, or **Escalate**
     - Always report what is missing to the user
     - **[Core Philosophy]**: An honest partial report is far more useful and trustworthy than a report that is silently incomplete
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: In a coordinator/subagent team, a failure that stays silent is far more dangerous than one that speaks up — a subagent that returns nothing lets the coordinator build a confident, wrong answer on missing information.
+
+**Why silence is the real danger**
+
+Everyday analogy: if you ask a colleague to check something and they come back empty-handed without saying whether they checked or just gave up, you can't tell "nothing's there" from "I couldn't check." A coordinator facing the same ambiguity from a subagent will often just proceed as if everything's fine — producing a result that's both confident and wrong.
+
+**The fix: "report, don't swallow"**
+
+Instead of returning null on failure, a subagent reports a structured error: what failed, why, and any partial data it *did* manage to gather. This reuses the same `isError`/`errorCategory` shape from single-tool error design — the only difference here is where it travels: upward to the coordinator, not just back to the user.
+
+*Claude Code example*: if I spawn an `Explore` agent to search five files and it can only reach three before hitting an error, a good report says "checked 3 of 5 files; couldn't access files 4 and 5 due to a permission error" — not silence, and not a vague "search failed."
+
+**Two very different kinds of failure**
+
+- **Access failure** (true failure) — couldn't reach the source at all; often worth retrying.
+- **Empty result** (a valid, successful outcome) — reached the source, found nothing. Treating this as a failure causes the "infinite retry trap" — endlessly re-searching for data that simply isn't there.
+
+**Three coordinator recovery paths**
+
+- **Retry** — for transient errors (a timeout).
+- **Skip and note** — for non-critical gaps; proceed, but flag the missing piece in the final output.
+- **Escalate** — for critical failures that block the whole goal; hand to a human.
+
+**Honest reporting beats a silently incomplete one**
+
+*Example from the note*: "Findings complete, except news sources which were unavailable" is far more trustworthy than a report that just quietly omits the news sources with no explanation — the reader can't tell the difference between "nothing to find" and "didn't look" unless you say so.
+
+**Recap in 3 lines**
+
+1. **Never fail silently** — the silence is the real danger, not the failure itself.
+2. **Name the failure type** — access failure (retry-worthy) vs. empty result (a valid, complete answer).
+3. **Recover honestly** — retry, skip-and-note, or escalate, and always tell the user what's missing.

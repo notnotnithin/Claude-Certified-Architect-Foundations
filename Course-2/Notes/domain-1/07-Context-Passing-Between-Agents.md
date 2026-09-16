@@ -177,3 +177,43 @@ flowchart LR
 
 ![00:07:39](hover-notes-images/screenshot-01M25GKESD0ACMYW6YSDXN324P.png)
 [00:07:39](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57908983#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: A subagent starts completely blank — it doesn't automatically know anything you or another agent discussed, so whatever it needs has to be written directly into its prompt.
+
+**Isolation cuts both ways — an everyday analogy**
+
+A clean, isolated workspace is great for focus — but "clean" also means "empty." It's like handing a new employee a private office with no files in it: great, distraction-free space, but they genuinely know nothing until you brief them. Assuming a subagent "already knows" what the coordinator did is the #1 mistake here — there's no hidden notice board where agents secretly compare notes.
+
+*Claude Code example*: In this session, when I use the `Agent` tool, the prompt itself literally warns: "Brief the agent like a smart colleague who just walked into the room — it hasn't seen this conversation, doesn't know what you've tried, doesn't understand why this task matters." That's this exact principle, word for word.
+
+**Why missing context is dangerous — it fails silently**
+
+A subagent lacking context doesn't crash or throw an error. It just quietly produces generic, thin content — or worse, invents details to fill the gap. You often only notice something's wrong because the output feels vague, not because anything visibly broke.
+
+*Claude Code example*: If I spawned an `Explore` agent and only told it "find the bug" without saying *which* bug or *where* to look, it might wander broadly and return a shallow, generic summary — not because it's incapable, but because I never gave it the specific context it needed.
+
+**The prompt IS the handoff**
+
+Put the specific goal, relevant facts, and any prior findings directly into the subagent's prompt — full and complete, not a one-line summary. A vague summary causes real performance drops; a complete, structured handoff lets the subagent work properly.
+
+*Everyday analogy*: Think of it like leaving a colleague a note before you go on holiday. You wouldn't scribble "handle the Johnson account" — you'd leave a tidy, complete brief: what's been done, what's pending, and what decisions were already made.
+
+**The completeness test**
+
+Read your prompt back and ask: *"If I knew only this and nothing else, could I actually do the job?"* If the answer is no, something critical is still missing.
+
+**Goals, not steps**
+
+Tell the subagent the destination and the quality bar — not a turn-by-turn script. A subagent is a full agent with its own Perceive-Reason-Act-Observe loop; over-scripting it strips away its ability to handle nuances or unexpected turns on its own.
+
+*Claude Code example*: When I brief an `Agent`, good practice is saying "find every file that handles user authentication and report back which ones are outdated" (the goal) — not "first open file A, then check line 12, then open file B..." (a rigid script). The subagent uses its own reasoning loop to figure out *how*.
+
+**Recap in 3 lines**
+
+1. **No automatic inheritance** — subagents start completely blank; never assume they "already know" something.
+2. **Inject context explicitly and completely** — the prompt is the only handoff; vague summaries quietly hurt output quality.
+3. **Give goals, not step-by-step scripts** — trust the subagent's own reasoning loop to figure out the how.

@@ -285,3 +285,53 @@ flowchart LR
 
 ![00:09:45](hover-notes-images/screenshot-01M27HC893E1RMHRMC394XBGC5.png)
 [00:09:45](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57493857#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: If you can wait up to a day, batch processing gets the exact same Claude quality at half the price.
+
+**The photo lab analogy**
+
+A one-hour photo booth develops fast at a premium; an overnight lab does the same work cheaper because you're willing to wait. Batch = the overnight lab.
+
+**The trade-off**: 50% cheaper (input and output), results within 24 hours (often much sooner), no streaming, runs on a separate rate limit pool.
+
+**The one deciding question**: *"Is it okay for the user to wait up to 24 hours?"* Yes → Batch. No → the normal synchronous API. Job size/complexity doesn't matter — only whether waiting is acceptable.
+
+**Step 1 — submit with a `custom_id` on every request**
+
+```json
+[{"custom_id": "CLAIM_001", "params": {...}}, {"custom_id": "CLAIM_002", "params": {...}}]
+```
+
+**Why `custom_id` matters — results come back shuffled**
+
+```
+Submitted: CLAIM_001, CLAIM_002, CLAIM_003 (in order)
+Returned:  CLAIM_002, CLAIM_001, CLAIM_003 (shuffled)
+```
+Use a real, meaningful ID (an actual claim number), not a throwaway string.
+
+**Step 2 — poll until done**, then **Step 3 — retrieve a JSONL file** (one result per line), matching each back by `custom_id`.
+
+**Step 4 — save immediately** — results are only kept ~29 days.
+
+**The full worked example**
+
+```
+Submit 10,000 claims as one nightly batch (custom_id = real claim number)
+  → Poll until "ended"
+  → Retrieve, match results back via custom_id
+  → Run each through the validation & retry loop
+  → Store in your database
+```
+
+This isn't a separate system — same schema, same `tool_use` structure, same validation loop. Batch just changes *when and how cheaply* the work runs.
+
+**Recap in 3 lines**
+
+1. **Async and 50% cheaper** — same quality, results within 24 hours instead of instantly.
+2. **Always tag with a meaningful `custom_id`** — results come back out of order.
+3. **Persist results fast** — they're only retained ~29 days.

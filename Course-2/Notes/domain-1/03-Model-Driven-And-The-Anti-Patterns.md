@@ -157,3 +157,33 @@ hovernotes-id: doc_3a6cd5cf-c9ac-4a3d-bf1f-4295754b3014
 ## Multi-Agent Systems
 
 - Moving beyond a single agent when a job is too big for one model to handle.
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Let Claude decide what to do next based on what it's seeing, instead of pre-writing every possible branch yourself — and watch out for three specific mistakes that quietly break the loop.
+
+**Model-driven vs. hardcoded — an everyday analogy**
+
+A sat nav (model-driven) reacts live to real traffic and reroutes when a road is closed. A printed sheet of directions (hardcoded) works great — until something on the road doesn't match the paper, and then it's useless. Model-driven logic handles surprises; hardcoded `if/else` trees break the moment reality doesn't match what you predicted.
+
+*Claude Code example*: If you ask me to "fix the failing tests," I don't follow a fixed script — I look at *which* tests are failing, decide what to check first, and adjust based on what I find. If the first fix reveals a second, unrelated bug, I handle that too — a hardcoded script that only knew "run tests, apply fix A" would have no way to react to that surprise.
+
+**When hardcoded is actually fine**: for genuinely tiny, fixed jobs with no real variation. The moment a task has any real variety, model-driven is the safer bet.
+
+**The three anti-patterns — ways to break the loop**
+
+1. **Ignoring `stop_reason`** — walking away before Claude tells you it's actually done, like asking a colleague to check something and leaving before they answer. You end up guessing when the task finished instead of knowing.
+
+2. **Never stopping** — no end condition, so the loop runs forever. *Everyday analogy*: a tap left running overnight — it won't crash anything, but it quietly costs money with every single call.
+
+3. **Not feeding results back** — the tool runs, but its answer never reaches Claude, so it's "flying blind" and can't learn from its own actions (this is the exact failure covered in the previous note in this domain).
+
+*Claude Code example*: If a session capped my tool calls at a fixed number regardless of what `stop_reason` said, or silently dropped a tool's result before showing it to me, I'd either stop too early on a real multi-step task, or keep re-requesting the same information forever — neither is a failure of my reasoning, it's a failure in the "plumbing" around me.
+
+**Recap in 3 lines**
+
+1. **Prefer model-driven** — Claude picks the next step from context; you set the goal, not every turn.
+2. **Avoid the three traps** — ignoring `stop_reason`, infinite loops, and not feeding results back.
+3. **These are plumbing failures, not intelligence failures** — and because they're plumbing, they're entirely fixable by you.

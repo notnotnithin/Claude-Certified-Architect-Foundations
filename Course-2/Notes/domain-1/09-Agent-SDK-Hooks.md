@@ -162,3 +162,35 @@ flowchart LR
 
 ![00:07:43](hover-notes-images/screenshot-01M25HHGKPH8692QHW48XGCJE8.png)
 [00:07:43](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57908993#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: A hook is code that automatically wraps around every tool call — not something Claude chooses to trigger — which turns a "hope" (a prompt asking nicely) into a "guarantee" (code that always runs).
+
+**PreToolUse — guards what goes OUT**
+
+Fires **before** a tool runs. It can inspect the call, modify it, or block it outright. This is the note's own memorable line: *"PreToolUse protects the world from Claude."*
+
+*Everyday analogy*: a security guard checking a bag before someone enters a building — the check happens before anything risky can occur, while stopping it is still "free" (nothing has happened yet).
+
+*Claude Code example*: a `PreToolUse` hook could block any attempt to run `rm -rf` on a production folder — the command never even executes, because the hook stops it before it reaches the tool.
+
+**PostToolUse — shapes what comes back IN**
+
+Fires **after** a tool runs, but before Claude reads the result. It can transform or clean up messy output, or log it. This is the flip side: *"PostToolUse protects Claude from the tool."*
+
+*Claude Code example*: if a tool returns a giant blob of inconsistent timestamps, a `PostToolUse` hook could normalize them into one consistent format before I ever see the result — so my next decision is based on clean data, not something messy or potentially misleading.
+
+**Why this matters more than it sounds — deterministic vs. probabilistic**
+
+A prompt-level instruction is probabilistic: Claude *usually* follows it, but there's no hard guarantee. A hook is deterministic: because it's wired into the execution loop itself, there is no path where it gets skipped — Claude can't forget to trigger it or decide to go around it.
+
+**The exam-style reflex**: if a requirement is phrased as *"this rule must never break,"* that's a signal for a **hook**, not a prompt. Reserve hooks for the must-always-hold cases (like blocking refunds over $500), and prompts for softer, "usually fine" guidance.
+
+**Recap in 3 lines**
+
+1. **Hooks are automatic code around tool calls** — not a request, a guarantee.
+2. **PreToolUse guards outward** (stops dangerous actions before they happen); **PostToolUse guards inward** (cleans/shapes results before Claude sees them).
+3. **"Must never break" = hook problem, not a prompt problem** — hooks are deterministic, prompts are only probable.

@@ -222,3 +222,39 @@ flowchart TD
 
 ![00:09:00](hover-notes-images/screenshot-01M26079CMW7XJQVEP5FHGRP50.png)
 [00:09:00](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57479753#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The main idea, in one line**: Don't expect Claude to nail it on the first try — give it a rough attempt, then guide it closer, step by step.
+
+**Don't try to write the "perfect" prompt**
+
+A huge, exhaustively detailed prompt aiming for a perfect first answer usually wastes more time than a quick, simple ask followed by a correction. Like a tailor making a rough first-fit suit, then adjusting it on you — rather than trying to cut the perfect suit blind.
+
+*Claude Code example*: instead of a 10-line prompt describing exactly how to refactor code, just say "refactor this for clarity," see the result, then say "move this part into its own function." Two short steps beat one giant guess.
+
+**Show an example instead of explaining in words**
+
+If you want a specific format, one example beats a paragraph of description.
+
+*Claude Code example*: instead of saying "make error messages friendly," show `Input: ENOENT, config.json → Output: "Couldn't find config.json — check the path and try again."` Claude now *sees* exactly what you want.
+
+**Let Claude interview you first**
+
+Before building something big, ask Claude to ask *you* questions. This surfaces decisions you hadn't actually made yet, so it doesn't guess wrong and build the wrong thing.
+
+*Claude Code example*: you say "build me a login system." Claude asks "JWT or cookies? Rate-limit failed logins?" — answering now saves a wrong build later.
+
+**Use a test as the finish line**
+
+Give Claude a failing test instead of eyeballing "does this look done?" It passes or it doesn't — no ambiguity about whether the work is complete.
+
+**Grouping multiple fixes — together or one at a time**
+
+Ask: *do these fixes depend on each other?*
+- **No** → batch them together in one go (saves round trips). Example: "fix this typo, rename that variable, add this import."
+- **Yes** → do them in order. Example: "add a field to the database" must happen *before* "make the API use that field."
+
+**The whole idea in 3 words**: Draft. Steer. Repeat.

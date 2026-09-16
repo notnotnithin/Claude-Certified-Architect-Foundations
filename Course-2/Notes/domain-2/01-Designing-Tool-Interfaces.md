@@ -281,3 +281,48 @@ Tool design can be summarized in three core principles:
 
 ![00:13:31](hover-notes-images/screenshot-01M25NZSQW2EP44P85ZKRJ591E.png)
 [00:13:31](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57460121#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Claude can't see your code, only the tool's name and description — so if that description is vague, Claude is essentially picking a box off a shelf by reading a blurry label.
+
+**The shopkeeper analogy**
+
+Choosing a tool is like a shopkeeper finding an item by reading only the label on a box — they never open it to check inside. If the label is vague ("Misc Supplies"), the shopkeeper either grabs the wrong box or gives up looking entirely. Claude works the same way: name and description are the *entire* interface it has to decide with.
+
+*Claude Code example*: In this session, tools like `Read` and `Grep` have tightly scoped descriptions ("opens and views a file" vs. "searches for text inside files"). If both were instead labeled something vague like "get info," I'd have real trouble knowing which one to reach for when you asked me to find where a function is called.
+
+**Write the description for Claude, not for yourself**
+
+It's a common mistake to write descriptions like internal dev notes. But since the description is the *only* information Claude has, it must be optimized for Claude's reasoning, not a future engineer reading your codebase.
+
+**Anatomy of a great description — four parts**
+
+1. **Action** — what it does, one clear line
+2. **Context** — when to use it, *and* explicitly when NOT to (the most commonly skipped part!)
+3. **Parameters** — plain-language explanation of every input
+4. **Example** — a tiny sample call
+
+*Claude Code example*: The `Explore` agent's description in this session doesn't just say "searches code" — it explicitly says "Do NOT use it for code review, design-doc auditing... it reads excerpts rather than whole files." That negative boundary is exactly what stops me from misusing it for a task it's not suited for.
+
+**Naming to kill ambiguity**
+
+`getData` vs. `fetchData` — if a human can't tell them apart, Claude certainly can't. Better: `get_order_by_id` (one specific record) vs. `search_orders_by_customer` (multiple records via search) — names that describe scope, not vague synonyms.
+
+**Split vs. consolidate — sizing your tools**
+
+Split when jobs are genuinely distinct (clearer selection). Consolidate steps that always happen together (fewer round-trips). Avoid both extremes: dozens of tiny fragmented tools, or one "do-everything" tool.
+
+*Worked example from the note*: A single `handle_travel(action, ...)` tool forces Claude to *guess* a magic string like `"book"` or `"cancel"` — if it guesses wrong, the call fails. Splitting into `search_flights`, `book_flight`, `cancel_booking` removes the guesswork entirely: Claude just picks the right tool by name, which is exactly what it's good at.
+
+**The cost of getting this wrong — silent, not loud**
+
+A vague interface doesn't crash. It quietly misbehaves: the wrong tool gets picked, wrong parameters get filled in, or Claude just gives up and answers in plain text instead. None of this throws an error — it just produces subtly wrong behavior in production.
+
+**Recap in 3 lines**
+
+1. **Claude only sees the name and description** — write them *for* Claude, as the actual interface, not as developer notes.
+2. **A great description has 4 parts**: action, context (including when NOT to use it), parameters, and an example.
+3. **Right-size your tools** — split genuinely distinct actions, consolidate steps that always travel together.

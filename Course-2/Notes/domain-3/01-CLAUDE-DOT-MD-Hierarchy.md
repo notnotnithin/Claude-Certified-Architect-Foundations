@@ -232,3 +232,49 @@ transcript: "[[hover-notes-transcripts/01-CLAUDE-DOT-MD-Hierarchy (transcript)|T
 
 ![00:11:48](hover-notes-images/screenshot-01M25VWJHGE06VPVRAW2BZP5V4.png)
 [00:11:48](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57479739#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: `CLAUDE.md` is a way to teach Claude about your project once — at different levels of scope — instead of re-explaining the same things every session.
+
+**The four hierarchy levels — "company policy, team rules, your desk"**
+
+| Level | Path example | Applies to |
+|---|---|---|
+| Enterprise | `/Library/Application Support/ClaudeCode/CLAUDE.md` | Everyone, org-wide |
+| User | `~/.claude/CLAUDE.md` | Just you, across all your projects |
+| Project | `<project-root>/CLAUDE.md` | Everyone working on that repo (committed to git) |
+| Directory | `<project-root>/<subfolder>/CLAUDE.md` | Only work inside that specific folder |
+
+*Claude Code example*: a `frontend/CLAUDE.md` saying "use Tailwind, not custom CSS" only loads when I'm actually working inside `frontend/` — it stays completely out of my context when I'm working on the backend instead.
+
+**How precedence works — merge, then let the closest rule win**
+
+All applicable levels load *together*, not one replacing another. When two levels conflict, the **more specific/closer** one wins: Directory > Project > User > Enterprise.
+
+*Example*: your personal file says "2-space indentation," the project file says "4-space indentation" — the project rule wins for shared work, because it's closer to the actual task than your general personal habit.
+
+**`@import` — organizing for humans, not for context savings**
+
+`@import` lets you split one giant `CLAUDE.md` into smaller files (`docs/style.md`, `docs/testing.md`) and pull them back together with a reference — like `#include` in C. The important catch: **imports don't shrink Claude's context**. Everything imported still fully loads at launch — it's a tidiness trick for you, not a context-saving trick for Claude.
+
+**The `#` quick-add shortcut**
+
+Typing `#` at the start of a message lets you jot a rule down mid-conversation without stopping to open a file — Claude then asks which file (User/Project/Directory) it should be saved to. It's the sticky-note version of editing `CLAUDE.md`, useful for capturing a correction the moment you notice it instead of forgetting to write it down later.
+
+**What belongs in the file — write what Claude can't guess**
+
+- **Keep**: surprising project-specific gotchas, and the *why* behind a rule (so Claude can apply it sensibly in edge cases, not just obey blindly).
+- **Cut**: things Claude can figure out itself — folder layout, dependency lists (it can just read `package.json`).
+
+**The 200-line limit — counterintuitively, less is more**
+
+Keeping the file lean (under ~200 lines) makes Claude follow it *more* reliably, not less. A bloated file full of obvious advice dilutes attention, and important rules get lost in the noise.
+
+**Recap in 3 lines**
+
+1. **Levels stack, closest wins** — Enterprise → User → Project → Directory, merged together, most specific rule wins conflicts.
+2. **`@import` organizes files for humans; it doesn't save Claude any context** — everything still loads in full.
+3. **Write what Claude can't guess, keep it under ~200 lines** — a lean, high-signal file gets followed better than a long, generic one.

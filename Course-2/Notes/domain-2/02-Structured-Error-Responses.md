@@ -340,3 +340,58 @@ hovernotes-id: doc_56d1795b-9c02-433d-882c-52fc9f03567e
     - The four modes of tool choice
     - When to use each mode
     - Real-world work examples
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: When a tool fails, the error message is Claude's *entire* window into what went wrong — a vague "something went wrong" leaves it stuck, while a specific, structured error lets it actually recover.
+
+**Useless vs. actionable errors**
+
+- **Useless**: `"Booking failed."` — Claude has nothing to act on. Was it the card? The flight being full?
+- **Actionable**: `"Payment failed: insufficient balance. Refund in 3 days. Try another method."` — Claude now knows exactly what happened and what to suggest next.
+
+*Everyday analogy*: it's the difference between a doctor saying "you're sick" versus "you have a mild fever caused by X, rest and drink fluids." One gives you nothing to act on; the other gives you a clear next step.
+
+**Return, don't throw**
+
+Raw exceptions get treated as low-level "plumbing" errors Claude can't reason about — they happen below the conversation, invisible to the model. Instead, return a structured response with `isError: true` plus specifics. This turns a system crash into readable, actionable data Claude can actually interpret.
+
+*Claude Code example*: If a `Bash` command I run fails, I don't just see a raw crash — I get back the actual stderr output as a normal tool result. That's exactly this principle: a "readable failure" I can read and reason about, instead of an opaque low-level exception.
+
+**Error categories — tell Claude what kind of failure this is**
+
+Tag every error so Claude knows the right response:
+- `validation` → fix input, retry
+- `auth/permission` → escalate
+- `not_found` → nothing there, accept it
+- `rate_limit/transient` → wait, then retry
+
+**`isRetryable` — probably the single most useful field**
+
+A `true`/`false` flag that prevents "blind retry loops." Transient errors (server busy) → `true`, retry makes sense. Business errors (a refund that violates policy) → `false`, retrying will *never* succeed no matter how many times you try — it just wastes time and money.
+
+*Claude Code example*: If I tried to run a command and got permission denied, retrying the exact same command five times in a row would be pointless — `isRetryable: false` tells me (or would tell an automated system) to stop retrying and instead escalate or try a different approach entirely.
+
+**Empty result ≠ failure**
+
+"Found nothing" is a successful answer, not an error:
+```json
+{ "isError": false, "resultCount": 0 }
+```
+vs. a real failure where the tool never even got to look:
+```json
+{ "isError": true, "isRetryable": true }
+```
+Mixing these up causes an agent to endlessly retry a search that correctly found nothing — hunting forever for data that was never there.
+
+**Writing a good error message — and sanitizing it**
+
+A good message says what was attempted, what failed, and what to do next — *without* leaking internals. `no such table: users_v2` becomes `The requested resource could not be accessed.` This protects two things at once: it removes noise that confuses Claude, and it stops your internal database structure from leaking to whoever's reading the output.
+
+**Recap in 3 lines**
+
+1. **Return structured errors, never raw exceptions** — Claude only sees what you explicitly hand it back.
+2. **Tag with category + `isRetryable`** — gives Claude a clear decision: fix, wait, escalate, or stop.
+3. **Empty is a success, not a failure** — `isError: false, resultCount: 0` prevents pointless infinite retries.

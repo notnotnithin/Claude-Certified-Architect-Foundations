@@ -265,3 +265,51 @@ The multi-pass architecture succeeds by providing Claude with explicit instructi
 ## Domain 5: Context Management
 
 - The next phase of the journey focuses on how to effectively manage the information provided to the model (context).
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: One reviewer, one pass, is never enough — you need fresh eyes (to avoid bias) and multiple passes (to avoid missing things), merged into one clean verdict.
+
+**Two problems, two fixes**
+
+| Problem | Fix |
+|---|---|
+| Limited attention (one sweep spreads focus too thin) | Multiple passes |
+| Self-review bias (same instance approving its own work) | An independent reviewer |
+
+*Claude Code example*: a fresh Claude session, with no memory of *why* another session wrote some code, reviews it cold — the same self-review isolation idea from the CI/CD note, applied to review generally.
+
+**Per-file vs. cross-file passes**
+
+- **Per-file** — deep dive into one file; catches local bugs.
+- **Cross-file** — checks how files connect; catches mismatched interfaces that neither file shows on its own.
+
+*Claude Code example*: `api/users.js` returns `{id, email}`, but `frontend/profile.js` expects `{userId, emailAddress}`. Each file looks fine alone — only a cross-file pass catches the mismatch.
+
+**Confidence-annotated findings**
+
+Tag each finding High/Medium/Low. High → auto-flag/act. Low → route to a human. Without this, every finding needs the same manual triage; with it, you automate the certainties and spend human attention only on the uncertain ones.
+
+**Aggregating — merge, don't concatenate**
+
+Simply stapling passes together duplicates findings and creates noise (echoing the "crying wolf" trust problem from earlier). Merging means: dedupe overlapping findings, keep the *highest* severity when they overlap, and group by confidence.
+
+**The full pipeline**
+
+```
+Feature branch change
+  → Independent reviewer (fresh instance)
+  → Per-file pass
+  → Cross-file pass
+  → Confidence annotation
+  → Aggregation/merge
+  → One clean, actionable verdict
+```
+
+**Recap in 3 lines**
+
+1. **Fix bias with independence** — a reviewer that never wrote the code has no reason to defend it.
+2. **Fix blind spots with two passes** — per-file catches local bugs, cross-file catches integration bugs.
+3. **Merge, don't concatenate** — dedupe and keep the highest severity, or the review becomes noisy and gets ignored.

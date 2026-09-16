@@ -153,3 +153,42 @@ mindmap
     - If a session becomes stale, start a fresh one using a curated summary
     - **[The principle]** Clean context often beats a cluttered one
     - **[The nuance]** This is a judgment call, not an automatic rule; apply it when the signal-to-noise ratio drops
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Forking makes a disposable copy of a session so you can experiment freely — whatever happens on the copy can never damage the original.
+
+**What forking actually does**
+
+`fork_session` branches a session into a second, independent copy. You experiment on the fork; the original stays exactly as it was. If the experiment goes badly, you just throw the fork away — no cleanup, no risk.
+
+*Everyday analogy*: it's like duplicating a document before trying a risky edit — if the edit ruins it, you close the copy and reopen the untouched original, instead of hoping you can undo your way back.
+
+**The trunk-and-branch habit**
+
+- **Trunk** — one stable, long-lived session you protect carefully.
+- **Branches** — as many disposable forks as you need, one per investigation.
+
+This separates *reliability* from *exploration*: the trunk stays a clean, dependable source of truth, while all the messy trial-and-error lives on branches that don't matter if they fail.
+
+*Claude Code example*: In this session, when I use `Agent` with `isolation: "worktree"` to try a risky code change, that's the same principle applied to git — the agent works on an isolated copy of the repo, and if the approach doesn't pan out, the worktree is discarded automatically with zero impact on your actual branch.
+
+**Why low-cost failure matters**
+
+If an experiment fails, don't try to repair it — just discard the branch and fork again from the trunk. When trying something costs nothing, you naturally try more things, and trying more approaches is often exactly how you find a better one.
+
+**Resume vs. a fresh, curated summary**
+
+If old results are stale (per the previous note), don't just resume the old session — start fresh with a short, deliberately curated summary containing only the facts still relevant. Dumping the entire old transcript back in just drags the same outdated clutter along with it.
+
+*The litmus test*: "If I only knew what's in this summary, could I carry on properly?" If no, the summary is missing something essential.
+
+*Claude Code example*: If this conversation had gone stale (say, files changed outside our chat), instead of blindly continuing, the better move would be starting fresh with a short summary like "we've been explaining CCA-F course notes in domain 1–5, using the `explain-note` skill style — plain language, everyday analogy, Claude example, recap" — enough to carry on correctly without dragging in every prior detail.
+
+**Recap in 3 lines**
+
+1. **Fork to experiment safely** — a disposable copy that can never damage the original session.
+2. **Trunk stays clean, branches are disposable** — protect your main session; throw away failed experiments freely.
+3. **Stale sessions deserve a fresh start with a curated summary** — not a blind resume that drags outdated clutter along.

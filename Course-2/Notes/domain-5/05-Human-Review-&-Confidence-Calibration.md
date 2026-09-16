@@ -140,3 +140,35 @@ transcript: "[[hover-notes-transcripts/05-Human-Review-&-Confidence-Calibration 
 - **Targeted Review**: Review the right outputs—not all (which is impossible at scale) and not none (which is too risky)
     - Focus efforts on the outputs most likely to be incorrect
 - **Confidence as a Guide**: Use confidence scores to route work, but validate them through stratified sampling to ensure the system isn't "confidently wrong"
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: You can't review everything at scale, and you shouldn't review nothing — score confidence *per field*, and route only the shaky ones to a human.
+
+**Field-level, not document-level, confidence**
+
+A document isn't binary "right" or "wrong" — a typed policy number might be certain while a handwritten total is genuinely uncertain. Scoring per field means you trust the clear parts and only send a human the *specific* shaky field, not the whole document.
+
+*Claude Code example*: if I extracted structured data from a note file — say, a title (clearly stated in frontmatter) and a summarized "core takeaway" (my own inference) — the title deserves high confidence, the inferred takeaway deserves lower confidence. Routing at that granularity means only the inference gets double-checked, not the whole extraction.
+
+**Routing by confidence**
+
+High confidence → auto-accept. Low confidence → human review. This is the same confidence-routing idea from the multi-pass review note, now the backbone of an entire workflow rather than one step in it.
+
+**Stratified sampling — the crucial safety check**
+
+Don't *only* review low-confidence items — sample across high, medium, and low bands too. If you only ever check the shaky ones, you're silently assuming high confidence always means correct. Spot-checking the "clear" path catches cases where the model is confidently wrong — errors that would otherwise slip through entirely undetected.
+
+**Accuracy by document type and field — a map of weaknesses**
+
+Accuracy isn't uniform: handwritten forms are harder than typed ones; some fields are consistently harder to extract than others. Track this, then route error-prone types/fields for review more aggressively, and relax review where the system is consistently correct.
+
+**The continuous improvement loop**: every human review is a data point revealing exactly where the system struggles — that intelligence aims the next round of review more precisely at the real weak spots, so the system gets smarter about its own limitations over time.
+
+**Recap in 3 lines**
+
+1. **Score confidence per field, not per document** — localize doubt instead of doubting everything.
+2. **Route by confidence, but spot-check the "clear" bucket too** — otherwise confidently-wrong errors slip through unnoticed.
+3. **Track accuracy by document type and field** — use human review data as a map to aim future scrutiny where it's actually needed.

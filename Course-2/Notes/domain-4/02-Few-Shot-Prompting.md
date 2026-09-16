@@ -277,3 +277,50 @@ graph TD
 
 ![00:12:45](hover-notes-images/screenshot-01M27F0EKEG1STZDF5J85R8DRZ.png)
 [00:12:45](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57493847#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Instead of describing what you want in a paragraph, show Claude a few examples of the exact input → output pattern, and it copies that pattern.
+
+**Zero/one/few-shot — just means "how many examples"**
+
+*Claude Code example — actual prompt and output:*
+```
+Zero-shot prompt: "Extract the urgency from: 'My account got locked, please help ASAP.'"
+Output: {"urgency": "high"}   ← reasonable, but Claude guessed what "urgency" means here
+```
+```
+Few-shot prompt (3 examples shown first, defining critical/low/medium)
+Then: "My account got locked, please help ASAP."
+Output: {"urgency": "critical"}   ← now grounded in real reference points, more consistent
+```
+
+**Why examples beat a wall of rules**
+
+Like teaching someone to fold a shirt — showing once beats three paragraphs of angle descriptions. Examples pin down both *meaning* (what "urgent" means here) and *format* (the exact JSON shape), which is nearly impossible to fully specify in words alone.
+
+**Generalization — Claude learns the rule, not the examples**
+
+Show 3 examples of cleaning messy addresses, and Claude applies the same cleaning logic to a 4th, never-seen address on its own — it learned the pattern, not a lookup table.
+
+**Reducing hallucination**
+
+If every example has a complete answer, Claude assumes it must *always* produce a value — so it invents data when real data is missing. Including one example where the correct answer is `null` teaches it that "not found" is an acceptable, honest answer.
+
+*Claude Code example*: `Input: "Age unknown, name is Priya" → {"name": "Priya", "age": null}` — that one example teaches Claude it's fine to say "I don't know" instead of guessing an age.
+
+**Choosing good examples — 3 qualities**
+
+**Correct** (a wrong example teaches the wrong thing), **diverse** (not 3 near-identical easy cases), **covers edge cases** (deliberately include the messy, ambiguous inputs — easy cases are usually handled fine anyway).
+
+**How many, and where**
+
+Usually **2–5 examples**, all in the exact same format, placed **before** the real input.
+
+**Recap in 3 lines**
+
+1. **Show, don't tell** — one good example often beats a paragraph of rules.
+2. **Pick examples that are correct, diverse, and cover edge cases** — not 3 easy near-duplicates.
+3. **2–5 consistent examples before your real input** — Claude generalizes the pattern to new cases.

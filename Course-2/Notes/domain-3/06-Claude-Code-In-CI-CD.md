@@ -263,3 +263,66 @@ Throughout this domain, the focus has been on shaping how Claude works, transiti
 
 ![00:11:35](hover-notes-images/screenshot-01M2617K0VR0QE6X9VTG31ET42.png)
 [00:11:35](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57479755#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Instead of you typing into Claude and reading its reply, a script does that talking *for* you — automatically, with no person watching.
+
+**Headless mode — the night shift**
+
+No terminal, no human — triggered automatically (e.g., on every pull request). Work gets done, but nobody's watching in real time.
+
+**The `-p` flag — one prompt, one answer, done**
+
+```bash
+claude -p "Summarize what this pull request changes"
+```
+One instruction in, one printed result out, then the program exits — exactly what a pipeline step needs.
+
+**Structured, predictable output**
+
+```bash
+claude -p "Review this PR for security issues" --output-format json
+```
+```json
+{ "result": "No security issues found in this PR.", "cost": 0.014, "session_id": "abc123" }
+```
+`--json-schema` goes further, forcing an *exact* shape every time:
+```json
+{ "structured_output": { "passed": false, "issues": ["Missing null check on line 42"] } }
+```
+Now a script can safely write `if structured_output.passed == false: fail the build` — no guessing at wording.
+
+**Safety guards — because nobody's watching**
+
+```bash
+claude -p "Fix the failing tests" --max-turns 5 --max-budget-usd 2 --allowed-tools Edit,Bash
+```
+Caps how many steps, how much money, and which tools — so a silent 3 a.m. bug loop can't run up a huge bill with no one there to stop it.
+
+**`CLAUDE.md` rides along automatically**
+
+The same `CLAUDE.md` you use locally loads in CI too, with zero extra setup — your rules apply whether you're chatting at your desk or Claude is auto-reviewing a PR.
+
+**Self-review isolation — don't grade your own homework**
+
+A second, separate Claude instance — with no memory of *why* the first one made its choices — reviews the code cold, giving a genuinely independent opinion instead of defending its own prior reasoning.
+
+*Claude Code example*: this is the same principle behind `code-review`'s independent review pass in this environment — a fresh look at a diff, not the same context that wrote it, judging the work on its own merits.
+
+**The whole flow, start to finish**
+
+```
+Your prompt → claude -p "..." --output-format json --json-schema {...}
+  → Claude reads code + CLAUDE.md, does the work
+  → Prints ONE structured JSON result, then exits
+  → Your CI script reads that JSON and decides: pass the build, or fail it
+```
+
+**Recap in 3 lines**
+
+1. **`-p` is headless** — prompt in, structured result out, exit.
+2. **Shape + guard** — force JSON output with a schema, cap turns/tools/budget.
+3. **Context + isolation** — `CLAUDE.md` carries into CI automatically; review with a fresh, separate instance.

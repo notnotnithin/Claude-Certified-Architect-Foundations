@@ -155,3 +155,37 @@ graph TD
 - **1. Split the work**
     - Big, multi-part jobs should be sent to specialist subagents
     - **[Why?]** Like the kitchen analogy, one cook doing everything gets slower and makes more errors
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: When a job has too many moving parts for one agent to juggle, split it across focused specialist subagents that all report to a single coordinator — instead of one agent trying to do everything at once.
+
+**Everyday analogy: the kitchen**
+
+One cook trying to make starters, mains, and desserts simultaneously gets overwhelmed — quality slips because there's too much on their bench at once. A kitchen brigade instead has a fish station, a pastry section, and so on — each cook focused on one thing, all reporting to the head chef at the pass. Same total amount of food, much better execution.
+
+*Claude Code example*: In this session, the `Agent` tool lets me spawn a focused subagent — like `Explore` — to dig through a codebase in its own separate context and report back just a summary, instead of me personally reading 40 files directly into our shared conversation and getting cluttered. One "cook" (subagent) handles the reading; I stay focused on the actual task.
+
+**Why cramming everything into one context hurts — even a smart model**
+
+This isn't about the agent not being clever enough. When research notes, half-finished analysis, and draft writing are all piled into one context together, details get lost in the mess. Splitting keeps each agent's "workspace" clean and focused.
+
+**Hub-and-spoke — the shape of this pattern**
+
+The **coordinator** is the hub; **subagents** are the spokes. Subagents talk only to the coordinator, never to each other — exactly like kitchen stations don't shout across to one another; everything routes through the head chef, who's the one person who sees the whole picture and can catch problems.
+
+*Claude Code example*: If I spawn two subagents to investigate different parts of a codebase, they don't communicate with each other directly — each reports its findings back to me, and I (the coordinator) am the one who combines their results into a single coherent answer for you.
+
+**When to use isolated context — and when not to**
+
+Use it when a task genuinely has separable parts (e.g., "research → analyze → write" for a report — each piece can stand on its own). Skip it for simple, single-threaded jobs — adding a coordinator to a straight-line task just adds more points of failure for no benefit.
+
+*Claude Code example*: Asking me to "fix this one typo" doesn't warrant spawning a subagent — that's a simple, non-separable task. Asking me to "review this 50-file PR for security issues" is genuinely separable and is a much better fit for delegating to specialist subagents.
+
+**Recap in 3 lines**
+
+1. **Split big, multi-part jobs** — one agent doing everything gets slower and makes more mistakes, just like one overloaded cook.
+2. **Hub-and-spoke** — subagents report only to the coordinator, never to each other, so there's one place to see everything.
+3. **Only split what's genuinely separable** — simple, single-threaded work doesn't need a coordinator at all.

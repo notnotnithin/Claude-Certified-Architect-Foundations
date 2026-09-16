@@ -162,3 +162,39 @@ By applying this single principle to every long-running task, you ensure the mod
 
 ![00:08:56](hover-notes-images/screenshot-01M27MF82YTHKYMZMVDXJVKT9Q.png)
 [00:08:56](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57561039#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Long conversations don't just get longer — Claude's accuracy actually degrades, because it pays far more attention to the start and end of a conversation than to the middle.
+
+**"Lost in the middle" — an everyday analogy**
+
+Reading a long meeting transcript, you remember the opening and what was just said — something from the middle easily slips your mind. Claude has the same bias: high attention at the start, high attention at the most recent turns, weak attention to whatever's buried in between.
+
+*Claude Code example*: in this exact conversation, if a fact you mentioned early on never gets restated and dozens of messages pile up in between, there's real risk I weight that early detail weaker than something you just said.
+
+**Fix 1 — trim bloated tool output**
+
+The biggest space-waster usually isn't the conversation itself — it's giant raw tool results (a full file read, a huge API response) that never get needed again in full. Keep the conclusion, drop the raw dump.
+
+*Claude Code example*: after I `Read` a 250-line note file and write my explanation, the raw file dump is dead weight — the fix is keeping just the takeaway, not dragging every full file read forward for the rest of the conversation.
+
+**Fix 2 — progressive summarization, carefully**
+
+`/compact` condenses older turns into a summary to free up space. The risk: a careless summary might silently drop a detail you still needed. The fix is explicitly telling the model which facts **must** survive.
+
+**Why this is scarier than a normal error**: a bad summary doesn't throw a warning — Claude just continues normally, unaware anything's missing.
+
+**Fix 3 — the Case-Facts Block**
+
+A short, always-current block of essential facts, re-pasted near the **end** of the prompt every turn — exactly where Claude's attention is strongest, defeating the "lost in the middle" problem directly.
+
+**The one principle underneath all three**: Extract the key facts → Persist them → Trim everything else.
+
+**Recap in 3 lines**
+
+1. **Long chats degrade** — Claude attends most to the start and end, so mid-conversation facts get lost.
+2. **Trim and summarize carefully** — clear raw tool dumps, explicitly protect facts that must survive a summary.
+3. **Pin critical facts at the end of every turn** — beats letting essentials drift into the low-attention middle.

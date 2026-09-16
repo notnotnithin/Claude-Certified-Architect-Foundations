@@ -238,3 +238,39 @@ flowchart LR
 - Do not decompose so narrowly that you lose part of the question
 - **[The Validation Rule]**: Always check your decomposed pieces against the original request
 - **The Danger of High-Quality Wrong Answers**: This is the hardest kind of error to spot because the resulting answer often reads very well, even though it is answering a smaller, incorrect question
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: A coordinator's job is to route, manage errors, select, and synthesize — never to do the actual work itself, and never to slice a task so narrowly that pieces stop adding up to the original question.
+
+**The coordinator's four jobs — the head chef analogy**
+
+A head chef at the pass doesn't cook every dish personally — they hand ingredients to the right station (**route**), decide what happens if a dish comes back wrong (**manage errors**), pick which stations are even needed for tonight's menu (**select**), and combine everything into one coherent plate before it goes out (**synthesize**). The moment the head chef starts cooking instead of managing, the whole system stops paying for itself.
+
+*Claude Code example*: When I delegate a codebase investigation to an `Explore` subagent, my job afterward isn't to re-read every file it found — it's to take its summary and weave it into a coherent answer for you. If I started re-doing the subagent's reading myself, spawning it in the first place would have been pointless.
+
+**Sequential vs. parallel — the deciding question**
+
+Ask: *"Does this piece need the answer from that piece?"*
+- **Yes** → sequential (research → analyze → write; you can't analyze data you haven't gathered yet)
+- **No** → parallel (three independent checks can all run at once — faster, since nothing's waiting on anything else)
+
+*Claude Code example*: Earlier in this session, when I looked up multiple different note files across domains, each Read could run independently — no file's content depended on another's — so those were natural candidates for parallel tool calls, run together in a single batch rather than one after another.
+
+**Iterative refinement — a quality loop, not a one-shot**
+
+A good coordinator doesn't just collect subagent results and ship them — it checks: is this actually good enough? If not, it sends the work back for another pass. Like a head chef tasting a sauce before the plate leaves the kitchen; if it's off, it goes straight back to the station, not out to the customer.
+
+**The narrow-decomposition trap — the sneakiest failure mode**
+
+If you split "research the creative industries" into only a visual-arts subagent, you'll get a confident, well-written, technically correct answer — that completely misses music, film, and design. Every subagent did its job perfectly; the *decomposition itself* was the bug. This is dangerous specifically because it looks fine on the surface — there's no error message, just a smaller answer than what was actually asked for.
+
+*Claude Code example*: If you asked me to "review this PR for bugs" and I only spawned a subagent to check the frontend files while ignoring backend changes in the same PR, my final report could read as thorough and confident — while silently missing half the actual PR. Always check: do the pieces I split this into add up to the whole original request?
+
+**Recap in 3 lines**
+
+1. **Coordinator manages, never cooks** — route, handle errors, select, synthesize; delegate the actual work.
+2. **Sequential when dependent, parallel when independent** — decided by the work's shape, not by preference.
+3. **Never decompose so narrowly you lose the original question** — a confident answer to a smaller question is a silent failure.

@@ -286,3 +286,56 @@ flowchart LR
 - **[New Domain]** Moving from individual tools to systemic behavior
     - Focus on how to shape Claude Code's behavior for an entire team or project
     - Covers setup and workflows surrounding the tools
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Claude Code ships six built-in tools, each with exactly one job — using the right one (and using it precisely) is faster, safer, and cheaper than reaching for raw shell commands.
+
+**The six tools, at a glance**
+
+- `Read` — opens and views a file
+- `Write` — creates or overwrites a file
+- `Edit` — changes just part of a file
+- `Bash` — runs shell commands
+- `Grep` — searches *inside* files for text
+- `Glob` — finds files by *name*
+
+**Grep vs. Glob — the #1 confusion**
+
+`Grep` = contents (what's written inside a file). `Glob` = filenames (which files exist by name).
+
+*Claude Code example*: If you asked me "find where `processOrder` is called," I'd reach for `Grep` — I'm searching text *inside* files. If you asked "find every `*.test.js` file," I'd reach for `Glob` — I'm matching *filenames*, not caring what's written inside them.
+
+**Read, Edit, Write — increasing levels of impact**
+
+`Read` (no change) → `Edit` (a precise, targeted swap) → `Write` (replaces the entire file). Prefer `Edit` for small changes: it shows a clean diff and is far lighter than rewriting a whole file for a one-line fix.
+
+**The Golden Rule: Read Before Edit**
+
+Claude must see a file before it can change it — an `Edit` requires a prior `Read`. Why: the text you're replacing must match the file *exactly*, and it must be *unique* — otherwise `Edit` can't know which occurrence you mean.
+
+*Claude Code example*: In this very conversation, every time I've used `Edit` on a note file, I first called `Read` on it — that's not optional politeness, it's a hard requirement of how `Edit` works, because I need to know the exact current text to target it precisely.
+
+**If the match isn't unique**: widen the surrounding text to pin down one specific spot, or use `replace_all` if the same pattern should change everywhere. If a clean match is truly impossible, `Read` + `Write` is the last resort — never the default, since it's heavier and hides exactly what changed compared to a precise `Edit`.
+
+**Prefer built-ins over Bash**
+
+Use `Read`, not `cat`. Use the built-in `Grep`, not raw `grep`. Built-ins fit the permission system properly, leave a clean audit trail, and their results can be cached — raw Bash one-liners get none of that, and each one can trigger its own fresh permission prompt.
+
+*Claude Code example*: In this session, I have a dedicated `Read` tool instead of running `cat file.md` via `Bash` — using `Read` gives you a cleaner, structured tool call in the transcript rather than an opaque shell command, and it's exactly the built-ins-over-bash principle described here.
+
+**Bash still has its place**: running tests, kicking off a build, executing genuine system commands — things only a shell process can actually do.
+
+**Explore incrementally — don't read the whole library**
+
+Locate first (`Grep`/`Glob`), then read only the two or three files that actually matter. Reading every file upfront blows your context budget for no reason.
+
+*Claude Code example*: When you asked me to find and explain specific note files throughout this conversation, I used `Bash find` or targeted `Read` calls on exact paths — I never read every file in the `Notes` folder upfront "just in case." That discipline is precisely what keeps this long conversation from drowning in irrelevant file contents.
+
+**Recap in 3 lines**
+
+1. **Grep = contents, Glob = filenames** — the most commonly confused pair; mixing them up wastes tokens and time.
+2. **Read before Edit, always** — the target text must be exact and unique; widen context or use `replace_all` if it isn't.
+3. **Built-ins over Bash, and locate before reading** — cleaner permissions, better caching, and never read the whole codebase when a targeted search will do.

@@ -331,3 +331,57 @@ hovernotes-id: doc_2a926a9c-41aa-4d41-9972-21e5aae0d074
     - The **"read before edit"** rule
     - Why to prefer built-in tools over using `bash` commands
     - Strategies for exploring a codebase incrementally
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: MCP is "USB-C for AI tools" — one standard plug, so instead of hand-building a custom connector for every single external system, you build (or connect to) an MCP server once and Claude just plugs in.
+
+**Tools vs. resources — verbs vs. nouns**
+
+- **Tools** are actions Claude *calls* to change something — `create_issue`, `run_query`.
+- **Resources** are data Claude *pulls in* for context — files, documents, schemas. In Claude Code, you reference these by typing `@`.
+
+*Claude Code example*: In this session, the `Bash` and `Edit` tools are verbs — I call them to *do* something. Reading a note file with `Read` is closer to pulling in a resource — I'm bringing information into context, not changing anything.
+
+**Connecting a server — two transports**
+
+- `stdio` — a local program Claude launches directly
+- `http` — a remote server reached by URL
+
+```json
+"mcpServers": {
+  "docs": { "type": "http", "url": "https://.../mcp" }
+}
+```
+
+**Keeping secrets safe — never hardcode them**
+
+Never paste an actual API key into the config file — if it's in a shared, git-committed file, it leaks to your entire team's repo history forever. Instead, reference it by name:
+
+```json
+"env": { "API_TOKEN": "${GITHUB_TOKEN}" }
+```
+
+The real secret lives in your environment variable, never in the file itself, so it's never part of any git commit.
+
+**The three scopes — who can see this server**
+
+- **Local** — just you, just this project (the default, most private)
+- **Project** — committed to git, shared with your whole team
+- **User** — just you, but follows you across *all* your projects
+
+**The #1 MCP mistake**: putting a personal token into `project` scope. Since that scope is committed to git, your personal secret leaks straight to the whole team the moment it's pushed.
+
+*Claude Code example*: If you had a personal GitHub token you use just for your own convenience, it belongs in your `local` or `user` config — never in a shared `mcp.json` that gets committed alongside your project's code.
+
+**Precedence — when a server name is defined twice**
+
+`local > project > user` — the more specific scope wins. This lets you quietly override a shared team server with your own local version, just for yourself, without touching the team's shared config.
+
+**Recap in 3 lines**
+
+1. **One standard plug** — MCP servers expose Tools (verbs) and Resources (nouns), so you stop rebuilding custom connectors.
+2. **Never hardcode secrets** — use `${VAR}` expansion so real keys live in your environment, not in a committed file.
+3. **Scope carefully: `local > project > user`** — putting a personal secret in `project` scope is the most common, most dangerous MCP mistake.

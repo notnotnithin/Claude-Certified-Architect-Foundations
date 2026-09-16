@@ -99,3 +99,49 @@ With the conclusion of Domain 5, the following core competencies have been cover
     - **Reliable**: They perform consistently.
     - **Honest**: They maintain provenance and surface uncertainty.
     - **Production-ready**: They are robust enough for real-world deployment.
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Every claim in a synthesized answer should be able to say where it came from — blend 10 sources into one smooth report and you lose the "seams" that let anyone verify or trust it.
+
+**The synthesis trap**
+
+Once sources are merged into flowing prose, you can no longer tell which specific source backed which specific claim. Worse: in polished text, a hallucinated claim and a genuine fact *look exactly the same* — nothing visually distinguishes them once the seams are smoothed away.
+
+*Claude Code example*: if I combined findings from three different note files into one summary without citing which file each point came from, and I accidentally misremembered a detail, you'd have no way to tell that claim apart from an accurate one — the polish itself hides the error.
+
+**The fix — claim source mapping**
+
+Every individual fact carries a tag or link back to its exact origin, like a citation stapled to each claim. This makes the whole synthesis auditable: anyone can follow a single claim straight back to its original evidence.
+
+*Claude Code example*: this is why, throughout this conversation, I've referenced things like `file_path:line_number` or quoted the specific note file a concept came from — it keeps each explanation traceable back to its source note, rather than blending everything into unverifiable prose.
+
+**Conflict annotation — don't average, surface the disagreement**
+
+When sources disagree, say so — don't quietly split the difference. Averaging can produce a number that no real source actually stated.
+
+**Temporal framing — old facts and new facts aren't the same fact**
+
+Label the timing of information. A 2019 figure and a 2026 figure aren't equally current, and treating them as interchangeable can mislead the reader about how relevant a fact still is.
+
+**Recap in 3 lines**
+
+1. **Keep every claim tied to its source** — synthesis without attribution is unverifiable, and a hallucination looks identical to a real fact once smoothed over.
+2. **Surface disagreement, don't average it away** — a blended middle ground may represent no real source at all.
+3. **Label how current information is** — an old fact presented as equally fresh as a new one is misleading.
+
+---
+
+### Course-Wide Wrap: Domains 1–5
+
+Having gone through all five domains in this project, here's the throughline connecting them:
+
+- **Domain 1** — how agents loop, decompose work, and coordinate with subagents.
+- **Domain 2** — how to design tools (and errors) so Claude can actually use them reliably, plus MCP and the built-in toolkit.
+- **Domain 3** — how to configure Claude Code itself: `CLAUDE.md`, commands/skills, path-specific rules, plan mode, and running it in CI/CD.
+- **Domain 4** — how to make output *trustworthy*: explicit criteria, few-shot examples, forced structured output, validation/retry loops, batching, and multi-pass review.
+- **Domain 5** — how to manage *context* over long sessions and large codebases, escalate appropriately, propagate errors honestly, calibrate confidence, and preserve provenance.
+
+The common thread across all five: **make Claude's behavior legible and checkable** — whether that's a `stop_reason`, a structured error, a confidence score, or a citation — so a system that's merely clever becomes one that's actually reliable.

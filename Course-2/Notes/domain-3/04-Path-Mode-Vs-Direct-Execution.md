@@ -273,3 +273,43 @@ flowchart LR
 | 1 | Read-only planning | Claude plans, you approve, then it edits — no changes occur until approval |
 | 2 | Trigger for risk | Use Shift+Tab x2, /plan, or --permission-mode plan for big/risky work |
 | 3 | Scout with Explore | The Explore subagent investigates in a separate context and reports back |
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: For small, obvious changes, just do it — but for big or risky changes, think first (plan), then act, because catching a mistake on paper is far cheaper than catching it after code has already changed.
+
+**The carpenter analogy — "measure twice, cut once"**
+
+Planning is measuring; executing is cutting. Cheap changes don't need measuring. But if a mistake would waste an expensive plank (costly to undo), the extra time spent planning is worth it.
+
+*Claude Code example*: this session literally has `EnterPlanMode`/`ExitPlanMode` tools. When I'm in plan mode, `Write` and `Edit` are physically blocked at the tool level — even if I "wanted" to change a file, I couldn't, until you approve the plan via `ExitPlanMode`. That's a hard guarantee, not a polite request.
+
+**How to trigger it**: `Shift+Tab` twice, `/plan`, or `--permission-mode plan` as a session flag.
+
+**When to use it**: multi-file changes, refactors, migrations, anything touching auth/payments/production, unfamiliar repos, ambiguous tasks. Skip it for single-file tweaks and low-risk edits.
+
+**Why it matters — the math of compounding errors**
+
+20 unguided decisions, each 80% likely correct → the odds the *whole chain* is correct drops to about 1% (0.8²⁰). Planning catches wrong turns before they stack up.
+
+**The Explore subagent — "send a scout ahead"**
+
+A read-only helper using only `Read`/`Grep`/`Glob` that investigates in its own separate context and reports back just a summary — instead of dumping every file it read into your main conversation.
+
+*Claude Code example*: this is literally the `Explore` agent available to me in this session — used for locating code without cluttering our main conversation with every file it had to open along the way.
+
+**The Plan Loop — 5 steps, nothing touched until step 4**
+
+```
+Explore (read-only) → Plan (written) → Approve (yes/edit) → Execute (make changes) → Verify (tests/build)
+```
+
+The "Approve" step is uniquely cheap: since nothing's been built yet, fixing a mistake in the plan just means editing a line of text — not undoing real code changes.
+
+**Recap in 3 lines**
+
+1. **Small/obvious → just do it; big/risky → plan first** — matched to how expensive a mistake would be to undo.
+2. **Plan mode physically blocks edits until you approve** — a hard guarantee, not just a request.
+3. **The Explore subagent investigates separately and reports a summary** — keeping your main context clean while still doing the digging.

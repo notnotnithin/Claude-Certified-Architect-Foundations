@@ -130,3 +130,48 @@ hovernotes-id: doc_58d87a96-1839-46ab-99ef-81077ba4dea7
 - **Misaligned Patterns**
     - A prompt chain on dynamic work simply breaks
     - An orchestrator on fixed work is expensive complexity you never needed
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: How you split a job tells you which architecture to build — fixed, known steps become a simple prompt chain; steps that can only be discovered as you go become an orchestrator with workers.
+
+**The one deciding question**
+
+*"Can you list the steps in advance?"*
+- **Yes** → **Prompt chaining** — a straight-line pipeline, step A's output feeds step B, and so on.
+- **No** → **Orchestrator-workers** — a coordinator that decides what happens next based on what it just found.
+
+**Prompt chaining — simple and predictable**
+
+Because the whole sequence is known before you even start, it's easy to test and debug: if something breaks, there's only one specific path it could have gone wrong on.
+
+*Claude Code example*: If I run "read this file, then summarize it, then translate the summary" — three fixed steps in a known order — that's a prompt chain. No branching, no discovery, just a straight pipeline.
+
+**Orchestrator-workers — the formal name for hub-and-spoke**
+
+This is exactly the coordinator/subagent pattern covered earlier in this domain — same idea, just the official term for it. The **Orchestrator** is the coordinator; the **Workers** are the subagents.
+
+*Claude Code example*: When I spawn an `Agent` to investigate a codebase and decide, based on what it finds, whether to spawn a second follow-up agent — that's orchestrator-workers. I couldn't have listed "spawn agent 2" in advance, because whether agent 2 is even needed depends entirely on what agent 1 discovers.
+
+**Exam tip carried into practice: watch for synonyms**
+
+The exact word "coordinator" might not appear — terms like "lead agent" or "manager agent" describe the same orchestrator role. Don't get thrown off by different wording for the same underlying pattern.
+
+**Answer the deciding question honestly**
+
+Don't say "yes, I can list the steps" when you actually mean "mostly." If there's a real branch where the path depends on what's discovered mid-execution, the honest answer is "no" — and that means you need an orchestrator, not a chain.
+
+**What happens if you get it wrong**
+
+- A prompt chain forced onto genuinely dynamic work simply breaks — it has no way to react to the unexpected.
+- An orchestrator built for genuinely fixed work is expensive complexity you never needed — added failure points for zero benefit.
+
+*Claude Code example*: If a task is truly linear (read → format → save), spawning multiple coordinated subagents for it would be pure overhead — a simple sequence of tool calls does the job with less risk of something going wrong in the coordination itself.
+
+**Recap in 3 lines**
+
+1. **Fixed steps → prompt chaining** — simple, predictable, easy to debug.
+2. **Discovered-as-you-go steps → orchestrator-workers** — a coordinator decides the next move based on results.
+3. **Answer the "can I list the steps?" question honestly** — "mostly yes" really means "no," and picking the wrong architecture breaks or over-complicates the work.

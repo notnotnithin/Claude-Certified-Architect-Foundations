@@ -132,3 +132,45 @@ hovernotes-id: doc_a53f73dc-9a79-44fd-a17b-a13010605f9a
 
 ![00:06:32](hover-notes-images/screenshot-01M25G6PRRGP6KHJN3PF41CQKP.png)
 [00:06:32](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57908977#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Spawning a helper agent isn't special magic — it's just one more tool call that hands over an entire job instead of a single fact.
+
+**The Task tool — no new machinery needed**
+
+The coordinator uses a tool call (the `Task` tool) to say "here's a job, go run your own loop on it." The new subagent then runs its own full Perceive→Reason→Act→Observe cycle, in its own isolated context, and reports back when done.
+
+*Claude Code example*: This is exactly the `Agent` tool available to me in this session. When I call it with `subagent_type: "Explore"` and a task description, I'm doing precisely this — handing off a job to a fresh instance that runs its own loop, rather than me trying to do the digging myself inline.
+
+**Defining an agent — think "job advert"**
+
+Four fields describe a subagent:
+- **description** — what it's for (used for *routing* — deciding *when* to use it)
+- **prompt** — how it should behave (the actual job instructions)
+- **tools** — what it's allowed to use
+- **model** — optional; a cheaper model for a simple job
+
+*Everyday analogy*: `description` is the job title on a posting (how you pick the right person for the role); `prompt` is the job instructions (how they actually do the work once hired).
+
+*Claude Code example*: In this session's system prompt, `Explore` is described as "Fast read-only search agent for locating code... Do NOT use it for code review." That description is exactly how I decide whether to reach for `Explore` versus a different agent type — it's routing information, not instructions for how it behaves once running.
+
+**Minimal tools — give a subagent only what its job needs**
+
+A research subagent should get a search tool, not a refund tool. This limits the blast radius of what the subagent can touch, purely for safety and focus.
+
+*Claude Code example*: The `Explore` agent in this session is deliberately restricted — it has read-only tools (Read, Grep, Glob) and explicitly cannot use `Edit` or `Write`. That's the "minimal tools" principle in action: its job is finding things, not changing them, so it isn't given the power to change anything.
+
+**Parallel launches — fire several at once**
+
+Multiple `Task` calls in a single turn let subagents run in parallel, so the coordinator doesn't have to wait for one to finish before starting the next.
+
+*Claude Code example*: If you asked me to research two unrelated topics, I could spawn two `Agent` calls in the same response — both run at once, and I get both results back without waiting for one to finish serially first.
+
+**Recap in 3 lines**
+
+1. **Spawning = one more tool call** — no special new mechanism, just a `Task` call that hands off a whole job.
+2. **Four fields define an agent** — description (for routing), prompt (for behavior), tools, and an optional model.
+3. **Minimal tools + parallel launches** — restrict each subagent to what it needs, and fire independent ones simultaneously for speed.

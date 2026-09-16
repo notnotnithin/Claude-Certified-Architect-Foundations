@@ -182,3 +182,34 @@ flowchart TD
     - Dependent $\rightarrow$ chain
     - Independent $\rightarrow$ parallel
 - **[Core Goal]** All three questions in the decision path are ultimately asking: "What shape does this work actually have?"
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Real jobs often need two levels of review at once — fast parallel checks on individual pieces, plus one combining pass that catches how the pieces interact — and a simple 3-question test tells you how to shape any task.
+
+**Per-file vs. cross-file passes — using code review as the example**
+
+- **Per-file pass** — check each file on its own. Since files don't depend on each other for this, they can all run *at the same time*. For 50 files, checking sequentially would be 50x slower.
+- **Cross-file pass** — a separate step checking how files fit *together*. A per-file pass can't catch this: File A might define a value one way, File B expects it differently, and each file still looks perfectly fine in isolation.
+
+*Claude Code example*: If I reviewed 10 files in your project for bugs, I could check all 10 in parallel `Read` calls (per-file speed) — but only a separate pass comparing them against each other would catch something like "this function signature changed in file A but file B still calls it the old way."
+
+**The 3-question decision path — for picking the right shape of any task**
+
+1. **Can you list the steps?** No → you need **adaptive + orchestrator** (figure it out as you go).
+2. **Yes, and do they depend on each other?** Yes → **sequential chain**.
+3. **Yes, and are they independent?** Yes → **run in parallel**.
+
+*Claude Code example*: Earlier in this session, when I explained multiple note files one after another, each explanation was independent of the others — a perfect candidate for parallel reads if I'd wanted to batch them. But when I updated the `explain-note` skill *based on* your feedback about a specific explanation, that had to happen *after* I saw the feedback — a sequential dependency, not something I could've done in advance.
+
+**Combine levels — the real-world default**
+
+Most real jobs aren't a single shape. They're usually independent work first (parallel), followed by one step that ties it all together (like the cross-file pass). This mirrors what I do with the `explain-note` skill in this project: reading and drafting several file explanations can happen independently, but making sure they're all consistent in style is a combining step done afterward.
+
+**Recap in 3 lines**
+
+1. **Combine parallel + combining passes** — fast independent checks, then one pass that catches the connections between them.
+2. **Three questions settle any task's shape**: can't list steps → adaptive; dependent → chain; independent → parallel.
+3. **Exam scenarios describe situations, not pattern names** — run the 3-question test against what's described to find the fit.

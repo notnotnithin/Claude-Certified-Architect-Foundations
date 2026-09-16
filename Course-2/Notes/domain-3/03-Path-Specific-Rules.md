@@ -246,3 +246,46 @@ flowchart TD
     - Use **always-on** rules for project-wide conventions
     - Use **path-scoped** rules for specific areas
 - **[The Outcome]** Claude sees the rules that matter right where they matter, and nothing more
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: A single `CLAUDE.md` loads fully every session no matter what you're working on — path-specific rules fix that by only "waking up" for the exact files they're meant for.
+
+**The zone-specific signage analogy**
+
+Pool rules belong at the pool, gym rules belong at the gym — not one giant sign for the whole building. Path rules work the same way: the right instruction shows up only in the right place.
+
+**How it's implemented — the `.claude/rules/` folder**
+
+Split rules into focused files like `.claude/rules/api.md`. By default these behave exactly like `CLAUDE.md` — same priority, just tidier.
+
+**The real trigger — the `paths` field**
+
+```yaml
+---
+paths: ["src/api/**"]
+---
+Always validate JWTs before processing requests here.
+```
+
+- **No `paths`** → always-on, loads every session.
+- **With `paths`** → conditional, only loads when Claude touches a matching file.
+
+*Claude Code example*: if this project had a `.claude/rules/notes-style.md` scoped to `paths: ["**/*.md"]`, it would only load when I'm working on Markdown note files — staying completely out of context if I were ever touching, say, a config file instead.
+
+**Glob rule vs. subdirectory `CLAUDE.md`**
+
+- **Glob rule** — pattern-based, jumps around the repo wherever it matches (e.g., every `*.test.js` file, no matter where it lives).
+- **Subdirectory `CLAUDE.md`** — location-based, covers an entire folder regardless of filename.
+
+**Precedence — path rules win last**
+
+Order: User → Project → Path-specific (appended last). Since path rules are the most specific and load last, they override broader rules on conflict — consistent with the same "closer wins" logic from the `CLAUDE.md` hierarchy.
+
+**Recap in 3 lines**
+
+1. **One giant `CLAUDE.md` wastes attention** — rules for parts of the project you're not touching still load anyway.
+2. **`paths:` makes a rule conditional** — it only wakes up for matching files, staying silent everywhere else.
+3. **Path rules win conflicts** — they're the most specific and load last, same "closer wins" logic as the broader hierarchy.

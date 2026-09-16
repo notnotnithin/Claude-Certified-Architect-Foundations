@@ -312,3 +312,49 @@ tool_choice: { type: 'tool', name: 'save_report' }
 
 ![00:11:23](hover-notes-images/screenshot-01M25QRRJWKDGJ3HZ32KRJ27KB.png)
 [00:11:23](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57460127#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Giving Claude too many tools quietly makes it worse at picking the right one — so scope each agent to only the tools its role needs, and use `tool_choice` when you need certainty instead of a suggestion.
+
+**More tools isn't more power**
+
+60 tools cause selection accuracy to drop and overlapping tools to confuse Claude. 6 sharp, role-appropriate tools lead to faster, more accurate choices. This isn't Claude being "not clever enough" — every extra tool is one more look-alike option to weigh on *every single decision*, and this failure is silent: no crash, just a slow, quiet decline in accuracy.
+
+*Claude Code example*: The `Explore` subagent in this session is deliberately given only read-only tools — not the full toolset I have access to. That scoping is exactly this principle: give each role only what it needs, so its choices stay sharp within its narrow job.
+
+**Scoping vs. `tool_choice` — the restaurant analogy**
+
+- **Scoping = the menu** — which dishes (tools) exist at all
+- **`tool_choice` = the waiter's rules** — how you're allowed to order from that menu
+
+**The four modes of `tool_choice`**, from total freedom to total control:
+
+| Mode | Behavior |
+|---|---|
+| `auto` | Claude decides freely (default) |
+| `any` | Must use *some* tool, Claude picks which |
+| `tool` | Must use *this exact* named tool |
+| `none` | No tools this turn, text only |
+
+**When to use each**: `auto` for ordinary use; `any` for "must act, you choose how"; `tool` for a guaranteed, non-negotiable step; `none` for asking without acting.
+
+**Worked example — always save the report**
+
+On `auto`, saving a report is only a "strong suggestion." Claude might sometimes reply in plain text instead of calling `save_report` — and your findings quietly vanish, with no error at all.
+
+```python
+tool_choice: { type: 'tool', name: 'save_report' }
+```
+
+This forces `save_report` to be called on *every single run*, no exceptions. "Usually saves" becomes "always saves."
+
+*Claude Code example from this exact session*: when I used the `Skill` tool earlier for `explain-note`, that call wasn't optional — the design of that interaction effectively guarantees the skill gets invoked rather than leaving it as "Claude might decide to explain the file directly instead." Forcing the specific tool is exactly how you turn a hopeful behavior into a guaranteed one.
+
+**Recap in 3 lines**
+
+1. **Fewer, scoped tools beat a giant toolbox** — every extra tool quietly degrades selection accuracy.
+2. **Scoping sets the menu; `tool_choice` sets the order** — two separate levers of control.
+3. **Force with `tool` when something absolutely must happen** — like a mandatory save step or guaranteed structured output.

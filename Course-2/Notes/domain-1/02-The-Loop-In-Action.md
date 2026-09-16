@@ -153,3 +153,51 @@ flowchart TD
 - **Upcoming Topics**
     - Deciding who should control the steps (Model-driven vs. Hard-coded)
     - Identifying the three common anti-patterns that break an agentic loop
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Running a tool is only half the job — if you never tell Claude what the tool found, Claude learns nothing and the loop grinds to a halt.
+
+**Everyday analogy**
+
+Imagine asking a colleague to check a file for you. If they check it but never tell you what they found, you're stuck exactly where you started — you asked, but you still know nothing. That's what happens if a tool's result never gets sent back to Claude: the loop looks like it ran, but Claude never actually saw the answer.
+
+**Why this step exists at all**
+
+Tools don't run *inside* Claude — they run on your computer or server, completely separate from the model. So Claude has zero way of "seeing" what a tool did unless you explicitly package the result and send it back as a `tool_result`.
+
+*Claude Code example*: When I run `Read` on a file in this session, the actual file reading happens on your machine, outside of me. What comes back to me is the file's content, wrapped as a tool result — I never "see" your filesystem directly, only whatever gets explicitly returned to me after each tool call.
+
+**What happens if you skip this step**
+
+Claude just asks for the same tool again, because from its perspective nothing has changed — it's still sitting with the original question and zero new information. This can quietly spiral into an infinite loop of "ask, get nothing, ask again."
+
+**A full worked trace — chaining decisions live**
+
+```
+Question: "Where's my refund for order 9931?"
+   ↓
+Claude calls look_up_order(9931)
+   ↓
+Result comes back: "delivered, no refund on file"
+   ↓
+Claude reasons: "Is this customer even eligible?"
+   ↓
+Claude calls check_refund_policy()
+   ↓
+Result comes back: "eligible"
+   ↓
+end_turn: Claude explains the refund to the customer
+```
+
+Notice Claude didn't decide up front to call both tools — it called the *second* tool specifically *because* of what the *first* result revealed. This is "loop reasoning": nothing was scripted in advance ("first do X, then do Y"); each step was chosen live, based on the previous observation.
+
+*Claude Code example*: This is exactly how I work in this session — if I read a note file and notice it references a topic covered in a different file, I decide to go read that second file too, *because* of what the first one told me, not because it was planned from the start.
+
+**Recap in 3 lines**
+
+1. **Feed results back, every time** — this is literally how Claude learns anything within the loop.
+2. **Skipping it stalls the loop** — Claude just re-asks for the same thing, achieving nothing.
+3. **Tools get chained live, not scripted** — each choice is driven dynamically by what the last result actually said.

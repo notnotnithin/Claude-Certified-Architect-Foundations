@@ -175,3 +175,37 @@ hovernotes-id: doc_6b67e196-3b6e-4c80-bbd2-68e4e87d904a
 
 ![00:08:14](hover-notes-images/screenshot-01M25H0WCAVHJTPWGZSDVNZ6HF.png)
 [00:08:14](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57908987#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: If a rule must never be broken, don't just *ask* Claude to follow it in a prompt — build it into code as a hard gate that physically cannot be skipped.
+
+**Prompt vs. code — "probably" vs. "guaranteed"**
+
+Asking Claude to follow a rule in a prompt is **probabilistic** — it usually holds, but it's not a guarantee. Writing that rule into code is **deterministic** — it always holds, full stop, because it's enforced outside the model entirely, like a wall.
+
+*Everyday analogy*: A car park barrier doesn't politely ask drivers to pay before leaving — it physically stays down until the ticket is paid. Nobody has to remember the rule; the barrier makes it structurally impossible to skip.
+
+**The litmus test for which one to use**
+
+Ask: *"What happens if Claude ignores this once?"* If the answer is serious harm (unauthorized payment, safety violation, legal exposure), it needs to be a **code rule**, not a prompt rule. If occasional imperfection is tolerable (tone, wording, style), a prompt is fine.
+
+*Claude Code example*: My own operating instructions distinguish exactly this way — a preference like "keep responses concise" is a prompt-level guideline (mostly followed, occasionally imperfect). But something like "never run `git push --force` without explicit confirmation" functions much closer to a hard gate — the kind of rule this note says belongs in code, not just a polite request.
+
+**Prerequisite gates — blocking until a condition is met**
+
+A gate stops an action from running at all until a required step happens first — e.g., "no refund until identity is verified." The refund tool simply refuses to execute while that condition is unmet. Claude doesn't have to remember the right order or resist a persuasive customer — the gate makes the wrong order physically impossible, the same way the car park barrier does.
+
+**Handoffs — escalating to a human properly**
+
+When Claude does need to hand off to a human, a good handoff includes four things: **who** is involved, **what's** wrong, **what's already been done**, and a **recommended next action**. Dumping the full raw conversation on a human ("lazy escalation") provides no real value — they still have to read everything and reconstruct the situation themselves. A structured summary lets them act almost immediately.
+
+*Claude Code example*: If I needed to escalate something to you mid-task — say, a destructive git operation I'm not comfortable running automatically — a good handoff would be: "You asked me to clean up old branches. I found 12 candidates; 3 have unmerged commits. Here's the list. Recommend reviewing those 3 before I delete anything." That's a structured summary, not just "here's everything that happened, you figure it out."
+
+**Recap in 3 lines**
+
+1. **Prompts = probable, code = guaranteed** — if a rule can never break, it belongs in code, not a request.
+2. **Gates make the wrong order impossible** — like a car park barrier, no one has to remember to follow the rule.
+3. **Escalate with structure** — customer, issue, actions taken, and a recommendation, not a raw data dump.

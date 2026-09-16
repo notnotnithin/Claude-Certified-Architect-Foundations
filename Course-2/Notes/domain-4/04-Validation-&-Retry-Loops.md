@@ -256,3 +256,47 @@ flowchart LR
 
 ![00:10:37](hover-notes-images/screenshot-01M27GX592TTTMGKHA71GN11K4.png)
 [00:10:37](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57493853#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Getting valid JSON back doesn't mean the *numbers* are correct — validation catches wrong content, and precise feedback lets Claude fix it itself.
+
+**Two kinds of "wrong"**
+
+- **Syntax error** — broken shape (already solved by `tool_use`).
+- **Semantic error** — perfectly valid shape, wrong content (bad math, a fabricated value). Only your own validation code catches this.
+
+**Walking through the worked example**
+
+```
+Attempt 1: { "items": [2000, 2800], "total": 5000 }
+```
+Valid JSON, but 2000 + 2800 = 4800, not 5000. **Validation fails.**
+
+```
+Feedback sent back: "Line items sum to 4800, but total says 5000 — please fix."
+```
+Specific, not vague — Claude knows exactly what to correct.
+
+```
+Attempt 2: { "items": [2000, 2800], "total": 4800 }
+```
+2000 + 2800 = 4800 ✓. **Fixed in one retry**, because the feedback pointed at the exact problem.
+
+**The full loop**
+
+```
+Extract → Validate → (fails?) → Feedback (doc + bad answer + specific error) → Re-validate → (still fails after 2-3 tries?) → Escalate to a human
+```
+
+**Why cap retries**
+
+If a document genuinely can't be fixed, an uncapped loop burns time and money forever. Capping at 2-3 attempts: most real mistakes get fixed fast; beyond that, it's likely too hard for the model alone.
+
+**Recap in 3 lines**
+
+1. **Validate the meaning, not just the shape** — `tool_use` kills syntax errors; only your code catches wrong sums or fabricated values.
+2. **Retry with precise feedback** — "sum is 4800, not 5000," not "this is wrong."
+3. **Cap retries, then escalate** — stop after 2-3 tries and hand it to a human.

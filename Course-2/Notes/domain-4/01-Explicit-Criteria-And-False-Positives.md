@@ -248,3 +248,39 @@ flowchart LR
 
 ![Captured video screenshot](hover-notes-images/screenshot-01M27E7K294DJTFY3V16BRQG6V.png)
 [00:13:24](https://www.udemy.com/course/claude-ai-certification/learn/lecture/57493845#overview)
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: If you ask Claude a fuzzy question, you get a fuzzy answer — tell it exactly what "good" or "bad" looks like, and it checks consistently every time.
+
+**Vague questions drift**
+
+"Is this code good?" has no fixed standard, so Claude invents one on the spot — and that invented standard can change between runs. "Flag any SQL query built with string concatenation" names one exact, checkable pattern instead.
+
+*Claude Code example*: asking me "review this file for problems" is a wish — I have to guess what you care about. Asking "flag any function longer than 50 lines with no comments" is a testable rule — I check it the same way every time.
+
+**The human test**: *"Could I check this myself, by hand, with a plain yes or no?"* If yes, it's a solid rule. If it's fuzzy or opinion-based, Claude will apply it inconsistently too.
+
+**Severity levels — not every issue deserves the same alarm**
+
+**Critical** = stop, don't ship (a hard-coded password). **Major** = fix soon (missing error handling). **Minor** = fix whenever (an inconsistent name). Without labels, a typo looks just as urgent as a leaked API key.
+
+**False positives — the "false alarm" problem**
+
+Like a smoke alarm going off because you made toast: loud and wrong. False positives (flagging something that isn't a problem) damage trust more than false negatives (staying silent about a real one) — because once a reviewer cries wolf, people stop reading its flags, including the real ones.
+
+**Tuning noisy categories**
+
+If a category (say, "style nitpicks") keeps producing false alarms: narrow the rule, or turn it off entirely. What doesn't work: vague pleas like "please be more careful" added to the prompt — that's still not a testable rule.
+
+**The real comparison**
+
+`"Review this code"` → 15 flags, mostly noise → team ignores everything. `"Flag SQL injection, missing error handling, hard-coded secrets, with severity"` → 3 flags, all real → team acts on every one.
+
+**Recap in 3 lines**
+
+1. **Be specific and testable** — a rule you could check by hand beats a vague wish.
+2. **Add severity** — so critical issues don't get buried next to typos.
+3. **Tune out noise, don't just ask nicer** — narrow or disable unreliable categories.

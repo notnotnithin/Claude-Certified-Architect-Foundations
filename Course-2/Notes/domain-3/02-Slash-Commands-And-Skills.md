@@ -244,3 +244,39 @@ The relationship between the different configuration types creates a complete sy
 | --- | --- | --- |
 | CLAUDE.md | Defining rules and constraints | The personality/knowledge of the assistant |
 | Commands & Skills | Executing specific workflows | The tools/actions in the assistant's belt |
+
+---
+
+## Simple Explanation (with Claude Examples)
+
+**The core idea, in one line**: Save a workflow once as a Command or Skill, then run it with a single word — instead of retyping the same long instruction every time.
+
+**Slash Commands — a Markdown file becomes a command**
+
+A file dropped into `.claude/commands/` becomes a command: the filename is the command name, the file's body is the instruction, and `$arguments` lets you pass in specific input.
+
+*Claude Code example*: earlier in this conversation, you had a `greet.md` file in `.claude/commands/` — its content ("Greet me with a moral before providing a response") became the `/greet` command automatically, just by existing in that folder.
+
+**Frontmatter that matters**: `description` (shows in `/help`, lets Claude auto-suggest it), `argument_hint` (autocomplete hint), `allowed_tools` (pre-approves tools so it doesn't pause for permission), `model` (use a cheaper model for simple commands).
+
+**Skills — "Commands grown up"**
+
+Instead of one file, a Skill is a folder (`.claude/skills/<name>/SKILL.md`) that can hold supporting files, and — crucially — Claude can **auto-discover and invoke it on its own**, without you needing to type a slash command.
+
+*Claude Code example*: this is literally the `explain-note` skill built in this project. It wasn't just typed as `/explain-note` — because its `description` clearly says when to use it, I could reach for it automatically when you asked "explain this note file," even mid-conversation, without an explicit command.
+
+**Skill frontmatter that matters**: `context` (runs isolated so it doesn't clutter your main conversation), `allowed_tools` (a *pre-approval* list, not a security sandbox — it doesn't block other tools), `disable_model_invocation: true` (stops Claude from ever triggering it automatically — critical for side-effect actions like `/deploy` or `/commit`, which should always be a deliberate human trigger).
+
+**Name clash rule**: if a command and a skill share a name, the **Skill wins**, since it's the richer form.
+
+**Commands/Skills vs. `CLAUDE.md` — the decision test**
+
+Ask: *"Is this a rule that should always be true?"* Yes → `CLAUDE.md` (passive, always-on). No, it's something you run "now and then" → a Command or Skill (an action you trigger).
+
+*Claude Code example*: "This project always uses 4-space indentation" belongs in `CLAUDE.md`. "Explain a note file in simple words with Claude examples" is something you invoke occasionally — that's exactly why it became a skill, not a standing rule.
+
+**Recap in 3 lines**
+
+1. **A `.md` file in `.claude/commands/` becomes a slash command** — filename is the name, body is the instruction.
+2. **Skills are the richer version** — a folder, with auto-discovery, so Claude can reach for them without being explicitly typed.
+3. **Rules go in `CLAUDE.md`; actions go in Commands/Skills** — "always true" vs. "something I trigger sometimes."
