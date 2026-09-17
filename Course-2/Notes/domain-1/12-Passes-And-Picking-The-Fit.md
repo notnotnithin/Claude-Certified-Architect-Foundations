@@ -213,3 +213,9 @@ Most real jobs aren't a single shape. They're usually independent work first (pa
 1. **Combine parallel + combining passes** — fast independent checks, then one pass that catches the connections between them.
 2. **Three questions settle any task's shape**: can't list steps → adaptive; dependent → chain; independent → parallel.
 3. **Exam scenarios describe situations, not pattern names** — run the 3-question test against what's described to find the fit.
+
+---
+
+## Exam Objective Note: CCAR-F 1.6 — Task Decomposition Strategies (see [10-Task-Decomposition-The-Strategies.md](10-Task-Decomposition-The-Strategies.md) for the full note)
+
+Quick recap: distinct input categories → routing; identical work over independent units → partition/parallel; stages each consuming the previous one's output → a chain (which can't be parallelized, since there's nothing left able to run concurrently once real dependencies exist). This file's per-file/cross-file passes are the direct worked example of the "instructive error": splitting a code review purely by file leaves cross-file properties invisible to every worker — splitting by concern (whole diff, one lens) is what actually catches them.

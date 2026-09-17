@@ -385,3 +385,35 @@ The real secret lives in your environment variable, never in the file itself, so
 1. **One standard plug** — MCP servers expose Tools (verbs) and Resources (nouns), so you stop rebuilding custom connectors.
 2. **Never hardcode secrets** — use `${VAR}` expansion so real keys live in your environment, not in a committed file.
 3. **Scope carefully: `local > project > user`** — putting a personal secret in `project` scope is the most common, most dangerous MCP mistake.
+
+---
+
+## Exam Objective Note: CCAR-F 2.4 — MCP Server Integration
+
+**MCP only standardizes the "interface," nothing behind it**
+
+MCP settles just two things: how a server *describes* its tools/resources, and how a client *calls* them — like agreeing on a plug shape and voltage, nothing about what happens inside the appliance.
+
+**The common misreading**
+
+Authentication, rate limiting, retries, and caching stay entirely the *server's* job to build. Adopting a standard protocol for the interface doesn't mean these concerns come included — dropping them just because a protocol arrived is the mistake this objective is built around.
+
+*Everyday analogy*: every house agreeing on the same electrical socket shape doesn't mean every appliance automatically comes with a surge protector or a warranty — those stay each manufacturer's own responsibility.
+
+**Where MCP actually shines**
+
+Many systems, many consumers, distributed ownership — one team builds and maintains a server once, and *every* application across the company reuses it, instead of each app team hand-building its own custom integration to the same system.
+
+**Key point 1 — a hidden problem inside a "successful" result is invisible**
+
+Results carry a flag marking failure. If something goes wrong but the response text merely *describes* the problem in prose while the flag still says success, any logic checking that flag never notices — the failure is buried in text nobody's automated handling is reading. Same structured-errors principle as [domain-2/02](02-Structured-Error-Responses.md): state failure as a flag, not just in words.
+
+**Key point 2 — stable reference material belongs in a Resource, not behind tool calls**
+
+Static, unchanging documentation or schema info should be exposed as a **Resource** (data pulled in directly), not forced behind three separate **Tool** calls chained together just to assemble it piece by piece.
+
+**Recap in 3 lines**
+
+1. **MCP standardizes the interface only** — auth, rate limiting, retries, and caching remain the server's own responsibility.
+2. **MCP's real value is reuse** — one server per system, maintained once, shared across every consuming app.
+3. **Don't hide failure in prose, and don't hide static data behind tool calls** — use the failure flag for errors, and Resources for stable reference material.

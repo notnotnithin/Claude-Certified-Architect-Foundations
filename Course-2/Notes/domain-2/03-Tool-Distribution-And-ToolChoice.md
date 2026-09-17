@@ -358,3 +358,36 @@ This forces `save_report` to be called on *every single run*, no exceptions. "Us
 1. **Fewer, scoped tools beat a giant toolbox** — every extra tool quietly degrades selection accuracy.
 2. **Scoping sets the menu; `tool_choice` sets the order** — two separate levers of control.
 3. **Force with `tool` when something absolutely must happen** — like a mandatory save step or guaranteed structured output.
+
+---
+
+## Exam Objective Note: CCAR-F 2.3 — Tool Distribution and Tool Choice
+
+**The four `tool_choice` values and one sneaky consequence**
+
+- `auto` — default once tools exist; Claude decides freely.
+- `any` — forces *some* tool to be called.
+- `tool` — forces one specific, named tool.
+- `none` — no tools allowed this turn.
+
+The consequence worth knowing: **`any` and `tool` prefill the assistant's message.** When you force tool use, the model's response is pre-seeded to start directly with the tool call — it skips straight to `tool_use`, with **no natural-language text before it**, even if the prompt explicitly asks Claude to explain first.
+
+*Everyday analogy*: telling someone "you must hand me the form, filled out" — they can't also pause to explain why they filled it out that way first; the forcing itself skips past any explanation.
+
+**The practical trap**
+
+A scenario that wants **both** a guaranteed extraction (forced tool call) **and** something readable to show the user cannot use forcing — you can't get a forced tool call *and* preceding explanatory text in the same turn. That combination needs a different approach (e.g., `auto` with a strong instruction, or a separate follow-up turn for the explanation).
+
+**Tool distribution — how allow/deny lists combine**
+
+- **Neither set** → the agent inherits everything, no restriction.
+- **Only an allow-list (`tools`) set** → acts as a whitelist — only those tools are available.
+- **Both an allow-list and a deny-list set, overlapping on the same tool** → the **denial wins** — that tool stays blocked even though it was also allowed.
+
+*Everyday analogy*: a badge granting access to "all floors" plus a specific rule "never floor 13" — the specific denial overrides the broader allowance every time.
+
+**Recap in 3 lines**
+
+1. **`any`/`tool` force a tool call and skip any preceding explanation** — forced tool use always prefills straight to `tool_use`.
+2. **Can't force a tool call and get explanatory text in the same turn** — that combination requires `auto` instead of forcing.
+3. **Denial always wins when allow and deny lists overlap** — an unset pair inherits everything; an allow-list alone is a whitelist.

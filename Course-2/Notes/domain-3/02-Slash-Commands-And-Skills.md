@@ -280,3 +280,32 @@ Ask: *"Is this a rule that should always be true?"* Yes → `CLAUDE.md` (passive
 1. **A `.md` file in `.claude/commands/` becomes a slash command** — filename is the name, body is the instruction.
 2. **Skills are the richer version** — a folder, with auto-discovery, so Claude can reach for them without being explicitly typed.
 3. **Rules go in `CLAUDE.md`; actions go in Commands/Skills** — "always true" vs. "something I trigger sometimes."
+
+---
+
+## Exam Objective Note: CCAR-F 3.2 — Custom Slash Commands and Skills
+
+**Commands and Skills have effectively merged when triggered by name**
+
+A command file at `.claude/commands/deploy.md` and a skill at `.claude/skills/deploy/SKILL.md` both produce the same `/deploy` invocation and behave the same way. The structural difference remains (a Skill can carry supporting files, a Command can't), but at the level of "what happens when I type `/deploy`," they've converged.
+
+**What actually still decides: when the body loads**
+
+A **Skill loads only when invoked**; an **instruction file (`CLAUDE.md`) loads every single session**, in full, whether used or not. A long, detailed procedure belongs in a Skill — you only pay its context cost when triggered, instead of paying it in every conversation forever (the "cost side" from objective 3.1).
+
+*Everyday analogy*: a Skill is a reference manual on a shelf — free until you pull it down. `CLAUDE.md` is a manual read aloud at the start of every meeting, whether today's meeting needs it or not.
+
+**Precedence runs backwards from what you'd expect**
+
+For `CLAUDE.md`, the broader/shared level (Project) beats the personal one. For Commands and Skills, it's the **opposite**: **personal beats project**. A personal `/deploy` overrides a shared project `/deploy` for you specifically — genuinely backwards from the CLAUDE.md pattern, which is exactly why it's worth memorizing as an exception.
+
+**Two frontmatter fields worth memorizing**
+
+- **`disable-model-invocation`** — keeps something out of Claude's own reach entirely; only a human explicitly typing the command can trigger it.
+- **`allowed-tools`** — grants tool permissions only for that specific invoking turn, not a standing, permanent grant.
+
+**Recap in 3 lines**
+
+1. **Commands and Skills behave the same when invoked by name** — the deciding axis is *when the content loads*, not which mechanism defines it.
+2. **Skills load on demand; `CLAUDE.md` loads every session** — put long procedures in a Skill to avoid paying for them constantly.
+3. **Personal beats project for Commands/Skills** — the reverse of `CLAUDE.md`'s precedence, and `disable-model-invocation`/`allowed-tools` are the two frontmatter fields to remember.

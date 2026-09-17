@@ -258,3 +258,30 @@ Ask: *do these fixes depend on each other?*
 - **Yes** → do them in order. Example: "add a field to the database" must happen *before* "make the API use that field."
 
 **The whole idea in 3 words**: Draft. Steer. Repeat.
+
+---
+
+## Exam Objective Note: CCAR-F 3.5 — Iterative Refinement Techniques
+
+**Without a real check, "looks done" is the only signal — and you become the verification loop**
+
+Claude stops when the work *looks* done. If there's no objective pass/fail signal, that subjective impression is all it has to go on — meaning a human ends up manually verifying everything themselves.
+
+**The fix: give Claude something it can actually run**
+
+A test suite, a build's exit code, a script that diffs against a known-good fixture — anything that returns a real pass or fail, instead of relying on "does this look right?"
+
+**The mechanisms escalate in strength**
+
+Asking in the prompt (weakest, easiest to ignore) → a goal condition → a **Stop hook** that literally blocks the turn from ending until the condition is satisfied (strongest, deterministic — same hook mechanism from domain-1's Agent SDK Hooks note).
+
+**Two counter-intuitive points**
+
+1. **Ask for evidence, not an assertion.** "I fixed it" is a claim that could be confidently wrong. Pasted test output showing green is actual proof.
+2. **After correcting the same issue twice, clear the context rather than trying a third correction.** The accumulated failed attempts sitting in context can actively anchor the model into repeating the same wrong pattern — a fresh context often breaks that loop better than one more retry.
+
+**Recap in 3 lines**
+
+1. **No check = you become the check** — give Claude a real pass/fail signal instead of trusting "looks done."
+2. **Enforcement escalates**: prompt ask → goal condition → Stop hook (which actually blocks completion).
+3. **Demand evidence over assertions, and clear context after two failed corrections** — don't attempt a third fix in the same polluted context.

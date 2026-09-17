@@ -192,3 +192,21 @@ If old results are stale (per the previous note), don't just resume the old sess
 1. **Fork to experiment safely** — a disposable copy that can never damage the original session.
 2. **Trunk stays clean, branches are disposable** — protect your main session; throw away failed experiments freely.
 3. **Stale sessions deserve a fresh start with a curated summary** — not a blind resume that drags outdated clutter along.
+
+---
+
+## Exam Objective Note: CCAR-F 1.7 — Session State and Resumption (see [13-Session-State-Resume.md](13-Session-State-Resume.md) for the full note)
+
+**An important correction to this file's own course note**
+
+The course note above states forking's core promise broadly: "whatever occurs on the branch cannot harm the original context." The exam objective sharpens this considerably — **that promise only covers the conversation, not the filesystem.** Forking branches the *conversation history*; it does **not** create any copy or sandbox of the actual files on disk.
+
+If a forked agent edits files (via `Edit`/`Write`), those are **real, shared edits** — visible to any session working in that same directory, including the original, un-forked trunk session. Treating a fork as a safe place to "make a mess" only holds true for conversation exploration; the moment a forked agent touches real files, that safety guarantee is gone.
+
+*Practical takeaway*: fork freely for conversational exploration (trying a different approach, asking speculative questions), but don't assume a fork protects you from real file changes — for genuinely risky file operations, isolate at the filesystem level too (e.g., a separate git worktree), not just the conversation level.
+
+**Recap in 3 lines**
+
+1. **`continue` = most recent session; `resume` = a specific kept ID; `fork` = branch that leaves the original untouched.**
+2. **Forking protects conversation history only** — it is not a filesystem sandbox, despite how safe it may sound.
+3. **A forked agent's file edits are real and shared with the original session** — plan for that risk explicitly when the fork will touch actual files.

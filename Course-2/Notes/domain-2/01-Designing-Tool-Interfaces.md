@@ -326,3 +326,39 @@ A vague interface doesn't crash. It quietly misbehaves: the wrong tool gets pick
 1. **Claude only sees the name and description** — write them *for* Claude, as the actual interface, not as developer notes.
 2. **A great description has 4 parts**: action, context (including when NOT to use it), parameters, and an example.
 3. **Right-size your tools** — split genuinely distinct actions, consolidate steps that always travel together.
+
+---
+
+## Exam Objective Note: CCAR-F 2.1 — Tool Interface Design (Domain 2 · 18% of exam)
+
+**The core claim: vague descriptions cause three specific symptoms**
+
+Since Claude can't see your actual code — only the name and description you wrote — a vague description causes three specific, recognizable failures:
+
+1. **Guessed parameter formats** — no clear format specified, so Claude guesses (sometimes `"2026-03-05"`, sometimes `"March 5, 2026"`).
+2. **Wrong tool picked for adjacent work** — two tools sound similar, Claude reaches for the "close enough" one instead of the correct one.
+3. **Tool abandoned after one failure** — an unhelpful error message causes Claude to give up on the tool entirely instead of retrying correctly.
+
+*Example*: the `handle_travel(action, ...)` mega-tool from earlier in this note — Claude had to *guess* a magic string like `"book"` or `"cancel"`, and any wrong guess caused the whole call to fail.
+
+**Fix 1 — put constraints in the schema, not in prose**
+
+Instead of writing "status must be one of: active, pending, or closed" as a sentence, define it as an `enum` in the schema itself:
+
+```json
+"status": { "enum": ["active", "pending", "closed"] }
+```
+
+A constraint written in prose is just a suggestion Claude might follow — it can still produce a value outside the list, which you'd then have to catch and fix afterward. A constraint baked into the schema's actual *shape* stops the wrong value from being generated in the first place — like handing someone a dropdown menu instead of asking them to type a color and hoping they pick red, blue, or green.
+
+**Fix 2 — shape the result, don't dump everything**
+
+If a tool returns 90 fields but the next decision only needs 3, all 90 still eat up context space regardless of whether they're used.
+
+*Everyday analogy*: asking "is the store open?" and being handed the entire 200-page operations manual instead of a simple "yes" — the answer's in there, but at a much higher cost than needed.
+
+**Recap in 3 lines**
+
+1. **Vague descriptions produce guessed formats, wrong tool picks, and abandoned tools** — three specific, testable symptoms, not vague "confusion."
+2. **Bake constraints into the schema (enums), not prose** — this prevents bad values instead of catching them after the fact.
+3. **Shape tool output to only what's needed** — returning everything "just in case" wastes context on every call.

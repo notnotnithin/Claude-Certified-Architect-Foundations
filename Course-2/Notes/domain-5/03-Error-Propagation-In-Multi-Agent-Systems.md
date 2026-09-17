@@ -191,3 +191,25 @@ Instead of returning null on failure, a subagent reports a structured error: wha
 1. **Never fail silently** — the silence is the real danger, not the failure itself.
 2. **Name the failure type** — access failure (retry-worthy) vs. empty result (a valid, complete answer).
 3. **Recover honestly** — retry, skip-and-note, or escalate, and always tell the user what's missing.
+
+---
+
+## Exam Objective Note: CCAR-F 5.3 — Error Propagation in Multi-Agent Systems
+
+**The core defect: a failure that stops looking like a failure**
+
+A worker that can't reach a source but returns its findings alone silently converts a partial result into an apparently complete one. Everything downstream then reasons from a false premise while looking entirely plausible, because every later stage genuinely did its job correctly — just on bad input.
+
+**Two facts that must never collapse into each other**
+
+"Could not look" and "nothing there" — an access failure and a genuinely empty, valid result.
+
+**Not everything needs to travel upward**
+
+A timeout that succeeded on retry was recovered without loss — reporting it is noise, not propagation. Only failures with real, unrecovered consequences need to climb up to the coordinator.
+
+**Recap in 3 lines**
+
+1. **A silently partial result looks complete** — the real danger is downstream reasoning built on a false premise that appears entirely correct.
+2. **"Could not look" ≠ "nothing there"** — collapsing them into the same signal hides which recovery path is correct.
+3. **Fully-recovered transient errors don't need to propagate** — reporting a successfully-retried timeout is just noise.

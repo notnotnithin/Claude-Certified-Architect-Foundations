@@ -249,3 +249,25 @@ Every reply carries a label: `tool_use` means "I want to run a tool, keep loopin
 1. **Loop = action** — the loop is what lets Claude go check something real, not just talk.
 2. **Four steps repeat**: Perceive, Reason, Act, Observe — until the job is finished.
 3. **`stop_reason` drives it, not a fixed counter** — `tool_use` keeps going, `end_turn` stops; trust the model's own signal.
+
+---
+
+## Exam Objective Note: CCAR-F 1.1 — Agentic Loops
+
+**The one natural stopping point**
+
+Claude keeps calling tools and feeding results back until it produces a response with **no tool calls at all**. A turn limit or stop sequence isn't the actual mechanism — it's a safety *cap* layered on top of it.
+
+**A turn is a round trip, not a message**
+
+`max_turns` only counts turns that actually used a tool — not every individual message exchanged.
+
+**The trap worth carrying in: `ResultMessage`**
+
+Its `subtype` field says how the run ended; the `result` field only exists when that subtype is `success`. Code that reads `.result` unconditionally will crash exactly in the cases it was meant to handle — like hitting `max_turns`.
+
+**Recap in 3 lines**
+
+1. **The loop ends on a tool-call-free response** — caps like `max_turns` are limits on top of the mechanism, not the mechanism itself.
+2. **A turn = a round trip that used a tool**, not every message.
+3. **`ResultMessage.result` only exists on `subtype: success`** — reading it unconditionally breaks on the very caps it should respect.

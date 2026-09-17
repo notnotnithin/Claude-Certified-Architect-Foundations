@@ -339,3 +339,40 @@ Locate first (`Grep`/`Glob`), then read only the two or three files that actuall
 1. **Grep = contents, Glob = filenames** — the most commonly confused pair; mixing them up wastes tokens and time.
 2. **Read before Edit, always** — the target text must be exact and unique; widen context or use `replace_all` if it isn't.
 3. **Built-ins over Bash, and locate before reading** — cleaner permissions, better caching, and never read the whole codebase when a targeted search will do.
+
+---
+
+## Exam Objective Note: CCAR-F 2.5 — Built-in Tools
+
+**Glob vs. Grep — the `.gitignore` distinction**
+
+- **Glob ignores `.gitignore`** — lists files purely by matching filenames on disk, regardless of git's ignore rules.
+- **Grep respects `.gitignore`** — skips searching inside gitignored files entirely.
+
+Testable consequence: a gitignored build artifact (e.g., `dist/bundle.js`) still turns up when you `Glob` for it by name, but `Grep` won't search its contents at all — only one of the two tools "sees" it, depending on whether you're checking existence or searching contents.
+
+*Everyday analogy*: a librarian who lists every book by title, even ones marked "do not read," versus one who only reads the contents of books that aren't flagged — ask the first "is this here?" and they say yes; ask the second to search inside it, and they refuse.
+
+**Grep runs on ripgrep, not POSIX grep**
+
+The built-in `Grep` tool is powered by **ripgrep**, not traditional POSIX/GNU `grep` — meaning how special regex characters (metacharacters) get escaped can differ from what you'd expect from classic `grep`.
+
+**The three checks an `Edit` must pass**
+
+1. The file has been **read** first.
+2. The old text **matches exactly**.
+3. That match appears **exactly once**.
+
+Not unique? Widen the anchor (more surrounding context) or use `replace_all`.
+
+**Why falling back to rewriting the whole file is riskier than it sounds**
+
+`Read` + `Write` overwrites *everything*, including any changes made to the file between your `Read` and your `Write` — concurrent edits from elsewhere simply vanish. `Edit` only ever touches its specific matched text, so it can't erase changes happening anywhere else in the file.
+
+*Everyday analogy*: `Edit` is correcting one sentence in a shared document with tracked changes — everything else stays intact. `Write` is deleting the whole document and pasting your own version from memory — anything a coworker added in the meantime is just gone.
+
+**Recap in 3 lines**
+
+1. **Glob ignores `.gitignore`; Grep respects it** — only Glob will surface a gitignored build artifact by name.
+2. **Grep = ripgrep under the hood** — metacharacter escaping differs from POSIX grep.
+3. **`Edit` requires read-first, exact match, unique match** — and falling back to `Write` risks silently discarding concurrent changes to the file.

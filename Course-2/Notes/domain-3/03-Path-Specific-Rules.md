@@ -289,3 +289,25 @@ Order: User → Project → Path-specific (appended last). Since path rules are 
 1. **One giant `CLAUDE.md` wastes attention** — rules for parts of the project you're not touching still load anyway.
 2. **`paths:` makes a rule conditional** — it only wakes up for matching files, staying silent everywhere else.
 3. **Path rules win conflicts** — they're the most specific and load last, same "closer wins" logic as the broader hierarchy.
+
+---
+
+## Exam Objective Note: CCAR-F 3.3 — Path-Specific Rules for Conditional Convention Loading
+
+**A path-scoped rule only exists in context while you're touching matching files**
+
+A Terraform edit never sees front-end conventions at all — those rules simply aren't loaded during that work.
+
+**Three consequences worth memorizing**
+
+1. **No `paths:` field = unconditional, same weight as the project file.** A rule with no path declaration isn't lightly scoped — it loads at launch and carries the *same weight* as the main `CLAUDE.md`. Most authors assume dropping a file into the rules folder makes it automatically conditional; it doesn't without an explicit `paths:` entry.
+2. **Loading triggers on reading a matching file** — not at launch, not on every tool call. A session that stayed entirely in one area of the codebase may simply never load a given rule during the whole session, and that's normal, not broken.
+3. **Brace expansion has a budget.** A pattern like `{js,ts,tsx}` that exceeds the size limit isn't rejected with an error — it's treated as a *literal string* and matches nothing at all, silently.
+
+*Everyday analogy*: a "no eating" sign that only appears once you walk into that specific room — never entering the room means never seeing the sign, and that's expected, not a bug.
+
+**Recap in 3 lines**
+
+1. **No `paths:` means unconditional and equally weighted as the project file** — the opposite of what most people assume.
+2. **Rules load on file-read, not at launch** — never touching a matching file means the rule just never loads, harmlessly.
+3. **Overly complex brace patterns fail silently** — exceeding the expansion budget means literal, no-match matching, with no error raised.

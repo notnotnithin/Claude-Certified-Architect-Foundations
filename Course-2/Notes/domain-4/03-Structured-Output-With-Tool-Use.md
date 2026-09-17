@@ -405,3 +405,25 @@ Forcing a shape guarantees valid JSON — it says nothing about whether the *val
 1. **Force the shape with `tool_use` + a JSON schema** — no native "JSON mode" exists; this is how you get structure.
 2. **Design against fabrication in the schema** — nullable/optional fields, and an `other` + `detail` escape hatch for enums.
 3. **Syntax ≠ meaning** — valid JSON guarantees shape, never guarantees the data inside it is correct.
+
+---
+
+## Exam Objective Note: CCAR-F 4.3 — Structured Output with Tool Use
+
+**Two separate things get tested together**
+
+What the structure *is* — fixed by the schema. Whether a structured response happens *at all*, instead of plain text — fixed by forcing the tool call (`tool_choice`). You need both: a schema alone doesn't guarantee the tool gets called; forcing the call alone doesn't define the shape.
+
+**The trap worth carrying in**
+
+A required field with no way to express absence forces the model into a binary choice: break the schema, or invent a value. It invents.
+
+**Prefilling is the old way**
+
+Prefilling the response (seeding the assistant's reply with `{` to force JSON) was the older technique for forcing a shape — it's not where a new service should start today; use `tool_use` + a schema instead.
+
+**Recap in 3 lines**
+
+1. **Schema fixes the shape; forced `tool_choice` fixes whether structure happens at all** — two separate axes, often tested together.
+2. **A required field with no "absent" option gets fabricated, not left blank.**
+3. **Prefilling is legacy** — reach for `tool_use` and a schema in new designs.

@@ -189,3 +189,26 @@ Use it when a task genuinely has separable parts (e.g., "research → analyze �
 1. **Split big, multi-part jobs** — one agent doing everything gets slower and makes more mistakes, just like one overloaded cook.
 2. **Hub-and-spoke** — subagents report only to the coordinator, never to each other, so there's one place to see everything.
 3. **Only split what's genuinely separable** — simple, single-threaded work doesn't need a coordinator at all.
+
+---
+
+## Exam Objective Note: CCAR-F 1.2 — Multi-Agent Orchestration
+
+**Five shapes, and most exam items describe one and ask you to name it**
+
+A single call, a fixed chain, parallel workers, an orchestrator deciding how many workers to spawn, and an evaluator paired with an optimizer.
+
+**The orchestrator is the reflex choice — but it only earns its cost when subtask count is discovered mid-run**
+
+If the number of subtasks is already known before the run starts, a simpler fixed chain or parallel split is the right answer — the orchestrator's overhead is only justified when that count genuinely can't be known in advance.
+
+**Two recurring wrong-answer traps**
+
+- **Overlapping partitions pay twice for the same document and cover nothing extra** — pure waste, no benefit.
+- **Only the coordinator holds every worker's findings** — individual workers can't see each other's output, so only the coordinator is positioned to notice two of them disagree.
+
+**Recap in 3 lines**
+
+1. **Five named shapes get tested**: single call, fixed chain, parallel workers, orchestrator, evaluator-optimizer.
+2. **Orchestrator overhead is only worth it when subtask count is discovered during the run**, not known beforehand.
+3. **Overlapping partitions waste cost for zero extra coverage; only the coordinator can spot worker disagreement.**

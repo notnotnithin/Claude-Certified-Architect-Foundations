@@ -198,3 +198,26 @@ A short, always-current block of essential facts, re-pasted near the **end** of 
 1. **Long chats degrade** — Claude attends most to the start and end, so mid-conversation facts get lost.
 2. **Trim and summarize carefully** — clear raw tool dumps, explicitly protect facts that must survive a summary.
 3. **Pin critical facts at the end of every turn** — beats letting essentials drift into the low-attention middle.
+
+---
+
+## Exam Objective Note: CCAR-F 5.1 — Context Window Management
+
+**The first casualty: an early instruction still binding a late turn**
+
+As the window fills, quality degrades, and what breaks first is an early instruction that's still supposed to govern a later turn. This rules out any "drop the oldest content first" strategy — the oldest content is often exactly where the commitment lives.
+
+**Summarize, but keep the must-never-lose facts outside the summary**
+
+Summarizing keeps old content in condensed form. Better still: anything that must never be lost shouldn't depend on surviving a summary at all — it belongs in a block present on every turn.
+
+**Two recurring details**
+
+- **Named fields survive better than regenerated prose** — rewriting prose is where drift enters; a named field just gets copied.
+- **The effective place to trim a large tool result is *before* it arrives** — filter/limit at the source, not clean up after it's already flooded in.
+
+**Recap in 3 lines**
+
+1. **Early instructions can still bind late turns** — never assume "oldest = safest to drop."
+2. **Must-never-lose facts live outside the summarized material**, in a block re-present every turn.
+3. **Trim tool results before they arrive, and prefer named fields over regenerated prose** — both reduce drift.

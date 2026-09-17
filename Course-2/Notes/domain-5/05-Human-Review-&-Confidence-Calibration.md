@@ -172,3 +172,25 @@ Accuracy isn't uniform: handwritten forms are harder than typed ones; some field
 1. **Score confidence per field, not per document** — localize doubt instead of doubting everything.
 2. **Route by confidence, but spot-check the "clear" bucket too** — otherwise confidently-wrong errors slip through unnoticed.
 3. **Track accuracy by document type and field** — use human review data as a map to aim future scrutiny where it's actually needed.
+
+---
+
+## Exam Objective Note: CCAR-F 5.5 — Human Review and Confidence Calibration
+
+**A confidence score isn't automatically a probability of being right**
+
+It only means something once someone has measured that it actually tracks correctness. If it doesn't, no threshold placed on it separates anything — measurement against known-correct labels is the only thing that finds a real boundary.
+
+**An aggregate hides its own composition**
+
+"94% overall" is fully consistent with near-perfect handling of the common case and a much worse rate on a rarer one. Automating on the headline figure automates the bad segment right along with the good one.
+
+**Automation removes the measurement along with the labor**
+
+Once humans stop reviewing everything, you also lose the ongoing signal that told you accuracy in the first place — which is exactly why a continuing sample matters *after* automation, not just before it.
+
+**Recap in 3 lines**
+
+1. **A confidence score means nothing until validated against known-correct labels** — a threshold on an unvalidated score separates nothing real.
+2. **Aggregates hide bad segments** — a good headline number can mask a badly-performing rare case.
+3. **Keep sampling after automating** — automation removes the measurement, not just the labor.

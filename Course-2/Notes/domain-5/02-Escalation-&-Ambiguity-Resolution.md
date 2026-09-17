@@ -164,3 +164,26 @@ Otherwise → proceed
 1. **A confident wrong guess is worse than asking** — pressing ahead under uncertainty is gambling, not competence.
 2. **Escalate on low confidence, high stakes, policy gaps, or an explicit human request.**
 3. **Disambiguation isn't escalation** — asking "which one?" lets the agent keep working correctly.
+
+---
+
+## Exam Objective Note: CCAR-F 5.2 — Escalation and Ambiguity Resolution
+
+**Two questions decide nearly everything**
+
+1. **Did the user explicitly ask for a person?** A first-class trigger — not the agent's judgment call to override just because it thinks it could have coped.
+2. **Is being wrong cheap to correct?** This is what separates proceeding on a stated assumption from stopping to ask first.
+
+**The sharp example**
+
+The *same* ambiguity that justifies proceeding with a report (regenerable, cheap to redo) justifies stopping before a deletion (not regenerable). Identical uncertainty, opposite correct response — because reversibility, not the ambiguity itself, is what decides.
+
+**On mechanics**
+
+Batch clarifying questions — three asked separately cost three interruptions; one batched ask costs one. Offer concrete options, with a note on what actually depends on the answer.
+
+**Recap in 3 lines**
+
+1. **An explicit request for a human is absolute** — never overridden by the agent's own confidence.
+2. **Cost of being wrong decides proceed-vs-ask** — the same ambiguity gets different treatment depending on reversibility.
+3. **Batch questions, offer concrete options** — explain what turns on the answer.

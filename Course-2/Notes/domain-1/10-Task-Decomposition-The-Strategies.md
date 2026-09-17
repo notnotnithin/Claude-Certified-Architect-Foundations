@@ -234,3 +234,23 @@ Don't pick sequential/parallel based on what "sounds" faster. Ask: *"Does this p
 1. **Decompose for focus and checkability** — small pieces reveal exactly what broke; one giant block hides it.
 2. **Sequential vs. parallel is decided by dependency, not speed preference** — chain when one step needs another's answer, fan out when it doesn't.
 3. **Adaptive is for the unknowable** — research, debugging, exploration — where the plan can only be discovered by actually doing the work.
+
+---
+
+## Exam Objective Note: CCAR-F 1.6 — Task Decomposition Strategies
+
+**These items hand you a workload and ask where the seams fall**
+
+- **Distinct input categories wanting distinct handling** → a **routing** problem.
+- **Identical work over independent units** → **partition/parallel** across concurrent workers.
+- **Stages that each consume the previous stage's output** → a **chain** — and parallelizing a true chain leaves nothing able to run concurrently, since each step genuinely needs the last one's result.
+
+**The instructive error**
+
+Splitting a code review by *file* when the property under review lives *between* files leaves every worker blind to it — no per-file worker can ever see a cross-file issue. Splitting by *concern* instead hands each worker the whole diff and a single lens, so cross-cutting issues actually get caught.
+
+**Recap in 3 lines**
+
+1. **Distinct categories → routing; identical independent work → partition; dependent stages → chain.**
+2. **A true chain can't be parallelized** — there's nothing left to run at the same time once real dependencies exist.
+3. **Split code review by concern, not by file** — file-splitting leaves cross-file properties invisible to every worker.

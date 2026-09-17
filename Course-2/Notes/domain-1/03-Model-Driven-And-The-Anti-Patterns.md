@@ -187,3 +187,9 @@ A sat nav (model-driven) reacts live to real traffic and reroutes when a road is
 1. **Prefer model-driven** — Claude picks the next step from context; you set the goal, not every turn.
 2. **Avoid the three traps** — ignoring `stop_reason`, infinite loops, and not feeding results back.
 3. **These are plumbing failures, not intelligence failures** — and because they're plumbing, they're entirely fixable by you.
+
+---
+
+## Exam Objective Note: CCAR-F 1.1 — Agentic Loops (see [01-The-AgenticLoop.md](01-The-AgenticLoop.md) for the full note)
+
+Quick recap: the loop naturally stops on a tool-call-free response, not on a turn cap — "ignoring `stop_reason`" (this file's first anti-pattern) is exactly what happens when code doesn't respect that natural mechanism. Remember also: `max_turns` counts only round trips that used a tool, and `ResultMessage.result` only exists when `subtype` is `success` — code reading it unconditionally crashes exactly on the caps (like `max_turns`) it was meant to handle gracefully.

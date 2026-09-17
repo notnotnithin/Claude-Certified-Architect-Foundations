@@ -194,3 +194,29 @@ A prompt-level instruction is probabilistic: Claude *usually* follows it, but th
 1. **Hooks are automatic code around tool calls** — not a request, a guarantee.
 2. **PreToolUse guards outward** (stops dangerous actions before they happen); **PostToolUse guards inward** (cleans/shapes results before Claude sees them).
 3. **"Must never break" = hook problem, not a prompt problem** — hooks are deterministic, prompts are only probable.
+
+---
+
+## Exam Objective Note: CCAR-F 1.5 — Agent SDK Hooks
+
+**Mechanics matter more than the roster**
+
+31 hook events exist, but only around 8 are stable enough to actually be tested.
+
+**Exit status 2 is the only code that blocks on its own**
+
+Every *other* non-zero exit status is a non-blocking error — the action still goes ahead regardless.
+
+**`PostToolUse` cannot block anything**
+
+The tool has already run by the time it fires. Expecting it to veto a write means misunderstanding where it sits in the lifecycle.
+
+**The response key differs by event category**
+
+Tool-related events (like `PreToolUse`) answer with `permissionDecision`, which has **three** values, not two: `allow`, `deny`, `escalate`. Lifecycle events such as `Stop` use a completely different key entirely.
+
+**Recap in 3 lines**
+
+1. **Exit code 2 is the only blocking exit code** — every other non-zero code is non-blocking; the action proceeds.
+2. **`PostToolUse` fires after execution and cannot veto anything** — it shapes the result, it doesn't gate the action.
+3. **`permissionDecision` has three values (allow/deny/escalate)** — and lifecycle events like `Stop` use an entirely different key.

@@ -175,3 +175,9 @@ Don't say "yes, I can list the steps" when you actually mean "mostly." If there'
 1. **Fixed steps → prompt chaining** — simple, predictable, easy to debug.
 2. **Discovered-as-you-go steps → orchestrator-workers** — a coordinator decides the next move based on results.
 3. **Answer the "can I list the steps?" question honestly** — "mostly yes" really means "no," and picking the wrong architecture breaks or over-complicates the work.
+
+---
+
+## Exam Objective Note: CCAR-F 1.6 — Task Decomposition Strategies (see [10-Task-Decomposition-The-Strategies.md](10-Task-Decomposition-The-Strategies.md) for the full note)
+
+Quick recap: distinct input categories → routing; identical work over independent units → partition/parallel; stages each consuming the previous one's output → a chain that cannot be parallelized. This file's fixed-vs-dynamic distinction (prompt chaining vs. orchestrator-workers) is the architectural consequence of getting that seam identification right. Also remember the instructive error: splitting a code review by file (instead of by concern) leaves every worker blind to properties that live between files.

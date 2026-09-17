@@ -173,3 +173,23 @@ Before resuming, ask: *"Has anything changed since I was last here?"* If files w
 1. **A session is the agent's saved memory** — every message, tool call, and result, written to disk.
 2. **`resume`/`continue` bring back the full history** — useful, but it includes old tool results with no "may be outdated" label.
 3. **Stale context makes Claude confidently wrong** — always ask "has anything changed?" before trusting a resumed session's old results.
+
+---
+
+## Exam Objective Note: CCAR-F 1.7 — Session State and Resumption
+
+**Three operations, and the scenario usually settles which is available**
+
+- **`continue`** — picks up the most recent session in the working directory.
+- **`resume`** — takes a specific session ID you kept hold of.
+- **`fork`** — resumes and then branches, leaving the original ID and history completely untouched.
+
+**The sharpest question in this objective**
+
+**Forking branches the conversation, not the filesystem.** A forked agent that edits files makes *real* edits — visible to any session working in that directory, including the original. Treating a fork as a sandbox is wrong in a way that costs real work: it only protects conversation history, never the actual files on disk.
+
+**Recap in 3 lines**
+
+1. **`continue` = most recent; `resume` = a specific kept ID; `fork` = branch that leaves the original untouched.**
+2. **Forking is a conversation-history safeguard, not a filesystem sandbox.**
+3. **A forked agent's file edits are real and shared** — never assume experimenting on a fork is consequence-free if it touches files.

@@ -313,3 +313,26 @@ Feature branch change
 1. **Fix bias with independence** — a reviewer that never wrote the code has no reason to defend it.
 2. **Fix blind spots with two passes** — per-file catches local bugs, cross-file catches integration bugs.
 3. **Merge, don't concatenate** — dedupe and keep the highest severity, or the review becomes noisy and gets ignored.
+
+---
+
+## Exam Objective Note: CCAR-F 4.6 — Multi-Instance and Multi-Pass Review
+
+**Why a fresh context reviews better**
+
+It isn't attached to the code it just wrote. It sees only the diff and the criteria you hand it, not the reasoning that produced the change — so it judges the result purely on its own terms.
+
+**Why a fork is the wrong instrument for this**
+
+A fork *inherits* the entire parent conversation — exactly the context an independent review is trying to escape. Independent review needs a genuinely separate, fresh instance, not a branch of the same session that already saw the original reasoning.
+
+**Two more points**
+
+- **Name the work, the plan it's checked against, and what counts as a finding** — explicit scope, not an open-ended "review this."
+- **A reviewer asked to find gaps will find some regardless.** Scope review to *correctness*, not *taste* — otherwise you get noise even when the work is genuinely fine.
+
+**Recap in 3 lines**
+
+1. **Fresh context reviews unbiased** — it never saw the reasoning, only the result.
+2. **Never fork for independent review** — a fork inherits the very context you're trying to escape.
+3. **Scope reviews to correctness, not taste** — "find gaps" produces gaps regardless of whether the work is actually fine.

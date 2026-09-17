@@ -209,3 +209,21 @@ When Claude does need to hand off to a human, a good handoff includes four thing
 1. **Prompts = probable, code = guaranteed** — if a rule can never break, it belongs in code, not a request.
 2. **Gates make the wrong order impossible** — like a car park barrier, no one has to remember to follow the rule.
 3. **Escalate with structure** — customer, issue, actions taken, and a recommendation, not a raw data dump.
+
+---
+
+## Exam Objective Note: CCAR-F 1.4 — Workflow Enforcement and Handoff
+
+**Instruction files are context, not enforcement**
+
+They shape behavior without guaranteeing it. Anything that must hold every time needs a control the model cannot talk its way past: a `PreToolUse` hook inspecting the call before it executes, or a tool that resolves its own limit server-side from state the conversation cannot write to.
+
+**The same reasoning settles where an audit record belongs**
+
+A transcript captures what the agent *announced* — including a change whose tool call then failed. Writing the record inside the tool, at the moment the change actually commits, is what captures what really *happened*.
+
+**Recap in 3 lines**
+
+1. **Instruction files shape, they don't guarantee** — true "must always hold" rules need a hook or server-side check, not a prompt.
+2. **A hard limit has to be resolved server-side**, from state the conversation itself can't tamper with.
+3. **Audit the tool's outcome, not the transcript's announcement** — a transcript can claim success right before the actual tool call fails.

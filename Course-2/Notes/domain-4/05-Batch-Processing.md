@@ -335,3 +335,21 @@ This isn't a separate system — same schema, same `tool_use` structure, same va
 1. **Async and 50% cheaper** — same quality, results within 24 hours instead of instantly.
 2. **Always tag with a meaningful `custom_id`** — results come back out of order.
 3. **Persist results fast** — they're only retained ~29 days.
+
+---
+
+## Exam Objective Note: CCAR-F 4.5 — Batch Processing Strategies
+
+**The deciding constraint: is somebody waiting?**
+
+The trade is latency for price. A day of headroom is comfortably wider than batch turnaround, so batch fits easily. A feature with a person watching a loading spinner is the one case where the discount simply isn't available — that's a synchronous-API situation, full stop.
+
+**Partial recovery — the other half of the objective**
+
+A caller-chosen identifier on every item is what lets you select exactly which ones failed and resubmit only those as a smaller batch. And the downstream effect has to be harmless if an item gets processed twice — a partial batch failure can leave the first half already applied, so resubmitting must never double-charge or double-apply something that already succeeded.
+
+**Recap in 3 lines**
+
+1. **Batch whenever nobody's actively waiting** — a live user watching a spinner is the one case the discount can't serve.
+2. **Use a caller-chosen ID on every item** — it's what lets you isolate and resubmit only the failures.
+3. **Design for safe reprocessing** — a partial failure can mean some items already succeeded before the batch failed.

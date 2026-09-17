@@ -234,3 +234,26 @@ Manifest → survive a crash without losing progress
 1. **Codebase exploration causes the same "context rot" as long chats** — just from files instead of dialogue.
 2. **Scratchpad files persist findings to disk** — unlimited storage, re-read only what's relevant.
 3. **`/compact` proactively, and use manifests + the Explore subagent** — control what survives, and never lose progress to a crash.
+
+---
+
+## Exam Objective Note: CCAR-F 5.4 — Codebase Exploration and Context Degradation
+
+**One root constraint generates the rest**
+
+The window fills fast, and performance falls as it does. Exploring a large codebase is the classic way to flood it.
+
+**Two acceptable fixes**
+
+1. **Delegate the exploration** — a subagent reads in its own window; the main context grows by a summary, not a transcript.
+2. **Scope the request** — narrow what's being explored in the first place.
+
+**Compaction detail worth knowing**
+
+`/compact` replaces older messages with a summary. The project-root instruction file is **re-injected on every request**; a nested one is **not**.
+
+**Recap in 3 lines**
+
+1. **A filling context window is the root cause** — codebase exploration is the classic way to flood it fast.
+2. **Delegate or scope** — both are acceptable fixes, chosen based on which constraint the scenario actually names.
+3. **Root `CLAUDE.md` survives compaction; nested files don't** — re-injected automatically vs. not.

@@ -300,3 +300,21 @@ If a document genuinely can't be fixed, an uncapped loop burns time and money fo
 1. **Validate the meaning, not just the shape** — `tool_use` kills syntax errors; only your code catches wrong sums or fabricated values.
 2. **Retry with precise feedback** — "sum is 4800, not 5000," not "this is wrong."
 3. **Cap retries, then escalate** — stop after 2-3 tries and hand it to a human.
+
+---
+
+## Exam Objective Note: CCAR-F 4.4 — Validation, Retry, and Feedback Loops
+
+**Which failures a check can actually catch**
+
+A syntax/type check happily passes a total that contradicts its own line items — relationships *between* values need real arithmetic your own code performs, not something the model confirms about itself. And self-checking shares the exact failure it's meant to catch: whatever caused a misread in the first place is usually still present when the same reasoning re-checks it.
+
+**Retries: variable failure vs. systematic failure**
+
+Resending an identical request is just a fresh random sample — it fails about as often as it succeeds, because nothing was actually corrected. Feeding back *what was produced and what was wrong* turns that into a real correction. But a schema that's fundamentally wrong about the documents is not fixed by any number of attempts — that's a design flaw, not noise.
+
+**Recap in 3 lines**
+
+1. **Syntax checks miss relationships between values** — catch those with real arithmetic in code, not model self-checking.
+2. **Blind identical retries are just a coin flip** — feedback (what was produced, what was wrong) is what makes a retry a correction.
+3. **Systematic errors (a wrong schema) aren't fixed by retrying** — no number of attempts fixes a design flaw.

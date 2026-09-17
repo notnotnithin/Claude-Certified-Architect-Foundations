@@ -174,3 +174,26 @@ Multiple `Task` calls in a single turn let subagents run in parallel, so the coo
 1. **Spawning = one more tool call** — no special new mechanism, just a `Task` call that hands off a whole job.
 2. **Four fields define an agent** — description (for routing), prompt (for behavior), tools, and an optional model.
 3. **Minimal tools + parallel launches** — restrict each subagent to what it needs, and fire independent ones simultaneously for speed.
+
+---
+
+## Exam Objective Note: CCAR-F 1.3 — Subagent Invocation and Context Passing
+
+**What a freshly spawned subagent actually starts with**
+
+Its own system prompt, the delegation message you wrote, and project-level instruction files — nothing more.
+
+**What it does NOT start with — and why the brief is load-bearing**
+
+The parent's conversation, the files the parent had open, or the reasoning that narrowed the problem down. This is precisely why the delegation brief is load-bearing rather than a formality — without it, the subagent genuinely has nothing else to work from.
+
+**Two further keys**
+
+- **Where a tool is named in both the allowed and denied list, the denial wins** and the tool is removed.
+- **Built-in exploration and planning agents deliberately skip instruction files.** A rule they must obey has to be restated directly in the prompt they're given — `CLAUDE.md` will not reach them.
+
+**Recap in 3 lines**
+
+1. **A subagent starts with only its system prompt, delegation message, and project instruction files** — nothing inherited from the parent.
+2. **Denial always wins on an allow/deny overlap.**
+3. **Built-in Explore/Plan agents skip `CLAUDE.md` on purpose** — restate essential rules directly in their prompt.

@@ -313,3 +313,29 @@ The "Approve" step is uniquely cheap: since nothing's been built yet, fixing a m
 1. **Small/obvious → just do it; big/risky → plan first** — matched to how expensive a mistake would be to undo.
 2. **Plan mode physically blocks edits until you approve** — a hard guarantee, not just a request.
 3. **The Explore subagent investigates separately and reports a summary** — keeping your main context clean while still doing the digging.
+
+---
+
+## Exam Objective Note: CCAR-F 3.4 — Plan Mode vs Direct Execution
+
+**The one-sentence test**
+
+If you could describe the expected diff in a single sentence, skip planning. Plan when the approach is genuinely uncertain, several files change, or the code is unfamiliar to you.
+
+**The honest tradeoff**
+
+Planning isn't free — it adds overhead. That cost is exactly what stops "always plan" from being the correct default; if planning cost nothing, skipping it would never make sense.
+
+**Distinction 1 — plan mode vs. effort solve different problems**
+
+Plan mode addresses *unknown scope* — what needs to happen, across how many files. "Effort" (a model setting controlling reasoning depth) addresses *how hard Claude thinks within one response*. Cranking up effort doesn't substitute for planning when the scope itself is unclear.
+
+**Distinction 2 — plan mode is an approval gate**
+
+Plan mode fundamentally needs a human to say "go." In an unattended pipeline, nobody's there to approve anything — so plan mode doesn't fit there at all. The right tool for that situation is **scoped permissions**, not a plan-approval gate with no one to approve it.
+
+**Recap in 3 lines**
+
+1. **One-sentence diff → skip planning; uncertain/multi-file/unfamiliar → plan.**
+2. **Plan mode ≠ effort** — scope-uncertainty vs. per-response reasoning depth are different problems.
+3. **Plan mode needs a human approver** — unattended pipelines should use scoped permissions instead.

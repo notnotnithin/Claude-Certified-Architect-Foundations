@@ -217,3 +217,9 @@ Tell the subagent the destination and the quality bar — not a turn-by-turn scr
 1. **No automatic inheritance** — subagents start completely blank; never assume they "already know" something.
 2. **Inject context explicitly and completely** — the prompt is the only handoff; vague summaries quietly hurt output quality.
 3. **Give goals, not step-by-step scripts** — trust the subagent's own reasoning loop to figure out the how.
+
+---
+
+## Exam Objective Note: CCAR-F 1.3 — Subagent Invocation and Context Passing (see [06-Spawning-Subagents.md](06-Spawning-Subagents.md) for the full note)
+
+Quick recap: a freshly spawned subagent starts with only its own system prompt, the delegation message, and project-level instruction files — never the parent's conversation, opened files, or reasoning trail. That's exactly why this file's "no automatic inheritance" principle matters so much: the brief you write is load-bearing, not a formality. Also remember: an allow/deny overlap always resolves to denial, and built-in Explore/Plan agents deliberately skip instruction files — a rule they must obey has to be restated in their prompt directly.

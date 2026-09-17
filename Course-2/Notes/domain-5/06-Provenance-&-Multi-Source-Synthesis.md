@@ -134,6 +134,32 @@ Label the timing of information. A 2019 figure and a 2026 figure aren't equally 
 
 ---
 
+## Exam Objective Note: CCAR-F 5.6 — Information Provenance and Multi-Source Synthesis
+
+**API-native citations vs. prompted quotes — the central contrast**
+
+Citations from the API are parsed and extracted directly from the documents, guaranteed to point at text actually present in what you supplied. Just asking for quotes in the prompt buys no such guarantee — the model could still hallucinate a quote that was never in the source.
+
+**Enabling citations is all-or-nothing**
+
+Across every document in a request — no selectively turning it on for some documents and not others.
+
+**A hard architectural limit**
+
+Citations and structured outputs **cannot be combined** — the API returns a 400. A scenario needing both grounded quotes *and* a strict schema requires **two separate passes**, not one.
+
+**On synthesis**
+
+Conflicting sources are annotated with both values *and* their attribution — never quietly averaged into a single resolved answer.
+
+**Recap in 3 lines**
+
+1. **Only API-native citations are guaranteed grounded** — prompted quotes carry no such guarantee and can be hallucinated.
+2. **Citations are all-or-nothing per request, and incompatible with structured outputs** — combining the two needs two passes.
+3. **Conflicting sources get shown with attribution, not averaged away.**
+
+---
+
 ### Course-Wide Wrap: Domains 1–5
 
 Having gone through all five domains in this project, here's the throughline connecting them:

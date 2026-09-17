@@ -201,3 +201,9 @@ Notice Claude didn't decide up front to call both tools — it called the *secon
 1. **Feed results back, every time** — this is literally how Claude learns anything within the loop.
 2. **Skipping it stalls the loop** — Claude just re-asks for the same thing, achieving nothing.
 3. **Tools get chained live, not scripted** — each choice is driven dynamically by what the last result actually said.
+
+---
+
+## Exam Objective Note: CCAR-F 1.1 — Agentic Loops (see [01-The-AgenticLoop.md](01-The-AgenticLoop.md) for the full note)
+
+Quick recap: the loop's natural stop is a tool-call-free response, not a turn cap. `max_turns` counts only round trips that used a tool. And the `ResultMessage.result` field only exists when `subtype` is `success` — reading it unconditionally breaks exactly on the caps (like `max_turns`) it was meant to respect. This live-chaining note is a direct example of that mechanism: each tool call here happened *because* of the prior result, in the same round-trip-counted loop that objective 1.1 tests.

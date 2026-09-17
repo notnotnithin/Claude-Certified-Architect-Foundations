@@ -395,3 +395,32 @@ A good message says what was attempted, what failed, and what to do next — *wi
 1. **Return structured errors, never raw exceptions** — Claude only sees what you explicitly hand it back.
 2. **Tag with category + `isRetryable`** — gives Claude a clear decision: fix, wait, escalate, or stop.
 3. **Empty is a success, not a failure** — `isError: false, resultCount: 0` prevents pointless infinite retries.
+
+---
+
+## Exam Objective Note: CCAR-F 2.2 — Structured Error Responses
+
+**The core decision after any failure: "would trying again help?"**
+
+This is the single most important question an agent needs answered after something fails — and the objective's point is that the answer must be *stated explicitly* in the error (a field like `isRetryable`), not something Claude has to guess by reading the message's wording.
+
+**Three failure types, three very different truths about retrying**
+
+- **A timeout** — might succeed if retried unchanged (the server was briefly busy, now it's fine). Retryable.
+- **A malformed argument** — will *never* succeed no matter how many times you retry with the same bad input. Retrying is pointless; the input itself needs fixing.
+- **A closed account** — a permanent business fact. No amount of retrying changes that the account is closed. Here, the useful output isn't "try again," it's a clear reason the human user can actually be told (e.g., "this account was closed on X date").
+
+*Everyday analogy*: a shop temporarily closed for lunch — coming back in an hour works. A shop permanently closed down and moved out — coming back later never works. What's actually needed there is someone clearly saying "they've closed for good," not a vague "come back later."
+
+**The other half: don't collapse two different facts into one signal**
+
+- **"Nothing found"** — you looked, and there genuinely was nothing there. A complete, successful answer.
+- **"Could not look"** — you never actually got to check (database down, access blocked). An unfinished, failed attempt.
+
+If a tool returns an empty list for *both* situations, the agent can't tell them apart — it only has one reading to report, even though the two cases call for completely different next steps: accept "nothing found" as done, vs. retry or escalate "could not look."
+
+**Recap in 3 lines**
+
+1. **State retryability explicitly** — the agent shouldn't have to infer "should I try again?" from the wording of a message.
+2. **Not all failures are retryable in the same way** — a timeout may resolve itself; a malformed argument or closed account never will, no matter how many retries.
+3. **Never let "found nothing" and "couldn't check" look the same** — collapsing them into one empty-list response strips the agent of the ability to react correctly to either.

@@ -274,3 +274,9 @@ If you split "research the creative industries" into only a visual-arts subagent
 1. **Coordinator manages, never cooks** — route, handle errors, select, synthesize; delegate the actual work.
 2. **Sequential when dependent, parallel when independent** — decided by the work's shape, not by preference.
 3. **Never decompose so narrowly you lose the original question** — a confident answer to a smaller question is a silent failure.
+
+---
+
+## Exam Objective Note: CCAR-F 1.2 — Multi-Agent Orchestration (see [04-Coordinator-Subagent-The-Pattern.md](04-Coordinator-Subagent-The-Pattern.md) for the full note)
+
+Quick recap: five named shapes get tested — single call, fixed chain, parallel workers, orchestrator, evaluator-optimizer — and the orchestrator only earns its overhead when subtask count is discovered mid-run rather than known upfront. This file's sequential-vs-parallel decision rule ("does this piece need the answer from that piece?") is exactly how you tell a fixed chain apart from parallel workers on the exam. Also remember: only the coordinator holds every worker's findings, so only it can spot two workers disagreeing — individual workers never see each other's output.

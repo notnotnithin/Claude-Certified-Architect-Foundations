@@ -284,3 +284,25 @@ If a category (say, "style nitpicks") keeps producing false alarms: narrow the r
 1. **Be specific and testable** — a rule you could check by hand beats a vague wish.
 2. **Add severity** — so critical issues don't get buried next to typos.
 3. **Tune out noise, don't just ask nicer** — narrow or disable unreliable categories.
+
+---
+
+## Exam Objective Note: CCAR-F 4.1 — System Prompt Criteria
+
+**The recurring failure: a criterion the prompt never defines**
+
+"Flag anything suspicious" leaves Claude inventing its own standard — a slightly different one each run. The fix: named categories, each with a stated rule, anchored by a worked example that pins down the exact boundary.
+
+**Knowing when a prompt is the wrong instrument**
+
+Requirements phrased with "never" or "without exception" are guarantees. A prompt only *raises the odds* of compliance — it always leaves a residual tail of failure. For a true "never" requirement, remove the model from the requirement entirely: e.g., append the required text in code after the model runs, rather than trusting the model to always include it.
+
+**Length is examined too**
+
+A rule lost among thirty others isn't fixed by adding a thirty-second — that's dilution, not absence.
+
+**Recap in 3 lines**
+
+1. **Undefined criteria drift** — name categories, state a rule for each, anchor with a worked example.
+2. **"Never" is a guarantee a prompt can't give** — enforce true guarantees in code, not in words.
+3. **A buried rule needs subtraction, not one more addition.**

@@ -324,3 +324,25 @@ Usually **2–5 examples**, all in the exact same format, placed **before** the 
 1. **Show, don't tell** — one good example often beats a paragraph of rules.
 2. **Pick examples that are correct, diverse, and cover edge cases** — not 3 easy near-duplicates.
 3. **2–5 consistent examples before your real input** — Claude generalizes the pattern to new cases.
+
+---
+
+## Exam Objective Note: CCAR-F 4.2 — Few-Shot Prompting
+
+**3-5 examples — but quality matters far more than count**
+
+Good examples mirror the real case, sit inside example tags (so Claude can tell "this is a demonstration" from "this is an instruction"), and vary enough that no accidental pattern gets learned.
+
+**The best question in this objective: accidental patterns**
+
+Examples too alike teach the accident, not the rule. If every example happens to have two-word inputs, two-word inputs are what gets handled — Claude learned the incidental trait, not the actual rule you meant to teach. The fix is *varying* the examples — not adding more of the same, and not raising effort (that's an unrelated lever entirely; this is a data problem).
+
+**When to reach for an example**
+
+When an instruction has *repeatedly* failed to land a format in plain words — that's the signal to switch from telling to showing.
+
+**Recap in 3 lines**
+
+1. **Quality over count** — mirror the real case, use example tags, vary enough to avoid teaching an accident.
+2. **Too-similar examples teach the incidental trait, not the rule** — fix with variety, not volume or effort.
+3. **Reach for examples after words have repeatedly failed** to pin down a format.
