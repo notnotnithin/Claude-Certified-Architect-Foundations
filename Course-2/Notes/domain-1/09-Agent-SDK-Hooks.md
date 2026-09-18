@@ -199,24 +199,26 @@ A prompt-level instruction is probabilistic: Claude *usually* follows it, but th
 
 ## Exam Objective Note: CCAR-F 1.5 — Agent SDK Hooks
 
-**Mechanics matter more than the roster**
+**Focus on how hooks behave, not the full list**
 
-31 hook events exist, but only around 8 are stable enough to actually be tested.
+There are 31 hook events in total, but only around 8 of them are stable enough to actually show up on the exam. Don't try to memorize all 31 — know how the common ones behave.
 
-**Exit status 2 is the only code that blocks on its own**
+**Only one exit code actually blocks anything**
 
-Every *other* non-zero exit status is a non-blocking error — the action still goes ahead regardless.
+Exit status 2 is the only exit code that blocks a tool call. Every other non-zero exit code is a non-blocking error — the action still goes ahead regardless.
 
-**`PostToolUse` cannot block anything**
+**`PostToolUse` can never block anything**
 
-The tool has already run by the time it fires. Expecting it to veto a write means misunderstanding where it sits in the lifecycle.
+By the time `PostToolUse` fires, the tool has already run. It's too late to veto it — this hook can only shape or clean up the result, not stop the action.
 
-**The response key differs by event category**
+*Claude Code example*: A `PreToolUse` hook can stop a risky `rm -rf` command before it runs, because it fires first. A `PostToolUse` hook could never do this for that same command — the files would already be gone by the time the hook sees it.
 
-Tool-related events (like `PreToolUse`) answer with `permissionDecision`, which has **three** values, not two: `allow`, `deny`, `escalate`. Lifecycle events such as `Stop` use a completely different key entirely.
+**Different kinds of events answer with different keys**
+
+Tool-related events like `PreToolUse` respond with a field called `permissionDecision`, which has three possible values, not two: `allow`, `deny`, `escalate`. Lifecycle events such as `Stop` use a completely different response key altogether.
 
 **Recap in 3 lines**
 
-1. **Exit code 2 is the only blocking exit code** — every other non-zero code is non-blocking; the action proceeds.
-2. **`PostToolUse` fires after execution and cannot veto anything** — it shapes the result, it doesn't gate the action.
-3. **`permissionDecision` has three values (allow/deny/escalate)** — and lifecycle events like `Stop` use an entirely different key.
+1. 31 hook events exist, but only about 8 are stable enough to be tested.
+2. Exit code 2 is the only one that blocks — every other non-zero code lets the action through anyway.
+3. `PostToolUse` fires too late to block anything; `permissionDecision` has three values (allow/deny/escalate), and lifecycle events use a different key entirely.

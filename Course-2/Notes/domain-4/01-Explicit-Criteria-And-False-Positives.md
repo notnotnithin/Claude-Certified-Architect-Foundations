@@ -289,20 +289,22 @@ If a category (say, "style nitpicks") keeps producing false alarms: narrow the r
 
 ## Exam Objective Note: CCAR-F 4.1 — System Prompt Criteria
 
-**The recurring failure: a criterion the prompt never defines**
+**When the prompt never says what counts as an issue**
 
-"Flag anything suspicious" leaves Claude inventing its own standard — a slightly different one each run. The fix: named categories, each with a stated rule, anchored by a worked example that pins down the exact boundary.
+"Flag anything suspicious" doesn't tell Claude what "suspicious" means, so it invents its own definition — and that definition shifts a little every time you run it. The fix: give each category a name, one clear rule, and a worked example that shows exactly where the line is drawn.
 
-**Knowing when a prompt is the wrong instrument**
+**A prompt can't promise "never"**
 
-Requirements phrased with "never" or "without exception" are guarantees. A prompt only *raises the odds* of compliance — it always leaves a residual tail of failure. For a true "never" requirement, remove the model from the requirement entirely: e.g., append the required text in code after the model runs, rather than trusting the model to always include it.
+Words like "never" or "without exception" describe a guarantee. But a prompt can only make something *more likely* — it can never make it certain. There's always some small chance Claude slips. If you truly need a "never," take the model out of that part of the job entirely: for example, have your code append the required text after Claude replies, instead of trusting Claude to always include it itself.
 
-**Length is examined too**
+**Claude Code example**: a support bot must always end with a legal disclaimer. Writing "always include the disclaimer" in the system prompt is still just a probability, not a guarantee. Instead, code that appends the disclaimer to every reply after Claude finishes makes it appear 100% of the time, no matter what Claude does.
 
-A rule lost among thirty others isn't fixed by adding a thirty-second — that's dilution, not absence.
+**A buried rule is still a missing rule**
+
+A rule sitting at position 30 in a list of 30 isn't fixed by adding a 31st rule. The real problem is that it's lost in the crowd — fix it by trimming the list, not by adding to it.
 
 **Recap in 3 lines**
 
-1. **Undefined criteria drift** — name categories, state a rule for each, anchor with a worked example.
-2. **"Never" is a guarantee a prompt can't give** — enforce true guarantees in code, not in words.
-3. **A buried rule needs subtraction, not one more addition.**
+1. Undefined criteria drift — name categories, give each one a rule, back it with a worked example.
+2. "Never" is a promise a prompt can't keep — enforce true guarantees in code, not in words.
+3. A buried rule needs fewer other rules, not one more added.

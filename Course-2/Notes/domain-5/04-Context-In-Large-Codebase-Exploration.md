@@ -239,21 +239,23 @@ Manifest → survive a crash without losing progress
 
 ## Exam Objective Note: CCAR-F 5.4 — Codebase Exploration and Context Degradation
 
-**One root constraint generates the rest**
+**One problem causes almost everything else**
 
-The window fills fast, and performance falls as it does. Exploring a large codebase is the classic way to flood it.
+The context window fills up fast, and once it does, quality drops. Exploring a big codebase — reading file after file — is one of the fastest ways to fill it.
 
-**Two acceptable fixes**
+**Two fixes that both work**
 
-1. **Delegate the exploration** — a subagent reads in its own window; the main context grows by a summary, not a transcript.
-2. **Scope the request** — narrow what's being explored in the first place.
+1. **Send the exploring to a subagent** — it does the heavy reading in its own separate window, and only a short summary comes back to the main conversation, not the whole transcript.
+2. **Make the request narrower** — search for exactly what's needed instead of reading broadly.
 
-**Compaction detail worth knowing**
+**One detail worth remembering: what survives `/compact`**
 
-`/compact` replaces older messages with a summary. The project-root instruction file is **re-injected on every request**; a nested one is **not**.
+`/compact` swaps out old messages for a summary. A `CLAUDE.md` file at the project's root gets automatically re-added on every request, but a `CLAUDE.md` file in a subfolder does not — it can quietly disappear after compacting.
+
+*Claude Code example*: if a nested `Course-2/CLAUDE.md` set a rule like "always cite the source lecture," that rule could vanish from context after a `/compact`. A rule in the project's top-level `CLAUDE.md` would survive, because it gets re-injected every time.
 
 **Recap in 3 lines**
 
-1. **A filling context window is the root cause** — codebase exploration is the classic way to flood it fast.
-2. **Delegate or scope** — both are acceptable fixes, chosen based on which constraint the scenario actually names.
-3. **Root `CLAUDE.md` survives compaction; nested files don't** — re-injected automatically vs. not.
+1. A full context window is the root problem — exploring a large codebase is a fast way to cause it.
+2. Delegating to a subagent or narrowing the request both fix it — pick whichever the situation calls for.
+3. Root `CLAUDE.md` survives `/compact` automatically; a nested `CLAUDE.md` does not.

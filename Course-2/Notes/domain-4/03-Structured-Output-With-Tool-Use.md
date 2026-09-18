@@ -410,20 +410,22 @@ Forcing a shape guarantees valid JSON — it says nothing about whether the *val
 
 ## Exam Objective Note: CCAR-F 4.3 — Structured Output with Tool Use
 
-**Two separate things get tested together**
+**Two different jobs that get tested together**
 
-What the structure *is* — fixed by the schema. Whether a structured response happens *at all*, instead of plain text — fixed by forcing the tool call (`tool_choice`). You need both: a schema alone doesn't guarantee the tool gets called; forcing the call alone doesn't define the shape.
+The schema decides *what shape* the answer takes. `tool_choice` decides *whether Claude is forced* to actually use that shape, instead of just replying in plain text. You need both — a schema alone doesn't force the tool call, and forcing the call alone doesn't define what fields go in it.
 
-**The trap worth carrying in**
+**Claude Code example**: you write a schema with `claim_id`, `amount`, and `date` fields, but leave `tool_choice` set to `auto`. Claude might still just answer in prose and skip the tool entirely — the schema was ready, but nothing forced Claude to use it. Setting `tool_choice` to `any` (or naming the tool directly) closes that gap.
 
-A required field with no way to express absence forces the model into a binary choice: break the schema, or invent a value. It invents.
+**The trap worth remembering**
+
+A required field with no way to say "not present" forces Claude into a binary choice: break the schema, or make something up. It will make something up.
 
 **Prefilling is the old way**
 
-Prefilling the response (seeding the assistant's reply with `{` to force JSON) was the older technique for forcing a shape — it's not where a new service should start today; use `tool_use` + a schema instead.
+Prefilling means seeding Claude's reply with a `{` to nudge it toward JSON. That was the older trick for forcing a shape, before tool use existed. A new project today should use `tool_use` plus a schema instead.
 
 **Recap in 3 lines**
 
-1. **Schema fixes the shape; forced `tool_choice` fixes whether structure happens at all** — two separate axes, often tested together.
-2. **A required field with no "absent" option gets fabricated, not left blank.**
-3. **Prefilling is legacy** — reach for `tool_use` and a schema in new designs.
+1. Schema fixes the shape; forced `tool_choice` fixes whether structure happens at all — two separate things, often tested together.
+2. A required field with no "absent" option gets a made-up value, not a blank.
+3. Prefilling is legacy — reach for `tool_use` and a schema in new designs.

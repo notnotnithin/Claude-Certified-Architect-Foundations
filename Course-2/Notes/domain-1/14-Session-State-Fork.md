@@ -197,16 +197,20 @@ If old results are stale (per the previous note), don't just resume the old sess
 
 ## Exam Objective Note: CCAR-F 1.7 — Session State and Resumption (see [13-Session-State-Resume.md](13-Session-State-Resume.md) for the full note)
 
-**An important correction to this file's own course note**
+**A correction worth remembering**
 
-The course note above states forking's core promise broadly: "whatever occurs on the branch cannot harm the original context." The exam objective sharpens this considerably — **that promise only covers the conversation, not the filesystem.** Forking branches the *conversation history*; it does **not** create any copy or sandbox of the actual files on disk.
+Earlier in this file, forking was described broadly as "whatever happens on the branch can't harm the original." The real, exam-tested version is narrower: that promise only covers the conversation, not the files on disk. See [13-Session-State-Resume.md](13-Session-State-Resume.md) for the full note on `continue`/`resume`/`fork`.
 
-If a forked agent edits files (via `Edit`/`Write`), those are **real, shared edits** — visible to any session working in that same directory, including the original, un-forked trunk session. Treating a fork as a safe place to "make a mess" only holds true for conversation exploration; the moment a forked agent touches real files, that safety guarantee is gone.
+**What that actually means**
 
-*Practical takeaway*: fork freely for conversational exploration (trying a different approach, asking speculative questions), but don't assume a fork protects you from real file changes — for genuinely risky file operations, isolate at the filesystem level too (e.g., a separate git worktree), not just the conversation level.
+If a forked agent uses `Edit` or `Write` on a real file, that change is real and shared — any other session working in that same folder, including the original one you forked from, sees it too. A fork only protects you when you're exploring ideas in conversation, not when you're touching actual files.
+
+**The practical rule**
+
+Fork freely to try a different approach or ask a speculative question. But if the work will touch real files and carries real risk, isolate at the filesystem level too — for example, a separate git worktree — not just at the conversation level.
 
 **Recap in 3 lines**
 
-1. **`continue` = most recent session; `resume` = a specific kept ID; `fork` = branch that leaves the original untouched.**
-2. **Forking protects conversation history only** — it is not a filesystem sandbox, despite how safe it may sound.
-3. **A forked agent's file edits are real and shared with the original session** — plan for that risk explicitly when the fork will touch actual files.
+1. `continue` = most recent session; `resume` = one specific saved ID; `fork` = a branch that leaves the original untouched.
+2. Forking protects conversation history only — it is not a filesystem sandbox.
+3. A forked agent's file edits are real and shared with the original session — for risky file work, isolate the filesystem too (e.g., a git worktree).

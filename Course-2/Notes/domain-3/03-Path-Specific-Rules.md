@@ -294,20 +294,22 @@ Order: User → Project → Path-specific (appended last). Since path rules are 
 
 ## Exam Objective Note: CCAR-F 3.3 — Path-Specific Rules for Conditional Convention Loading
 
-**A path-scoped rule only exists in context while you're touching matching files**
+**A path rule only shows up while you're touching the files it covers**
 
-A Terraform edit never sees front-end conventions at all — those rules simply aren't loaded during that work.
+If you're editing Terraform files, a rule scoped only to front-end conventions never loads at all during that work — it's simply not there.
 
-**Three consequences worth memorizing**
+**Three things worth memorizing**
 
-1. **No `paths:` field = unconditional, same weight as the project file.** A rule with no path declaration isn't lightly scoped — it loads at launch and carries the *same weight* as the main `CLAUDE.md`. Most authors assume dropping a file into the rules folder makes it automatically conditional; it doesn't without an explicit `paths:` entry.
-2. **Loading triggers on reading a matching file** — not at launch, not on every tool call. A session that stayed entirely in one area of the codebase may simply never load a given rule during the whole session, and that's normal, not broken.
-3. **Brace expansion has a budget.** A pattern like `{js,ts,tsx}` that exceeds the size limit isn't rejected with an error — it's treated as a *literal string* and matches nothing at all, silently.
+1. **No `paths:` field means "always on," and it carries the same weight as the project file.** People often assume that just dropping a file into the `.claude/rules/` folder makes it conditional automatically. It doesn't. Without an actual `paths:` entry, it loads at the start of every session and counts exactly as much as your main `CLAUDE.md`.
+2. **A rule loads the moment Claude reads a matching file** — not when the session starts, and not on every tool call. If a whole session never happens to touch a matching file, that rule simply never loads during that session. That's expected, not broken.
+3. **Brace patterns like `{js,ts,tsx}` have a size limit.** Go over it, and Claude doesn't throw an error — it just treats the whole pattern as a plain literal string, which then matches nothing. No warning, just silent failure.
 
-*Everyday analogy*: a "no eating" sign that only appears once you walk into that specific room — never entering the room means never seeing the sign, and that's expected, not a bug.
+*Everyday analogy*: a "no eating" sign that only appears once you actually walk into that specific room. Never entering the room means never seeing the sign — that's how it's supposed to work.
+
+*Claude Code example*: a rules file with `paths: ["**/*.{js,ts,tsx,jsx,mjs,cjs,test.js,spec.js}"]` — if that combined pattern is too long, Claude won't warn you. It silently matches zero files, so you'd think the rule is active when it never actually loads.
 
 **Recap in 3 lines**
 
-1. **No `paths:` means unconditional and equally weighted as the project file** — the opposite of what most people assume.
-2. **Rules load on file-read, not at launch** — never touching a matching file means the rule just never loads, harmlessly.
-3. **Overly complex brace patterns fail silently** — exceeding the expansion budget means literal, no-match matching, with no error raised.
+1. **No `paths:` means always-on and equally weighted with the project file** — the opposite of what most people assume.
+2. **Rules load when a matching file is read, not at launch** — never touching a matching file just means the rule never loads, harmlessly.
+3. **Overly long brace patterns fail silently** — going over the size limit means a literal, no-match pattern, with no error raised.

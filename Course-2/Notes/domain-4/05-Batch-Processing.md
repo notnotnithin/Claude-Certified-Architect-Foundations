@@ -340,16 +340,18 @@ This isn't a separate system — same schema, same `tool_use` structure, same va
 
 ## Exam Objective Note: CCAR-F 4.5 — Batch Processing Strategies
 
-**The deciding constraint: is somebody waiting?**
+**The one question that decides batch vs. real-time**
 
-The trade is latency for price. A day of headroom is comfortably wider than batch turnaround, so batch fits easily. A feature with a person watching a loading spinner is the one case where the discount simply isn't available — that's a synchronous-API situation, full stop.
+Batch trades speed for a lower price. If you can wait up to a day, batch fits easily — most batches finish well inside that window anyway. But if a real person is sitting there watching a loading spinner, batch simply isn't an option for that case — that's a job for the normal synchronous API instead.
 
-**Partial recovery — the other half of the objective**
+**Handling partial failures safely**
 
-A caller-chosen identifier on every item is what lets you select exactly which ones failed and resubmit only those as a smaller batch. And the downstream effect has to be harmless if an item gets processed twice — a partial batch failure can leave the first half already applied, so resubmitting must never double-charge or double-apply something that already succeeded.
+Give every item in your batch its own ID — a `custom_id` that's meaningful to you, like a real claim number. That's what lets you find exactly which items failed and resend only those, as a smaller follow-up batch. But there's a catch: if a batch partly fails, some items may have already gone through. So reprocessing an item must be safe to repeat — it should never double-charge someone or save a duplicate.
+
+**Claude Code example**: a 10,000-claim nightly batch fails halfway through. You resubmit only the claims that show an error, using their original `custom_id` (the claim number). Because saving a result is coded as "insert or update this claim_id," not "always insert a new row," resubmitting an already-succeeded claim by accident doesn't create a duplicate.
 
 **Recap in 3 lines**
 
-1. **Batch whenever nobody's actively waiting** — a live user watching a spinner is the one case the discount can't serve.
-2. **Use a caller-chosen ID on every item** — it's what lets you isolate and resubmit only the failures.
-3. **Design for safe reprocessing** — a partial failure can mean some items already succeeded before the batch failed.
+1. Batch fits whenever nobody's actively waiting — a live user watching a spinner is the one case the discount can't serve.
+2. Give every item its own meaningful ID — it's what lets you find and resend only the failures.
+3. Make reprocessing safe — a partial failure can mean some items already succeeded, so redoing them must never double-apply.

@@ -331,34 +331,34 @@ A vague interface doesn't crash. It quietly misbehaves: the wrong tool gets pick
 
 ## Exam Objective Note: CCAR-F 2.1 — Tool Interface Design (Domain 2 · 18% of exam)
 
-**The core claim: vague descriptions cause three specific symptoms**
+**A vague description breaks things in three specific ways**
 
-Since Claude can't see your actual code — only the name and description you wrote — a vague description causes three specific, recognizable failures:
+Claude never sees your code — only the tool's name and description. So when that description is vague, three specific problems show up:
 
-1. **Guessed parameter formats** — no clear format specified, so Claude guesses (sometimes `"2026-03-05"`, sometimes `"March 5, 2026"`).
-2. **Wrong tool picked for adjacent work** — two tools sound similar, Claude reaches for the "close enough" one instead of the correct one.
-3. **Tool abandoned after one failure** — an unhelpful error message causes Claude to give up on the tool entirely instead of retrying correctly.
+1. **Claude guesses the format** — no format was given, so it types the date differently each time (`"2026-03-05"` one call, `"March 5, 2026"` the next).
+2. **Claude grabs the wrong tool** — two tools sound alike, so it picks the "close enough" one instead of the right one.
+3. **Claude gives up after one failure** — the error message doesn't help, so instead of trying again the right way, it just stops using the tool.
 
-*Example*: the `handle_travel(action, ...)` mega-tool from earlier in this note — Claude had to *guess* a magic string like `"book"` or `"cancel"`, and any wrong guess caused the whole call to fail.
+*Example*: the `handle_travel(action, ...)` mega-tool from earlier in this note. Claude had to guess a magic word like `"book"` or `"cancel"` — guess wrong, and the whole call failed.
 
-**Fix 1 — put constraints in the schema, not in prose**
+**Fix 1 — put the rule in the schema, not in a sentence**
 
-Instead of writing "status must be one of: active, pending, or closed" as a sentence, define it as an `enum` in the schema itself:
+Don't write "status must be active, pending, or closed" as plain text. Put it in the schema as an `enum`:
 
 ```json
 "status": { "enum": ["active", "pending", "closed"] }
 ```
 
-A constraint written in prose is just a suggestion Claude might follow — it can still produce a value outside the list, which you'd then have to catch and fix afterward. A constraint baked into the schema's actual *shape* stops the wrong value from being generated in the first place — like handing someone a dropdown menu instead of asking them to type a color and hoping they pick red, blue, or green.
+A rule written as a sentence is just a suggestion — Claude can still type something else, and you have to catch it afterward. A rule built into the schema stops the bad value before it happens. It's like giving someone a dropdown list instead of asking them to type "blue" and hoping they spell it right.
 
-**Fix 2 — shape the result, don't dump everything**
+**Fix 2 — send back only what's needed**
 
-If a tool returns 90 fields but the next decision only needs 3, all 90 still eat up context space regardless of whether they're used.
+If a tool returns 90 fields but Claude only needs 3 of them to decide what to do next, all 90 still take up space, whether Claude uses them or not.
 
-*Everyday analogy*: asking "is the store open?" and being handed the entire 200-page operations manual instead of a simple "yes" — the answer's in there, but at a much higher cost than needed.
+*Everyday analogy*: you ask "is the store open?" and someone hands you the entire 200-page staff manual instead of just saying "yes." The answer's in there somewhere, but it cost way more than it should have.
 
 **Recap in 3 lines**
 
-1. **Vague descriptions produce guessed formats, wrong tool picks, and abandoned tools** — three specific, testable symptoms, not vague "confusion."
-2. **Bake constraints into the schema (enums), not prose** — this prevents bad values instead of catching them after the fact.
-3. **Shape tool output to only what's needed** — returning everything "just in case" wastes context on every call.
+1. A vague description causes three exact problems: guessed formats, wrong tool picked, tool abandoned after one failure.
+2. Put rules in the schema (like `enum`), not in prose — this stops bad values instead of fixing them later.
+3. Only send back the fields Claude actually needs — extra fields just burn context space.

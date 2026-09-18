@@ -254,20 +254,24 @@ Every reply carries a label: `tool_use` means "I want to run a tool, keep loopin
 
 ## Exam Objective Note: CCAR-F 1.1 — Agentic Loops
 
-**The one natural stopping point**
+**How does the loop actually end?**
 
-Claude keeps calling tools and feeding results back until it produces a response with **no tool calls at all**. A turn limit or stop sequence isn't the actual mechanism — it's a safety *cap* layered on top of it.
+Claude stops by itself the moment it gives a reply with no tool call in it. That's the real "done" signal — Claude doesn't need a turn limit to know the job is finished.
 
-**A turn is a round trip, not a message**
+**So what is `max_turns` for, then?**
 
-`max_turns` only counts turns that actually used a tool — not every individual message exchanged.
+Think of `max_turns` as a safety net, not the real stop button. It's there in case something goes wrong and the loop runs too long. It also only counts turns where a tool was actually used — not every message sent back and forth.
 
-**The trap worth carrying in: `ResultMessage`**
+**A gotcha to remember: `ResultMessage`**
 
-Its `subtype` field says how the run ended; the `result` field only exists when that subtype is `success`. Code that reads `.result` unconditionally will crash exactly in the cases it was meant to handle — like hitting `max_turns`.
+When a run ends, you get a `ResultMessage`. Its `subtype` field tells you *how* it ended — for example, `"success"` or `"max_turns"`. The `result` field is only filled in when `subtype` is `"success"`.
+
+*Why this matters*: if your code always reads `.result` without checking `subtype` first, it will crash in exactly the cases it was supposed to handle — like hitting the `max_turns` cap.
+
+**Claude Code example**: Say a task genuinely needs 4 tool calls (look up order → check policy → verify code → confirm), but `max_turns` is set to 3. The run stops early with `subtype: "max_turns"` and no `result` field. Code that blindly reads `.result` here crashes; code that checks `subtype` first handles it cleanly.
 
 **Recap in 3 lines**
 
-1. **The loop ends on a tool-call-free response** — caps like `max_turns` are limits on top of the mechanism, not the mechanism itself.
-2. **A turn = a round trip that used a tool**, not every message.
-3. **`ResultMessage.result` only exists on `subtype: success`** — reading it unconditionally breaks on the very caps it should respect.
+1. Claude stops on its own once it replies with no tool call — `max_turns` is just a backup safety cap, not the real mechanism.
+2. `max_turns` only counts turns that used a tool, not every message.
+3. Always check `ResultMessage.subtype` before reading `.result` — `.result` only exists when `subtype` is `"success"`.

@@ -400,27 +400,29 @@ A good message says what was attempted, what failed, and what to do next — *wi
 
 ## Exam Objective Note: CCAR-F 2.2 — Structured Error Responses
 
-**The core decision after any failure: "would trying again help?"**
+**The one question that matters after a failure: "should I try again?"**
 
-This is the single most important question an agent needs answered after something fails — and the objective's point is that the answer must be *stated explicitly* in the error (a field like `isRetryable`), not something Claude has to guess by reading the message's wording.
+This is the most important thing an agent needs to know after something goes wrong. The answer has to be spelled out in the error itself — a field like `isRetryable` — not something Claude has to guess from the wording of the message.
 
-**Three failure types, three very different truths about retrying**
+**Three kinds of failure, three different answers**
 
-- **A timeout** — might succeed if retried unchanged (the server was briefly busy, now it's fine). Retryable.
-- **A malformed argument** — will *never* succeed no matter how many times you retry with the same bad input. Retrying is pointless; the input itself needs fixing.
-- **A closed account** — a permanent business fact. No amount of retrying changes that the account is closed. Here, the useful output isn't "try again," it's a clear reason the human user can actually be told (e.g., "this account was closed on X date").
+- **A timeout** — the server was briefly busy. Try again and it might work. Retryable.
+- **A bad argument** — the input itself is wrong. Retrying with the same input will never work. The input needs fixing, not another attempt.
+- **A closed account** — a permanent fact. No amount of retrying changes it. What's actually useful here isn't "try again," it's a clear reason, like "this account was closed on March 3."
 
-*Everyday analogy*: a shop temporarily closed for lunch — coming back in an hour works. A shop permanently closed down and moved out — coming back later never works. What's actually needed there is someone clearly saying "they've closed for good," not a vague "come back later."
+*Everyday analogy*: a shop closed for lunch — come back in an hour and it's open. A shop closed down for good — coming back never helps. What you need there is someone telling you plainly "they've closed for good," not a vague "try later."
 
-**The other half: don't collapse two different facts into one signal**
+**Don't mix up "found nothing" with "couldn't check"**
 
-- **"Nothing found"** — you looked, and there genuinely was nothing there. A complete, successful answer.
-- **"Could not look"** — you never actually got to check (database down, access blocked). An unfinished, failed attempt.
+- **"Nothing found"** — Claude looked, and there was genuinely nothing there. A complete, successful answer.
+- **"Could not look"** — Claude never got to check at all (database down, access blocked). An unfinished, failed attempt.
 
-If a tool returns an empty list for *both* situations, the agent can't tell them apart — it only has one reading to report, even though the two cases call for completely different next steps: accept "nothing found" as done, vs. retry or escalate "could not look."
+If a tool returns an empty list for both cases, Claude can't tell them apart. But the two cases need completely different next steps: accept "nothing found" and move on, or retry/escalate "couldn't check."
+
+*Claude Code example*: if I search a codebase with `Grep` and it finds zero matches, that's a successful search with an empty result — I should report "no matches" and move on. If instead the search failed because a file couldn't be read, that's a real failure — I should retry or tell you what broke, not quietly report "no matches" as if the search actually ran.
 
 **Recap in 3 lines**
 
-1. **State retryability explicitly** — the agent shouldn't have to infer "should I try again?" from the wording of a message.
-2. **Not all failures are retryable in the same way** — a timeout may resolve itself; a malformed argument or closed account never will, no matter how many retries.
-3. **Never let "found nothing" and "couldn't check" look the same** — collapsing them into one empty-list response strips the agent of the ability to react correctly to either.
+1. Say clearly in the error whether trying again would help — don't make Claude guess from the wording.
+2. Not every failure is the same: a timeout may fix itself, but a bad input or a closed account never will, however many times you retry.
+3. Keep "found nothing" and "couldn't check" separate — collapsing them into one empty response stops Claude from reacting the right way to either one.

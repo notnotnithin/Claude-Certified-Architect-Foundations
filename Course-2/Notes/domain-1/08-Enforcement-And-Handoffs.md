@@ -214,16 +214,18 @@ When Claude does need to hand off to a human, a good handoff includes four thing
 
 ## Exam Objective Note: CCAR-F 1.4 — Workflow Enforcement and Handoff
 
-**Instruction files are context, not enforcement**
+**Instruction files guide behavior, they don't guarantee it**
 
-They shape behavior without guaranteeing it. Anything that must hold every time needs a control the model cannot talk its way past: a `PreToolUse` hook inspecting the call before it executes, or a tool that resolves its own limit server-side from state the conversation cannot write to.
+Things like `CLAUDE.md` or a system prompt shape what Claude does, but they can't force it. If a rule must hold 100% of the time no matter what, it needs a control the model can't talk its way around — like a `PreToolUse` hook that checks a call before it runs, or a tool that checks its own limit using data the conversation can't touch or change.
 
-**The same reasoning settles where an audit record belongs**
+*Claude Code example*: Telling Claude in a prompt "never refund more than $500" is a guideline it usually follows. A `PreToolUse` hook that blocks any refund call over $500 before it runs is a guarantee — the tool call simply cannot go through, no matter what Claude decides.
 
-A transcript captures what the agent *announced* — including a change whose tool call then failed. Writing the record inside the tool, at the moment the change actually commits, is what captures what really *happened*.
+**Where should a record of what happened live?**
+
+The same logic settles this. A conversation transcript only records what the agent *said* it did — including a case where it announced a change but the actual tool call then failed. Writing the record inside the tool itself, right when the change actually commits, is what captures what really happened.
 
 **Recap in 3 lines**
 
-1. **Instruction files shape, they don't guarantee** — true "must always hold" rules need a hook or server-side check, not a prompt.
-2. **A hard limit has to be resolved server-side**, from state the conversation itself can't tamper with.
-3. **Audit the tool's outcome, not the transcript's announcement** — a transcript can claim success right before the actual tool call fails.
+1. Instruction files shape behavior but don't guarantee it — true must-always-hold rules need a hook or a server-side check.
+2. A hard limit must be checked using data the conversation itself can't edit.
+3. Record what the tool actually did, not what the transcript claims — a transcript can say "success" right before the real tool call fails.

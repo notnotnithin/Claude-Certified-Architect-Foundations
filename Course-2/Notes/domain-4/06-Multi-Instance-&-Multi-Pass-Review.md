@@ -318,21 +318,22 @@ Feature branch change
 
 ## Exam Objective Note: CCAR-F 4.6 — Multi-Instance and Multi-Pass Review
 
-**Why a fresh context reviews better**
+**Why a fresh instance reviews better**
 
-It isn't attached to the code it just wrote. It sees only the diff and the criteria you hand it, not the reasoning that produced the change — so it judges the result purely on its own terms.
+It never wrote the code, so it isn't attached to it. All it sees is the change and the criteria you hand it — not the reasoning or excuses behind the change. That's what lets it judge the work fairly, on its own terms.
 
-**Why a fork is the wrong instrument for this**
+**Why a "fork" doesn't give you that fresh look**
 
-A fork *inherits* the entire parent conversation — exactly the context an independent review is trying to escape. Independent review needs a genuinely separate, fresh instance, not a branch of the same session that already saw the original reasoning.
+A fork carries over the entire parent conversation — exactly the context an independent review is trying to escape. Independent review needs a genuinely separate, fresh instance, not a branch of the same session that already saw the original reasoning.
+
+**Claude Code example**: forking the session that just wrote a feature, and asking that fork to "review" its own work, still remembers every decision and justification behind the code — it's likely to agree with itself. A separate, fresh session that only sees the diff and the review criteria carries no such bias.
 
 **Two more points**
 
-- **Name the work, the plan it's checked against, and what counts as a finding** — explicit scope, not an open-ended "review this."
-- **A reviewer asked to find gaps will find some regardless.** Scope review to *correctness*, not *taste* — otherwise you get noise even when the work is genuinely fine.
+Name the work, the plan it's checked against, and what counts as a finding — give explicit scope, not an open-ended "review this." And remember: a reviewer asked to find gaps will find some regardless. Scope review to *correctness*, not *taste* — otherwise you get noise even when the work is genuinely fine.
 
 **Recap in 3 lines**
 
-1. **Fresh context reviews unbiased** — it never saw the reasoning, only the result.
-2. **Never fork for independent review** — a fork inherits the very context you're trying to escape.
-3. **Scope reviews to correctness, not taste** — "find gaps" produces gaps regardless of whether the work is actually fine.
+1. Fresh context reviews unbiased — it never saw the reasoning, only the result.
+2. Never fork for independent review — a fork inherits the very context you're trying to escape.
+3. Scope reviews to correctness, not taste — "find gaps" produces gaps regardless of whether the work is actually fine.

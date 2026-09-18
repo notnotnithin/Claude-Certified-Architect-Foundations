@@ -169,21 +169,25 @@ Otherwise → proceed
 
 ## Exam Objective Note: CCAR-F 5.2 — Escalation and Ambiguity Resolution
 
-**Two questions decide nearly everything**
+**Two questions that decide almost everything**
 
-1. **Did the user explicitly ask for a person?** A first-class trigger — not the agent's judgment call to override just because it thinks it could have coped.
-2. **Is being wrong cheap to correct?** This is what separates proceeding on a stated assumption from stopping to ask first.
+1. **Did the person directly ask for a human?** If yes, that settles it — the agent doesn't get to override this just because it feels confident it could handle things itself.
+2. **If the agent guesses wrong, is that cheap to fix?** This is what actually decides whether to proceed on a stated assumption or stop and ask first.
 
-**The sharp example**
+**The example that makes it click**
 
-The *same* ambiguity that justifies proceeding with a report (regenerable, cheap to redo) justifies stopping before a deletion (not regenerable). Identical uncertainty, opposite correct response — because reversibility, not the ambiguity itself, is what decides.
+Imagine the same unclear request two ways. If the task is writing a report, just proceed with your best guess — a report is cheap to redo if you guessed wrong. If the task is deleting something, stop and ask first — a deletion can't be undone. Same amount of uncertainty, opposite correct response, because what decides isn't how unsure you are — it's whether a mistake can be undone.
 
-**On mechanics**
+Everyday analogy: guessing someone's coffee order wrong is a minor annoyance; guessing which house to demolish wrong is irreversible. Same guess, very different stakes.
 
-Batch clarifying questions — three asked separately cost three interruptions; one batched ask costs one. Offer concrete options, with a note on what actually depends on the answer.
+**How to actually ask well**
+
+If there are several questions, ask them together in one go — three questions asked separately cost three interruptions, one batched ask costs one. Give concrete options ("did you mean order A or order B?") along with a quick note on why it matters, instead of a vague "can you clarify?"
+
+*Claude Code example*: if a request could match two similarly-named files, the right move is one `AskUserQuestion` call listing both file paths as options — not guessing at one, then asking about the other only if that guess turns out wrong.
 
 **Recap in 3 lines**
 
-1. **An explicit request for a human is absolute** — never overridden by the agent's own confidence.
-2. **Cost of being wrong decides proceed-vs-ask** — the same ambiguity gets different treatment depending on reversibility.
-3. **Batch questions, offer concrete options** — explain what turns on the answer.
+1. **An explicit request for a human always wins** — the agent's own confidence never overrides it.
+2. **How cheap a mistake is to fix decides proceed-vs-ask** — not how unsure the agent feels.
+3. **Batch your questions and offer concrete options** — explain what the answer actually changes.

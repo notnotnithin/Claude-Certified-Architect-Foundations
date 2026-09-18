@@ -331,26 +331,28 @@ Your prompt → claude -p "..." --output-format json --json-schema {...}
 
 ## Exam Objective Note: CCAR-F 3.6 — CI/CD Integration
 
-**It's mostly about the flags**
+**Mostly it comes down to two flags**
 
-`--output-format json` puts response text in a `result` field. Supply a `--json-schema` alongside it, and the schema-shaped data lands in a *separate* `structured_output` field — both fields exist together.
+`--output-format json` puts Claude's answer text into a `result` field. Add `--json-schema` alongside it, and the schema-shaped data goes into a separate `structured_output` field. Both fields show up together in the same output.
 
-**The format-annotation trap**
+**The trap: format annotations look enforced, but aren't**
 
-A schema annotation like `"format": "email"` is accepted syntactically but **never actually enforced**. Assuming it guarantees a valid email is a real design mistake — nothing checks it, so Claude could still output a non-email string and it would pass validation.
+A schema hint like `"format": "email"` is accepted without complaint, but it's **never actually checked**. Assuming it guarantees a valid email address is a real design mistake — nothing stops Claude from outputting something that isn't an email, and it would still pass validation.
 
-**Permissions matter more than anything else in an unattended run**
+**In an unattended run, permissions matter more than anything else**
 
-And the rule syntax hides a gotcha: in `Bash(git diff *)`, the **space** before `*` is what confines the match to the whole word `git diff`. Drop that space (`Bash(git diff*)`) and the pattern also matches `git diff-index` — a command you probably never meant to allow.
+There's a sneaky gotcha in the rule syntax: in `Bash(git diff *)`, that **space** before the `*` is what limits the match to only the exact command `git diff`. Remove the space (`Bash(git diff*)`), and the same rule now also matches `git diff-index` — a different command you probably never meant to allow.
 
-*Everyday analogy*: "allow anyone named John" vs. "allow anyone named John*" (no space) — the second could also match "Johnathan," someone you never intended to include.
+*Everyday analogy*: it's like the difference between "allow anyone named John" and "allow anyone named John" followed immediately by a wildcard with no space — the second version could accidentally also let in "Johnathan," someone you never meant to include.
 
-**Bare mode — reproducibility by skipping everything local**
+*Claude Code example*: you write a CI permission rule as `Bash(git diff*)`, meaning to allow just `git diff`. Because the space is missing, Claude can also silently run `git diff-index` under that same allowed rule — a gap you'd only catch by reading the permission syntax carefully.
 
-Bare mode skips `CLAUDE.md`, hooks, and MCP discovery entirely. That's exactly what makes a run reproducible across different machines — it ignores all local, machine-specific configuration, so the same command behaves identically no matter where it runs.
+**Bare mode: reproducible because it skips all your local setup**
+
+Bare mode skips `CLAUDE.md`, hooks, and MCP server discovery completely. That's actually the point — by ignoring everything specific to your local machine, the exact same command behaves exactly the same way no matter which machine runs it.
 
 **Recap in 3 lines**
 
 1. **`result` holds the text; `structured_output` holds the schema-shaped data** — both present when a schema is supplied.
 2. **Format annotations like `email` are never enforced** — don't design as if they validate anything.
-3. **A missing space in a Bash permission rule silently widens the match** — `Bash(git diff *)` ≠ `Bash(git diff*)`; bare mode buys reproducibility by skipping all local config.
+3. **A missing space in a Bash permission rule silently widens the match** — `Bash(git diff *)` is not the same as `Bash(git diff*)`; bare mode buys reproducibility by skipping all local config.

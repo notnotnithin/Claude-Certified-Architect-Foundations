@@ -180,4 +180,20 @@ Don't say "yes, I can list the steps" when you actually mean "mostly." If there'
 
 ## Exam Objective Note: CCAR-F 1.6 — Task Decomposition Strategies (see [10-Task-Decomposition-The-Strategies.md](10-Task-Decomposition-The-Strategies.md) for the full note)
 
-Quick recap: distinct input categories → routing; identical work over independent units → partition/parallel; stages each consuming the previous one's output → a chain that cannot be parallelized. This file's fixed-vs-dynamic distinction (prompt chaining vs. orchestrator-workers) is the architectural consequence of getting that seam identification right. Also remember the instructive error: splitting a code review by file (instead of by concern) leaves every worker blind to properties that live between files.
+**Quick recap of the full note**
+
+See [10-Task-Decomposition-The-Strategies.md](10-Task-Decomposition-The-Strategies.md) for the complete version. Short version: different input types → routing; the same work spread over independent units → split and run in parallel; stages that each need the last one's output → a chain, which can't be parallelized.
+
+**How this file connects**
+
+This file's fixed-vs-dynamic question (prompt chaining vs. orchestrator-workers) is what naturally follows once you've correctly found the seams above — get the seams right, and the architecture choice falls out of it.
+
+**One more gotcha**
+
+Splitting a code review by file (instead of by concern) leaves every worker blind to bugs that live between files.
+
+**Recap in 3 lines**
+
+1. Different input types → routing; identical independent work → parallel; dependent stages → chain (can't be parallelized).
+2. Finding the seams correctly is what tells you whether to use prompt chaining or orchestrator-workers.
+3. Split a code review by concern, not by file, or cross-file bugs stay invisible.

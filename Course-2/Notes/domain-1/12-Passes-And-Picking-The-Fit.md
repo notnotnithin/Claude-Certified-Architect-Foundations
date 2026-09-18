@@ -218,4 +218,16 @@ Most real jobs aren't a single shape. They're usually independent work first (pa
 
 ## Exam Objective Note: CCAR-F 1.6 — Task Decomposition Strategies (see [10-Task-Decomposition-The-Strategies.md](10-Task-Decomposition-The-Strategies.md) for the full note)
 
-Quick recap: distinct input categories → routing; identical work over independent units → partition/parallel; stages each consuming the previous one's output → a chain (which can't be parallelized, since there's nothing left able to run concurrently once real dependencies exist). This file's per-file/cross-file passes are the direct worked example of the "instructive error": splitting a code review purely by file leaves cross-file properties invisible to every worker — splitting by concern (whole diff, one lens) is what actually catches them.
+**Quick recap of the full note**
+
+See [10-Task-Decomposition-The-Strategies.md](10-Task-Decomposition-The-Strategies.md) for the complete version. Short version: different input types → routing; identical work spread over independent units → split and parallelize; stages that each depend on the last one's output → a chain, which can't be parallelized.
+
+**How this file connects**
+
+This file's per-file vs. cross-file passes are a real worked example of the "instructive error" from that note: splitting a code review purely by file leaves properties that live *between* files invisible to every worker. Splitting by concern instead — giving each worker the whole diff through one lens — is what actually catches them.
+
+**Recap in 3 lines**
+
+1. Different input types → routing; identical independent work → parallel; dependent stages → chain (can't be parallelized).
+2. This file's per-file/cross-file split is a real example of that seam-finding logic.
+3. Split by concern, not by file — file-only splitting hides bugs that live between files.

@@ -192,4 +192,16 @@ A sat nav (model-driven) reacts live to real traffic and reroutes when a road is
 
 ## Exam Objective Note: CCAR-F 1.1 — Agentic Loops (see [01-The-AgenticLoop.md](01-The-AgenticLoop.md) for the full note)
 
-Quick recap: the loop naturally stops on a tool-call-free response, not on a turn cap — "ignoring `stop_reason`" (this file's first anti-pattern) is exactly what happens when code doesn't respect that natural mechanism. Remember also: `max_turns` counts only round trips that used a tool, and `ResultMessage.result` only exists when `subtype` is `success` — code reading it unconditionally crashes exactly on the caps (like `max_turns`) it was meant to handle gracefully.
+**Quick recap of the full note**
+
+See [01-The-AgenticLoop.md](01-The-AgenticLoop.md) for the complete version. Short version: the loop stops naturally when Claude gives a reply with no tool call — not because of a turn limit. Ignoring `stop_reason` (this file's first anti-pattern) is exactly what happens when code doesn't respect that.
+
+**One gotcha to remember**
+
+`max_turns` only counts turns that used a tool. And `ResultMessage.result` only exists when `subtype` is `"success"` — code that reads `.result` without checking `subtype` first crashes exactly on the caps, like `max_turns`, it was supposed to handle gracefully.
+
+**Recap in 3 lines**
+
+1. The loop stops itself on a tool-call-free reply, not a turn cap — ignoring `stop_reason` breaks this.
+2. `max_turns` only counts tool-using turns.
+3. Always check `subtype` before reading `.result` — it only exists when `subtype` is `"success"`.

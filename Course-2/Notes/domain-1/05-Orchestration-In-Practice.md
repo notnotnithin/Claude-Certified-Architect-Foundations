@@ -279,4 +279,20 @@ If you split "research the creative industries" into only a visual-arts subagent
 
 ## Exam Objective Note: CCAR-F 1.2 — Multi-Agent Orchestration (see [04-Coordinator-Subagent-The-Pattern.md](04-Coordinator-Subagent-The-Pattern.md) for the full note)
 
-Quick recap: five named shapes get tested — single call, fixed chain, parallel workers, orchestrator, evaluator-optimizer — and the orchestrator only earns its overhead when subtask count is discovered mid-run rather than known upfront. This file's sequential-vs-parallel decision rule ("does this piece need the answer from that piece?") is exactly how you tell a fixed chain apart from parallel workers on the exam. Also remember: only the coordinator holds every worker's findings, so only it can spot two workers disagreeing — individual workers never see each other's output.
+**Quick recap of the full note**
+
+See [04-Coordinator-Subagent-The-Pattern.md](04-Coordinator-Subagent-The-Pattern.md) for the complete version. Short version: five shapes get tested — single call, fixed chain, parallel workers, orchestrator, evaluator-optimizer. An orchestrator is only worth its cost when you discover the number of subtasks as you go, not when you already knew it upfront.
+
+**How this file connects**
+
+This file's own decision rule — "does this piece need the answer from that piece?" — is exactly how you tell a fixed chain (yes) apart from parallel workers (no) on the exam.
+
+**One more gotcha**
+
+Only the coordinator ever sees every worker's results. Workers can't see each other's output, so only the coordinator can spot two of them disagreeing.
+
+**Recap in 3 lines**
+
+1. Five shapes get tested: single call, fixed chain, parallel workers, orchestrator, evaluator-optimizer.
+2. "Does this piece need the answer from that piece?" tells a chain (yes) apart from parallel work (no).
+3. Only the coordinator sees every worker's output — so only it can catch a disagreement.

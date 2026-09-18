@@ -390,30 +390,32 @@ The real secret lives in your environment variable, never in the file itself, so
 
 ## Exam Objective Note: CCAR-F 2.4 — MCP Server Integration
 
-**MCP only standardizes the "interface," nothing behind it**
+**MCP only standardizes the "plug," not what's behind it**
 
-MCP settles just two things: how a server *describes* its tools/resources, and how a client *calls* them — like agreeing on a plug shape and voltage, nothing about what happens inside the appliance.
+MCP settles two things only: how a server describes its tools and resources, and how a client calls them. Think of it like everyone agreeing on the same plug shape and voltage — it says nothing about what's inside the appliance.
 
-**The common misreading**
+**The mistake people make**
 
-Authentication, rate limiting, retries, and caching stay entirely the *server's* job to build. Adopting a standard protocol for the interface doesn't mean these concerns come included — dropping them just because a protocol arrived is the mistake this objective is built around.
+Auth, rate limiting, retries, and caching are still the server's own job to build. Just because there's now a standard protocol doesn't mean any of that comes for free. Assuming it does is the exact mistake this exam point is testing.
 
-*Everyday analogy*: every house agreeing on the same electrical socket shape doesn't mean every appliance automatically comes with a surge protector or a warranty — those stay each manufacturer's own responsibility.
+*Everyday analogy*: every house agreeing on the same electrical socket shape doesn't mean every appliance comes with a surge protector or a warranty built in — those are still each manufacturer's own job.
 
-**Where MCP actually shines**
+**Where MCP really pays off**
 
-Many systems, many consumers, distributed ownership — one team builds and maintains a server once, and *every* application across the company reuses it, instead of each app team hand-building its own custom integration to the same system.
+When many apps need the same system, one team builds and maintains the server once, and every app across the company reuses it, instead of each app team building its own custom connector to the same system from scratch.
 
-**Key point 1 — a hidden problem inside a "successful" result is invisible**
+**Watch out 1 — a failure hidden inside a "success" is invisible**
 
-Results carry a flag marking failure. If something goes wrong but the response text merely *describes* the problem in prose while the flag still says success, any logic checking that flag never notices — the failure is buried in text nobody's automated handling is reading. Same structured-errors principle as [domain-2/02](02-Structured-Error-Responses.md): state failure as a flag, not just in words.
+Results carry a flag that's supposed to mark failure. If something breaks but the flag still says success, and the problem is only mentioned in the text, any code that checks the flag will never notice. The failure is buried in words nobody's automation is reading.
 
-**Key point 2 — stable reference material belongs in a Resource, not behind tool calls**
+*Claude Code example*: imagine an MCP tool result comes back as `{ "isError": false, "content": "Note: the database was unreachable, showing cached data" }`. Any system just checking `isError` sees a clean success and moves on — the real problem is sitting in the text, unseen. This is the same rule as [domain-2/02](02-Structured-Error-Responses.md): failure has to be a flag, not just wording.
 
-Static, unchanging documentation or schema info should be exposed as a **Resource** (data pulled in directly), not forced behind three separate **Tool** calls chained together just to assemble it piece by piece.
+**Watch out 2 — stable reference info belongs in a Resource, not behind tool calls**
+
+Fixed, unchanging documentation or schema info should be exposed as a Resource that Claude can pull in directly, not split across three chained Tool calls just to assemble it piece by piece.
 
 **Recap in 3 lines**
 
-1. **MCP standardizes the interface only** — auth, rate limiting, retries, and caching remain the server's own responsibility.
-2. **MCP's real value is reuse** — one server per system, maintained once, shared across every consuming app.
-3. **Don't hide failure in prose, and don't hide static data behind tool calls** — use the failure flag for errors, and Resources for stable reference material.
+1. MCP standardizes the interface only — auth, rate limiting, retries, and caching are still the server's job.
+2. MCP's real value is reuse: build a server once, every app shares it.
+3. Mark failure with a flag, not just in words, and put stable reference data in a Resource, not behind tool calls.

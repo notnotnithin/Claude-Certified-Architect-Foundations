@@ -222,4 +222,21 @@ Tell the subagent the destination and the quality bar — not a turn-by-turn scr
 
 ## Exam Objective Note: CCAR-F 1.3 — Subagent Invocation and Context Passing (see [06-Spawning-Subagents.md](06-Spawning-Subagents.md) for the full note)
 
-Quick recap: a freshly spawned subagent starts with only its own system prompt, the delegation message, and project-level instruction files — never the parent's conversation, opened files, or reasoning trail. That's exactly why this file's "no automatic inheritance" principle matters so much: the brief you write is load-bearing, not a formality. Also remember: an allow/deny overlap always resolves to denial, and built-in Explore/Plan agents deliberately skip instruction files — a rule they must obey has to be restated in their prompt directly.
+**Quick recap of the full note**
+
+See [06-Spawning-Subagents.md](06-Spawning-Subagents.md) for the complete version. Short version: a new subagent starts with only its own system prompt, your delegation message, and project instruction files — never the parent's conversation, its open files, or its reasoning trail.
+
+**How this file connects**
+
+This is exactly why this file's "no automatic inheritance" rule matters so much — the message you write for a subagent isn't a formality, it's genuinely all the subagent has to work with.
+
+**Two more gotchas**
+
+- If a tool is both allowed and denied, the denial always wins.
+- Built-in agents like Explore and Plan skip instruction files on purpose — any rule they must follow has to be written directly into their prompt.
+
+**Recap in 3 lines**
+
+1. A subagent starts blank except for its system prompt, your delegation message, and project instruction files.
+2. Your delegation message is load-bearing, not optional extra detail.
+3. Allow/deny overlap resolves to denial; Explore/Plan agents skip `CLAUDE.md` on purpose.

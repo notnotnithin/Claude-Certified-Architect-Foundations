@@ -344,35 +344,37 @@ Locate first (`Grep`/`Glob`), then read only the two or three files that actuall
 
 ## Exam Objective Note: CCAR-F 2.5 — Built-in Tools
 
-**Glob vs. Grep — the `.gitignore` distinction**
+**Glob vs. Grep — one difference about `.gitignore`**
 
-- **Glob ignores `.gitignore`** — lists files purely by matching filenames on disk, regardless of git's ignore rules.
-- **Grep respects `.gitignore`** — skips searching inside gitignored files entirely.
+- **Glob ignores `.gitignore`** — it lists files by matching their names on disk, no matter what git's ignore rules say.
+- **Grep respects `.gitignore`** — it skips searching inside any file that git is told to ignore.
 
-Testable consequence: a gitignored build artifact (e.g., `dist/bundle.js`) still turns up when you `Glob` for it by name, but `Grep` won't search its contents at all — only one of the two tools "sees" it, depending on whether you're checking existence or searching contents.
+This matters in practice: a gitignored build file like `dist/bundle.js` will still show up if you `Glob` for it by name. But `Grep` won't search inside it at all. Whether a file "exists" to these tools depends on whether you're checking its name or its contents.
 
-*Everyday analogy*: a librarian who lists every book by title, even ones marked "do not read," versus one who only reads the contents of books that aren't flagged — ask the first "is this here?" and they say yes; ask the second to search inside it, and they refuse.
+*Everyday analogy*: one librarian lists every book by title, even ones marked "do not read." Another only reads inside books that aren't flagged. Ask the first "is this book here?" and they say yes. Ask the second to search inside it, and they refuse.
 
-**Grep runs on ripgrep, not POSIX grep**
+**Grep runs on ripgrep, not classic grep**
 
-The built-in `Grep` tool is powered by **ripgrep**, not traditional POSIX/GNU `grep` — meaning how special regex characters (metacharacters) get escaped can differ from what you'd expect from classic `grep`.
+The built-in `Grep` tool is powered by **ripgrep**, not the traditional POSIX/GNU `grep` command. This means special regex characters can need different escaping than you'd expect from classic `grep`.
 
-**The three checks an `Edit` must pass**
+**Three things `Edit` checks before it works**
 
-1. The file has been **read** first.
+1. The file was **read** first.
 2. The old text **matches exactly**.
-3. That match appears **exactly once**.
+3. That match shows up **exactly once**.
 
-Not unique? Widen the anchor (more surrounding context) or use `replace_all`.
+If the match isn't unique, add more surrounding text to pin it down, or use `replace_all`.
 
-**Why falling back to rewriting the whole file is riskier than it sounds**
+*Claude Code example*: earlier in this session, editing this very note required a `Read` call first, then an `Edit` with the exact old text. If that old text appeared twice in the file, the edit would fail until more surrounding context was added to make the match unique.
 
-`Read` + `Write` overwrites *everything*, including any changes made to the file between your `Read` and your `Write` — concurrent edits from elsewhere simply vanish. `Edit` only ever touches its specific matched text, so it can't erase changes happening anywhere else in the file.
+**Why falling back to `Write` is riskier than it looks**
 
-*Everyday analogy*: `Edit` is correcting one sentence in a shared document with tracked changes — everything else stays intact. `Write` is deleting the whole document and pasting your own version from memory — anything a coworker added in the meantime is just gone.
+`Read` + `Write` replaces the *entire* file, including any changes someone else made between your `Read` and your `Write` — those changes just disappear. `Edit` only touches the exact text it matched, so it can never erase changes happening elsewhere in the file.
+
+*Everyday analogy*: `Edit` is like fixing one sentence in a shared document with tracked changes — everything else stays put. `Write` is like deleting the whole document and pasting your own version from memory — anything a coworker added in the meantime is simply gone.
 
 **Recap in 3 lines**
 
-1. **Glob ignores `.gitignore`; Grep respects it** — only Glob will surface a gitignored build artifact by name.
-2. **Grep = ripgrep under the hood** — metacharacter escaping differs from POSIX grep.
-3. **`Edit` requires read-first, exact match, unique match** — and falling back to `Write` risks silently discarding concurrent changes to the file.
+1. Glob ignores `.gitignore` and finds files by name anyway; Grep respects it and won't search ignored files.
+2. Grep is ripgrep under the hood, so regex escaping can differ from classic grep.
+3. Edit needs a prior read, an exact match, and a unique match — falling back to Write risks silently wiping out other changes.

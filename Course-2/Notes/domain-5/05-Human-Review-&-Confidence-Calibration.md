@@ -177,20 +177,24 @@ Accuracy isn't uniform: handwritten forms are harder than typed ones; some field
 
 ## Exam Objective Note: CCAR-F 5.5 — Human Review and Confidence Calibration
 
-**A confidence score isn't automatically a probability of being right**
+**A confidence score is just a number until it's proven to mean something**
 
-It only means something once someone has measured that it actually tracks correctness. If it doesn't, no threshold placed on it separates anything — measurement against known-correct labels is the only thing that finds a real boundary.
+A high confidence score doesn't automatically mean "this is probably correct." It only means that once someone checks it against real, known-correct answers and confirms the score actually tracks accuracy. If nobody's checked that, then a cutoff like "auto-accept anything above 90%" is meaningless — there's no evidence that number means anything at all.
 
-**An aggregate hides its own composition**
+Everyday analogy: you'd only trust a weather app's "90% chance of rain" after checking, over many days, that it actually rains 9 times out of 10 when it says that — not just because the number sounds precise.
 
-"94% overall" is fully consistent with near-perfect handling of the common case and a much worse rate on a rarer one. Automating on the headline figure automates the bad segment right along with the good one.
+**One overall percentage can hide a bad pocket underneath**
 
-**Automation removes the measurement along with the labor**
+"94% accurate overall" sounds great, but it's fully consistent with the common case being handled almost perfectly while a rarer case is handled badly. Automating based only on that one headline number automates the bad case too, right along with the good one.
 
-Once humans stop reviewing everything, you also lose the ongoing signal that told you accuracy in the first place — which is exactly why a continuing sample matters *after* automation, not just before it.
+**Automating removes your ability to measure, not just the manual work**
+
+Once people stop reviewing everything, you also lose the steady flow of data that told you how accurate the system actually was. That's exactly why spot-checks need to keep happening *after* automation, not just before it while you're deciding whether to trust it.
+
+*Claude Code example*: if a document-extraction system auto-accepts anything scored above 90% confidence without ever checking those "high confidence" results against real answers, it could be auto-accepting a field that's actually wrong 20% of the time — and nobody would know, because nobody's still checking.
 
 **Recap in 3 lines**
 
-1. **A confidence score means nothing until validated against known-correct labels** — a threshold on an unvalidated score separates nothing real.
-2. **Aggregates hide bad segments** — a good headline number can mask a badly-performing rare case.
-3. **Keep sampling after automating** — automation removes the measurement, not just the labor.
+1. A confidence score means nothing until it's checked against known-correct answers — an unvalidated cutoff separates nothing real.
+2. One overall percentage can hide a badly-performing smaller case underneath it.
+3. Keep sampling after automating — automation removes the measurement, not just the manual work.

@@ -196,20 +196,24 @@ Instead of returning null on failure, a subagent reports a structured error: wha
 
 ## Exam Objective Note: CCAR-F 5.3 — Error Propagation in Multi-Agent Systems
 
-**The core defect: a failure that stops looking like a failure**
+**The real problem: a partial failure that looks complete**
 
-A worker that can't reach a source but returns its findings alone silently converts a partial result into an apparently complete one. Everything downstream then reasons from a false premise while looking entirely plausible, because every later stage genuinely did its job correctly — just on bad input.
+If a subagent can't reach one of its sources but hands back only the findings it did get — without mentioning anything failed — the coordinator has no way to know the result is incomplete. It looks like a full, finished answer. Everything built on top of it looks correct too, because every later step genuinely did its job right — it just started from bad information.
 
-**Two facts that must never collapse into each other**
+Everyday analogy: a teammate asked to check three stores for a product checks only two, then reports "here's what's in stock" without mentioning the third store was skipped. You'd plan around incomplete information and never know why.
 
-"Could not look" and "nothing there" — an access failure and a genuinely empty, valid result.
+**Two things that must never be treated as the same**
 
-**Not everything needs to travel upward**
+"I couldn't check" (an access failure) and "I checked, and there's nothing there" (a valid, empty result) are completely different. Mixing them up means either giving up too early on data that's actually there, or endlessly re-checking something that has already given you its true answer: nothing.
 
-A timeout that succeeded on retry was recovered without loss — reporting it is noise, not propagation. Only failures with real, unrecovered consequences need to climb up to the coordinator.
+**Not every hiccup needs to be reported upward**
+
+If something failed once but a retry fixed it with no data lost, there's nothing left to report — saying so would just be noise. Only pass a failure up to the coordinator if it left a real gap that never got fixed.
+
+*Claude Code example*: if an `Explore` agent checks 5 files and hits a permission error on file 4 but succeeds on retry, it shouldn't mention that retry at all. But if file 5 truly can't be read, the report should say so plainly — not just silently return findings from 4 files as if that were everything.
 
 **Recap in 3 lines**
 
-1. **A silently partial result looks complete** — the real danger is downstream reasoning built on a false premise that appears entirely correct.
-2. **"Could not look" ≠ "nothing there"** — collapsing them into the same signal hides which recovery path is correct.
-3. **Fully-recovered transient errors don't need to propagate** — reporting a successfully-retried timeout is just noise.
+1. A partial result that hides its own gaps looks completely correct — the real danger is that nothing downstream can tell it's incomplete.
+2. "Couldn't check" and "checked, found nothing" are not the same thing — mixing them up breaks the recovery logic.
+3. Only unresolved failures need to be reported upward — a hiccup fixed by a retry is just noise.

@@ -263,25 +263,27 @@ Ask: *do these fixes depend on each other?*
 
 ## Exam Objective Note: CCAR-F 3.5 — Iterative Refinement Techniques
 
-**Without a real check, "looks done" is the only signal — and you become the verification loop**
+**Without a real check, "looks done" is the only signal — and that makes you the checker**
 
-Claude stops when the work *looks* done. If there's no objective pass/fail signal, that subjective impression is all it has to go on — meaning a human ends up manually verifying everything themselves.
+Claude stops working once things *look* finished. If there's no real pass/fail test, that gut feeling is literally all it has to go on. That means a human ends up manually double-checking everything by hand.
 
 **The fix: give Claude something it can actually run**
 
-A test suite, a build's exit code, a script that diffs against a known-good fixture — anything that returns a real pass or fail, instead of relying on "does this look right?"
+A test suite, a build that exits clean or errors out, a script that compares output against a known-good answer — anything that returns a real pass or fail, instead of relying on "does this look right?"
 
-**The mechanisms escalate in strength**
+**The strength of the check can escalate**
 
-Asking in the prompt (weakest, easiest to ignore) → a goal condition → a **Stop hook** that literally blocks the turn from ending until the condition is satisfied (strongest, deterministic — same hook mechanism from domain-1's Agent SDK Hooks note).
+From weakest to strongest: asking for a check in the prompt (easy to skip or forget) → a defined goal condition → a **Stop hook**, which actually blocks Claude's turn from ending until the condition is met. This is the strongest option because the system enforces it, not just a request — the same hook mechanism covered in domain-1's Agent SDK Hooks note.
 
-**Two counter-intuitive points**
+**Two things that feel backwards but matter**
 
-1. **Ask for evidence, not an assertion.** "I fixed it" is a claim that could be confidently wrong. Pasted test output showing green is actual proof.
-2. **After correcting the same issue twice, clear the context rather than trying a third correction.** The accumulated failed attempts sitting in context can actively anchor the model into repeating the same wrong pattern — a fresh context often breaks that loop better than one more retry.
+1. **Ask for proof, not a promise.** "I fixed it" is just a claim, and it can be confidently wrong. Pasted test output that actually shows green is real evidence.
+2. **After two failed attempts at the same fix, clear the context instead of trying a third time in the same conversation.** All those failed attempts sitting in context can actually trap Claude into repeating the same wrong approach — starting fresh often breaks that pattern better than one more retry would.
+
+*Claude Code example*: you ask Claude to fix a failing test, and it fails twice in a similar way. Rather than asking a third time in the same chat, you start a new session and just describe the error again — often it fixes it right away, free of the old failed reasoning still stuck in the previous context.
 
 **Recap in 3 lines**
 
-1. **No check = you become the check** — give Claude a real pass/fail signal instead of trusting "looks done."
+1. **No check means you become the check** — give Claude a real pass/fail signal instead of trusting "looks done."
 2. **Enforcement escalates**: prompt ask → goal condition → Stop hook (which actually blocks completion).
-3. **Demand evidence over assertions, and clear context after two failed corrections** — don't attempt a third fix in the same polluted context.
+3. **Demand proof over promises, and clear context after two failed corrections** — don't attempt a third fix in the same polluted context.

@@ -239,18 +239,22 @@ Don't pick sequential/parallel based on what "sounds" faster. Ask: *"Does this p
 
 ## Exam Objective Note: CCAR-F 1.6 — Task Decomposition Strategies
 
-**These items hand you a workload and ask where the seams fall**
+**How to spot where a job should be split**
 
-- **Distinct input categories wanting distinct handling** → a **routing** problem.
-- **Identical work over independent units** → **partition/parallel** across concurrent workers.
-- **Stages that each consume the previous stage's output** → a **chain** — and parallelizing a true chain leaves nothing able to run concurrently, since each step genuinely needs the last one's result.
+Exam questions describe a workload and ask you to find the right seams. Three patterns to recognize:
 
-**The instructive error**
+- Different types of input that each need different handling → a **routing** problem.
+- The same kind of work repeated over separate, independent units → **split it up and run it in parallel**.
+- Stages where each one needs the previous stage's output → a **chain** — and a real chain can't be parallelized, because every step genuinely needs the one before it to finish first.
 
-Splitting a code review by *file* when the property under review lives *between* files leaves every worker blind to it — no per-file worker can ever see a cross-file issue. Splitting by *concern* instead hands each worker the whole diff and a single lens, so cross-cutting issues actually get caught.
+**The trickiest mistake to watch for**
+
+If you split a code review by *file*, but the problem you're looking for lives *between* files, no single-file worker will ever spot it. Splitting by *concern* instead — giving each worker the whole diff, but asking it to look through one specific lens — is what actually catches problems that cross file boundaries.
+
+*Claude Code example*: If I split a security review into "worker checks file A, worker checks file B," neither one can catch "file A passes an unescaped value that file B then renders unsafely" — that bug lives between the two files. Splitting instead into "one worker checks all files for injection risks, another checks all files for auth issues" catches it, because each worker sees the whole picture through one lens.
 
 **Recap in 3 lines**
 
-1. **Distinct categories → routing; identical independent work → partition; dependent stages → chain.**
-2. **A true chain can't be parallelized** — there's nothing left to run at the same time once real dependencies exist.
-3. **Split code review by concern, not by file** — file-splitting leaves cross-file properties invisible to every worker.
+1. Different input types → routing; same work on independent units → split and parallelize; dependent stages → chain.
+2. A true chain can't run in parallel — each step needs the one before it to finish first.
+3. Split a code review by concern, not by file — file-splitting hides bugs that live between files.

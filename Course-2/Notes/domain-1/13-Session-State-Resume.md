@@ -178,18 +178,20 @@ Before resuming, ask: *"Has anything changed since I was last here?"* If files w
 
 ## Exam Objective Note: CCAR-F 1.7 — Session State and Resumption
 
-**Three operations, and the scenario usually settles which is available**
+**Three ways to come back to a session**
 
-- **`continue`** — picks up the most recent session in the working directory.
-- **`resume`** — takes a specific session ID you kept hold of.
-- **`fork`** — resumes and then branches, leaving the original ID and history completely untouched.
+- `continue` — picks up whatever session you were most recently in, in that working folder.
+- `resume` — reopens one specific session, using an ID you saved earlier.
+- `fork` — reopens a session, then branches off a copy, leaving the original session and its history completely untouched.
 
-**The sharpest question in this objective**
+**The trickiest point in this whole topic**
 
-**Forking branches the conversation, not the filesystem.** A forked agent that edits files makes *real* edits — visible to any session working in that directory, including the original. Treating a fork as a sandbox is wrong in a way that costs real work: it only protects conversation history, never the actual files on disk.
+Forking only branches the *conversation* — not the files on your computer. If a forked agent edits a real file, that edit is real and permanent, visible to any other session working in that same folder, including the original one you forked from. Thinking a fork is a safe sandbox for file changes is a mistake that can cost real work.
+
+*Claude Code example*: If I fork a session and then use `Edit` to change a config file, that change is saved to disk exactly like any other edit. The original session, if it reads that file afterward, sees my edit too — forking never protected the file itself, only the conversation history.
 
 **Recap in 3 lines**
 
-1. **`continue` = most recent; `resume` = a specific kept ID; `fork` = branch that leaves the original untouched.**
-2. **Forking is a conversation-history safeguard, not a filesystem sandbox.**
-3. **A forked agent's file edits are real and shared** — never assume experimenting on a fork is consequence-free if it touches files.
+1. `continue` picks up the most recent session; `resume` reopens one specific saved session by ID; `fork` branches off a copy and leaves the original untouched.
+2. Forking protects conversation history only — not the files on disk.
+3. A forked agent's file edits are real and shared with everyone working in that folder — don't treat a fork as a safe sandbox for file changes.

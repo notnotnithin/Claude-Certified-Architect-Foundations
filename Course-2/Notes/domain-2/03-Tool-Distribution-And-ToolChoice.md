@@ -363,31 +363,33 @@ This forces `save_report` to be called on *every single run*, no exceptions. "Us
 
 ## Exam Objective Note: CCAR-F 2.3 — Tool Distribution and Tool Choice
 
-**The four `tool_choice` values and one sneaky consequence**
+**The four `tool_choice` settings — and one thing that surprises people**
 
-- `auto` — default once tools exist; Claude decides freely.
-- `any` — forces *some* tool to be called.
-- `tool` — forces one specific, named tool.
+- `auto` — the default; Claude decides freely.
+- `any` — Claude must call some tool, but picks which one.
+- `tool` — Claude must call one exact, named tool.
 - `none` — no tools allowed this turn.
 
-The consequence worth knowing: **`any` and `tool` prefill the assistant's message.** When you force tool use, the model's response is pre-seeded to start directly with the tool call — it skips straight to `tool_use`, with **no natural-language text before it**, even if the prompt explicitly asks Claude to explain first.
+Here's the surprising part: **`any` and `tool` skip straight to the tool call.** When you force tool use, Claude's reply starts directly with the tool call — no words before it, even if your prompt asked Claude to explain itself first.
 
-*Everyday analogy*: telling someone "you must hand me the form, filled out" — they can't also pause to explain why they filled it out that way first; the forcing itself skips past any explanation.
+*Everyday analogy*: telling someone "just hand me the filled-out form" — they can't also pause to explain their reasoning first. Forcing the action skips the explanation.
 
-**The practical trap**
+*Claude Code example*: if `tool_choice` were set to `{ type: 'tool', name: 'save_report' }`, and your prompt said "explain your findings, then save the report," Claude would still just call `save_report` immediately, with no explanation text in front of it. The forcing overrides the request to explain first.
 
-A scenario that wants **both** a guaranteed extraction (forced tool call) **and** something readable to show the user cannot use forcing — you can't get a forced tool call *and* preceding explanatory text in the same turn. That combination needs a different approach (e.g., `auto` with a strong instruction, or a separate follow-up turn for the explanation).
+**The trap this creates**
 
-**Tool distribution — how allow/deny lists combine**
+You can't have both a guaranteed tool call and a readable explanation in the same turn. If you need both, forcing won't work — use `auto` with a strong instruction instead, or split it into two turns: one that explains, one that forces the save.
 
-- **Neither set** → the agent inherits everything, no restriction.
-- **Only an allow-list (`tools`) set** → acts as a whitelist — only those tools are available.
-- **Both an allow-list and a deny-list set, overlapping on the same tool** → the **denial wins** — that tool stays blocked even though it was also allowed.
+**How allow-lists and deny-lists combine**
 
-*Everyday analogy*: a badge granting access to "all floors" plus a specific rule "never floor 13" — the specific denial overrides the broader allowance every time.
+- Neither list set → the agent gets every tool, no restriction.
+- Only an allow-list set → it acts as a whitelist; only those tools are available.
+- Both lists set, and they overlap on the same tool → the deny-list wins. That tool stays blocked even though the allow-list included it.
+
+*Everyday analogy*: a badge that opens every floor, plus one rule saying "never floor 13." The specific "no" always beats the general "yes."
 
 **Recap in 3 lines**
 
-1. **`any`/`tool` force a tool call and skip any preceding explanation** — forced tool use always prefills straight to `tool_use`.
-2. **Can't force a tool call and get explanatory text in the same turn** — that combination requires `auto` instead of forcing.
-3. **Denial always wins when allow and deny lists overlap** — an unset pair inherits everything; an allow-list alone is a whitelist.
+1. `any` and `tool` force a tool call and skip straight past any explanation text.
+2. You can't force a tool call and get explanation text in the same turn — use `auto` or split it into two turns.
+3. When allow and deny lists overlap, the deny always wins.

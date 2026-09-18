@@ -283,26 +283,28 @@ Keeping the file lean (under ~200 lines) makes Claude follow it *more* reliably,
 
 ## Exam Objective Note: CCAR-F 3.1 — CLAUDE.md Hierarchy, Scoping, and Modular Organisation
 
-**The cost side: the whole file loads, every session, no matter what**
+**The cost side: the whole file loads every time, whether you need it or not**
 
-`CLAUDE.md` isn't loaded selectively — it loads completely, at the start of *every* conversation. A rarely-needed section like "monthly release procedure" gets paid for in context in every single conversation, even ones about something totally unrelated. This is exactly why path-specific rules exist — to avoid paying for things that aren't relevant right now.
+`CLAUDE.md` doesn't pick and choose what to load. It loads in full, at the start of every single conversation. So a rarely-needed section, like "monthly release steps," still costs context in every conversation, even ones that have nothing to do with releases. This is exactly why path-specific rules exist (see note 3.3) — so you stop paying for things that aren't relevant right now.
 
-**The correctness side: conflicting rules don't get resolved, they just both sit there**
+**The correctness side: conflicts don't get fixed, they just pile up together**
 
-The sharper point: when two levels contradict, they aren't merged or deduplicated — **both statements are literally concatenated into context, side by side.** "Closer rule wins" is a reasoning guideline for the agent, not a mechanical guarantee — nothing physically removes the losing rule from context, so the agent *could* follow either one.
+Here's the sharper point: when two levels of `CLAUDE.md` disagree, nothing merges them or picks a winner. Both instructions get pasted into context side by side. "The closer rule wins" is advice we give the agent — it isn't something the system enforces. Nothing deletes the losing rule, so Claude could still end up following either one.
 
-*Everyday analogy*: two sticky notes on your desk, one saying "always use blue ink," one saying "always use black ink." Being told "follow the closer one when in doubt" doesn't erase the other note — it's still sitting right there, and a distracted reader could grab either pen.
+*Everyday analogy*: two sticky notes on your desk — one says "always use blue ink," the other says "always use black ink." Telling someone "when in doubt, follow the closer note" doesn't make the other note disappear. It's still sitting right there, and someone in a hurry could grab either pen.
 
-**Key fact 1 — the fix for a long file is subtraction, not emphasis**
+*Claude Code example*: say your personal file says "use tabs" and your project file says "use spaces." Both lines actually sit in context together, unresolved. Claude is expected to follow "spaces" because it's closer, but nothing physically stops it from following "tabs" instead — the contradiction is still fully present.
 
-Length itself reduces adherence. The fix for a bloated file isn't **bold**, ALL-CAPS, or repeating rules more forcefully — that's still more content. The fix is actually removing content.
+**Key fact 1 — the fix for a long file is cutting it down, not emphasizing it**
 
-**Key fact 2 — after compaction, only the root file comes back automatically**
+Length itself hurts adherence. Making a bloated file **bold**, ALL-CAPS, or repeating the same rule louder doesn't help — that's still more content. The only real fix is deleting stuff.
 
-After `/compact`, the **project-root `CLAUDE.md` is automatically re-injected** into the freshly-compacted context. **Subdirectory-level files are not** — they only reload if Claude happens to touch a matching file again after the compaction.
+**Key fact 2 — after compaction, only the root file comes back on its own**
+
+After `/compact`, Claude automatically reloads the **project-root `CLAUDE.md`** into the freshly shrunk context. But **subdirectory-level files are not brought back automatically** — they only reappear if Claude happens to touch a matching file in that folder again later.
 
 **Recap in 3 lines**
 
-1. **The whole file loads every session regardless of relevance** — irrelevant sections still cost context on every conversation.
-2. **Contradictions concatenate, they don't resolve** — both conflicting rules sit in context, and the agent may follow either.
-3. **Cut length, don't emphasize it — and remember compaction only restores the root file**, not subdirectory-level ones.
+1. **The whole file loads every session regardless of relevance** — irrelevant sections still cost context every time.
+2. **Conflicts pile up, they don't resolve** — both rules sit in context together, and Claude could follow either.
+3. **Cut length instead of emphasizing it — and remember compaction only restores the root file**, not subdirectory-level ones.

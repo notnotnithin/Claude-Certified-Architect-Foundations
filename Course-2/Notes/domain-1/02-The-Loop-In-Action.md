@@ -206,4 +206,20 @@ Notice Claude didn't decide up front to call both tools — it called the *secon
 
 ## Exam Objective Note: CCAR-F 1.1 — Agentic Loops (see [01-The-AgenticLoop.md](01-The-AgenticLoop.md) for the full note)
 
-Quick recap: the loop's natural stop is a tool-call-free response, not a turn cap. `max_turns` counts only round trips that used a tool. And the `ResultMessage.result` field only exists when `subtype` is `success` — reading it unconditionally breaks exactly on the caps (like `max_turns`) it was meant to respect. This live-chaining note is a direct example of that mechanism: each tool call here happened *because* of the prior result, in the same round-trip-counted loop that objective 1.1 tests.
+**Quick recap of the full note**
+
+See [01-The-AgenticLoop.md](01-The-AgenticLoop.md) for the complete version. Short version: Claude stops on its own the moment it replies with no tool call — that's the real end signal, not a turn limit. `max_turns` is just a safety cap, and it only counts turns that actually used a tool.
+
+**One gotcha to remember**
+
+`ResultMessage.result` only exists when `subtype` is `"success"`. Code that reads `.result` without checking `subtype` first will crash exactly when it hits a cap like `max_turns`.
+
+**How this file connects**
+
+*Claude Code example*: In this file's refund trace, Claude called `look_up_order(9931)` then `check_refund_policy()` — each call happened only because of what the previous result showed. That's the same tool-call loop that `max_turns` counts and that `stop_reason` controls.
+
+**Recap in 3 lines**
+
+1. Claude stops on its own with a tool-call-free reply — `max_turns` is just a backup limit.
+2. `max_turns` only counts turns that used a tool.
+3. Check `ResultMessage.subtype` before reading `.result` — it only exists when `subtype` is `"success"`.

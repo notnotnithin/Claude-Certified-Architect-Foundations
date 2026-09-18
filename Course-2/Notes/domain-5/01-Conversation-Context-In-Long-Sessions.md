@@ -203,21 +203,25 @@ A short, always-current block of essential facts, re-pasted near the **end** of 
 
 ## Exam Objective Note: CCAR-F 5.1 — Context Window Management
 
-**The first casualty: an early instruction still binding a late turn**
+**The first thing that breaks: an old instruction you still need**
 
-As the window fills, quality degrades, and what breaks first is an early instruction that's still supposed to govern a later turn. This rules out any "drop the oldest content first" strategy — the oldest content is often exactly where the commitment lives.
+When a long conversation starts losing quality, the first casualty is usually an instruction from early on that's still supposed to apply now. That's why "just delete the oldest messages first" is a bad strategy — the oldest message might be the one holding a rule you still need to follow.
 
-**Summarize, but keep the must-never-lose facts outside the summary**
+Everyday analogy: it's like a manager giving an instruction at the start of a long meeting, and everyone forgetting it later simply because so much else got discussed in between — even though nobody ever cancelled it.
 
-Summarizing keeps old content in condensed form. Better still: anything that must never be lost shouldn't depend on surviving a summary at all — it belongs in a block present on every turn.
+**For facts you truly can't lose, don't rely on the summary at all**
 
-**Two recurring details**
+Summarizing (what `/compact` does) squeezes old messages into a shorter form. That's fine for most things. But for facts that must never be lost, don't even trust the summary process with them — put them in a small block that gets repeated on every single turn instead.
 
-- **Named fields survive better than regenerated prose** — rewriting prose is where drift enters; a named field just gets copied.
-- **The effective place to trim a large tool result is *before* it arrives** — filter/limit at the source, not clean up after it's already flooded in.
+**Two small details worth remembering**
+
+- A named field (like `customer_id: 4521`) survives better than the same fact buried in a paragraph. Copying a field is exact; rewriting prose during a summary is exactly where details quietly get changed or dropped.
+- Trim a big tool result *before* it even arrives — filter or limit at the source — rather than letting it all flood in and cleaning up after.
+
+*Claude Code example*: instead of running `Read` on an entire 5,000-line log file and hoping to mentally ignore most of it, it's better to `grep` for the specific error first, so only the relevant few lines ever enter context in the first place.
 
 **Recap in 3 lines**
 
-1. **Early instructions can still bind late turns** — never assume "oldest = safest to drop."
-2. **Must-never-lose facts live outside the summarized material**, in a block re-present every turn.
-3. **Trim tool results before they arrive, and prefer named fields over regenerated prose** — both reduce drift.
+1. An early instruction can still matter later — never assume the oldest messages are the safest ones to delete.
+2. Put must-never-lose facts in a block repeated every turn, not just inside a summary.
+3. Trim big results before they arrive, and prefer named fields over rewritten prose — both keep facts from drifting.

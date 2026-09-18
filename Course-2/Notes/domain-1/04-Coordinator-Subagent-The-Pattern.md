@@ -194,21 +194,23 @@ Use it when a task genuinely has separable parts (e.g., "research → analyze �
 
 ## Exam Objective Note: CCAR-F 1.2 — Multi-Agent Orchestration
 
-**Five shapes, and most exam items describe one and ask you to name it**
+**Five shapes to know**
 
-A single call, a fixed chain, parallel workers, an orchestrator deciding how many workers to spawn, and an evaluator paired with an optimizer.
+Most exam questions describe a setup and ask you to name its shape. The five shapes are: a single call, a fixed chain, parallel workers, an orchestrator that decides how many workers to spawn, and an evaluator paired with an optimizer.
 
-**The orchestrator is the reflex choice — but it only earns its cost when subtask count is discovered mid-run**
+**When is an orchestrator actually worth it?**
 
-If the number of subtasks is already known before the run starts, a simpler fixed chain or parallel split is the right answer — the orchestrator's overhead is only justified when that count genuinely can't be known in advance.
+An orchestrator feels like the "safe" answer, but it only earns its cost when you don't know how many subtasks there are until partway through the run. If the number of subtasks is already known before you start, a simpler fixed chain or parallel split is the right call — the orchestrator's extra overhead isn't needed.
 
-**Two recurring wrong-answer traps**
+**Two traps to watch for**
 
-- **Overlapping partitions pay twice for the same document and cover nothing extra** — pure waste, no benefit.
-- **Only the coordinator holds every worker's findings** — individual workers can't see each other's output, so only the coordinator is positioned to notice two of them disagree.
+- Splitting work into overlapping pieces makes you pay twice for the same document, and covers nothing extra. Pure waste.
+- Only the coordinator ever sees every worker's findings. Individual workers can't see each other's output, so only the coordinator can notice when two of them disagree.
+
+*Claude Code example*: If I split a research task into overlapping topics and two subagents end up covering the same ground, that's wasted effort for zero extra coverage. When several subagents run in parallel instead, only I — the coordinator collecting their answers — am in a position to spot if two of them contradict each other.
 
 **Recap in 3 lines**
 
-1. **Five named shapes get tested**: single call, fixed chain, parallel workers, orchestrator, evaluator-optimizer.
-2. **Orchestrator overhead is only worth it when subtask count is discovered during the run**, not known beforehand.
-3. **Overlapping partitions waste cost for zero extra coverage; only the coordinator can spot worker disagreement.**
+1. Five shapes get tested: single call, fixed chain, parallel workers, orchestrator, evaluator-optimizer.
+2. Use an orchestrator only when the number of subtasks is discovered mid-run, not when it's already known.
+3. Overlapping splits waste effort for no extra coverage; only the coordinator can catch workers disagreeing.

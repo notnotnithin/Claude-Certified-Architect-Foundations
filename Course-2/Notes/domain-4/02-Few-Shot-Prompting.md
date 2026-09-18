@@ -329,20 +329,22 @@ Usually **2–5 examples**, all in the exact same format, placed **before** the 
 
 ## Exam Objective Note: CCAR-F 4.2 — Few-Shot Prompting
 
-**3-5 examples — but quality matters far more than count**
+**How many examples — and what matters more than the count**
 
-Good examples mirror the real case, sit inside example tags (so Claude can tell "this is a demonstration" from "this is an instruction"), and vary enough that no accidental pattern gets learned.
+Aim for 3 to 5 examples. But quality matters far more than how many you use. Good examples look like the real cases Claude will see, sit inside example tags (so Claude can tell "this is a sample" apart from "this is an instruction"), and are different enough from each other that no accidental pattern sneaks in.
 
-**The best question in this objective: accidental patterns**
+**The trickiest part: accidental patterns**
 
-Examples too alike teach the accident, not the rule. If every example happens to have two-word inputs, two-word inputs are what gets handled — Claude learned the incidental trait, not the actual rule you meant to teach. The fix is *varying* the examples — not adding more of the same, and not raising effort (that's an unrelated lever entirely; this is a data problem).
+If your examples all happen to share some detail that has nothing to do with the rule you're teaching, Claude may learn that detail instead of the real rule.
 
-**When to reach for an example**
+**Claude Code example**: say every example you give happens to have a two-word input. Claude might learn "handle two-word inputs" instead of the actual rule you meant — say, "extract the urgency level." The fix is to vary the examples (different lengths, different phrasing) — not to add more examples with the same accident, and not to just "try harder," since that's an unrelated lever and this is a data problem.
 
-When an instruction has *repeatedly* failed to land a format in plain words — that's the signal to switch from telling to showing.
+**When to switch from telling to showing**
+
+If you've described a format in plain words more than once and Claude still isn't getting it right, that's the signal to stop explaining and start showing an example instead.
 
 **Recap in 3 lines**
 
-1. **Quality over count** — mirror the real case, use example tags, vary enough to avoid teaching an accident.
-2. **Too-similar examples teach the incidental trait, not the rule** — fix with variety, not volume or effort.
-3. **Reach for examples after words have repeatedly failed** to pin down a format.
+1. Quality over count — 3-5 examples that mirror the real case, use example tags, and vary enough to avoid teaching an accident.
+2. Too-similar examples teach the accidental detail, not the rule — fix with variety, not volume or effort.
+3. Reach for examples once plain words have repeatedly failed to pin down a format.

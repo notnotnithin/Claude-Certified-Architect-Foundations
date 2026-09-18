@@ -179,21 +179,23 @@ Multiple `Task` calls in a single turn let subagents run in parallel, so the coo
 
 ## Exam Objective Note: CCAR-F 1.3 — Subagent Invocation and Context Passing
 
-**What a freshly spawned subagent actually starts with**
+**What a new subagent actually has when it starts**
 
-Its own system prompt, the delegation message you wrote, and project-level instruction files — nothing more.
+Just three things: its own system prompt, the delegation message you wrote for it, and project-level instruction files. Nothing else.
 
-**What it does NOT start with — and why the brief is load-bearing**
+**What it does NOT have — and why your message matters so much**
 
-The parent's conversation, the files the parent had open, or the reasoning that narrowed the problem down. This is precisely why the delegation brief is load-bearing rather than a formality — without it, the subagent genuinely has nothing else to work from.
+It does not get the parent's conversation, the files the parent had open, or the reasoning that led up to this point. That's why the message you write for it isn't a nice-to-have — it's the subagent's entire starting point. Leave something important out, and the subagent has no other way to learn it.
 
-**Two further keys**
+*Claude Code example*: If I spawn an `Agent` to check a bug and don't mention that I already ruled out the database layer, it may waste time re-checking the database from scratch — it has no way to know I already looked there.
 
-- **Where a tool is named in both the allowed and denied list, the denial wins** and the tool is removed.
-- **Built-in exploration and planning agents deliberately skip instruction files.** A rule they must obey has to be restated directly in the prompt they're given — `CLAUDE.md` will not reach them.
+**Two more rules to remember**
+
+- If a tool shows up on both the allowed list and the denied list, the denial wins and the tool is removed.
+- Built-in agents like Explore and Plan skip instruction files on purpose. If there's a rule they must follow, write it directly into their prompt — putting it in `CLAUDE.md` won't reach them.
 
 **Recap in 3 lines**
 
-1. **A subagent starts with only its system prompt, delegation message, and project instruction files** — nothing inherited from the parent.
-2. **Denial always wins on an allow/deny overlap.**
-3. **Built-in Explore/Plan agents skip `CLAUDE.md` on purpose** — restate essential rules directly in their prompt.
+1. A subagent starts with only its own system prompt, your delegation message, and project instruction files — nothing from the parent.
+2. If a tool is both allowed and denied, denial wins.
+3. Explore and Plan agents skip `CLAUDE.md` on purpose — put must-follow rules directly in their prompt.

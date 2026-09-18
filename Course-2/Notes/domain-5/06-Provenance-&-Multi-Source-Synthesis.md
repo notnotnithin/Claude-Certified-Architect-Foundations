@@ -136,27 +136,31 @@ Label the timing of information. A 2019 figure and a 2026 figure aren't equally 
 
 ## Exam Objective Note: CCAR-F 5.6 — Information Provenance and Multi-Source Synthesis
 
-**API-native citations vs. prompted quotes — the central contrast**
+**Two very different ways to get a "quote" — only one is guaranteed real**
 
-Citations from the API are parsed and extracted directly from the documents, guaranteed to point at text actually present in what you supplied. Just asking for quotes in the prompt buys no such guarantee — the model could still hallucinate a quote that was never in the source.
+Turn on the API's built-in citations feature, and each citation is pulled directly out of the documents you gave it — guaranteed to actually be there. Just ask Claude in your prompt to "quote your sources," and there's no such guarantee — Claude could still make up a quote that was never in the source, and you'd have no way to tell.
 
-**Enabling citations is all-or-nothing**
+Everyday analogy: it's the difference between a citation your word processor auto-links straight to the paragraph you highlighted, versus a citation someone typed from memory — the second one might simply be wrong.
 
-Across every document in a request — no selectively turning it on for some documents and not others.
+**Citations are on or off for the whole request, not per document**
 
-**A hard architectural limit**
+You can't turn citations on for one document and leave them off for another in the same request. It's all-or-nothing across every document you send.
 
-Citations and structured outputs **cannot be combined** — the API returns a 400. A scenario needing both grounded quotes *and* a strict schema requires **two separate passes**, not one.
+**A hard limit worth remembering: citations and structured outputs don't mix**
 
-**On synthesis**
+Citations cannot be used together with structured (forced JSON) output in the same call — the API rejects it with a 400 error. A scenario needing both grounded quotes *and* a strict schema needs **two separate passes**, not one combined attempt.
 
-Conflicting sources are annotated with both values *and* their attribution — never quietly averaged into a single resolved answer.
+*Claude Code example*: calling the API with citations turned on and also forcing a strict JSON schema in the same request would fail with a 400 error. The fix is running the citation pass first, then a second, separate pass to shape that result into JSON.
+
+**When sources disagree**
+
+Show both values and say which source said which — never quietly blend them into one "average" answer that no real source actually stated.
 
 **Recap in 3 lines**
 
-1. **Only API-native citations are guaranteed grounded** — prompted quotes carry no such guarantee and can be hallucinated.
-2. **Citations are all-or-nothing per request, and incompatible with structured outputs** — combining the two needs two passes.
-3. **Conflicting sources get shown with attribution, not averaged away.**
+1. Only API-native citations are guaranteed to be real — quotes just asked for in a prompt can still be hallucinated.
+2. Citations apply to every document in a request or none, and can't be combined with structured outputs in the same call — that combination needs two passes.
+3. When sources disagree, show both with attribution — never average them into one answer.
 
 ---
 

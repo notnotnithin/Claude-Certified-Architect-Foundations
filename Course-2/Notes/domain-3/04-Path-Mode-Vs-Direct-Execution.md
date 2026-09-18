@@ -318,24 +318,26 @@ The "Approve" step is uniquely cheap: since nothing's been built yet, fixing a m
 
 ## Exam Objective Note: CCAR-F 3.4 — Plan Mode vs Direct Execution
 
-**The one-sentence test**
+**A quick test: can you describe the change in one sentence?**
 
-If you could describe the expected diff in a single sentence, skip planning. Plan when the approach is genuinely uncertain, several files change, or the code is unfamiliar to you.
+If yes, skip planning and just make the change. Plan first when the approach is genuinely unclear, several files will change, or you don't know the codebase well.
 
-**The honest tradeoff**
+**Planning costs something too — that's the whole point**
 
-Planning isn't free — it adds overhead. That cost is exactly what stops "always plan" from being the correct default; if planning cost nothing, skipping it would never make sense.
+Planning isn't free. It takes extra time. That cost is exactly why "always plan, every time" isn't the right default — if planning cost nothing, there'd never be a reason to skip it.
 
-**Distinction 1 — plan mode vs. effort solve different problems**
+**Mix-up 1 — plan mode and "effort" solve different problems**
 
-Plan mode addresses *unknown scope* — what needs to happen, across how many files. "Effort" (a model setting controlling reasoning depth) addresses *how hard Claude thinks within one response*. Cranking up effort doesn't substitute for planning when the scope itself is unclear.
+Plan mode is about *unknown scope*: figuring out what needs to happen, and across how many files. "Effort" is a separate model setting that controls how hard Claude thinks while writing a single response. Turning effort up doesn't fix a scope problem — if you don't yet know what needs to change, more thinking power on one response won't tell you that.
 
-**Distinction 2 — plan mode is an approval gate**
+**Mix-up 2 — plan mode needs a human in the room**
 
-Plan mode fundamentally needs a human to say "go." In an unattended pipeline, nobody's there to approve anything — so plan mode doesn't fit there at all. The right tool for that situation is **scoped permissions**, not a plan-approval gate with no one to approve it.
+Plan mode only works because someone is there to say "go ahead." In an unattended pipeline, nobody's watching to approve anything, so plan mode simply doesn't fit there. The right tool for that situation is **scoped permissions** instead — limiting what Claude is *allowed* to do, rather than pausing for an approval nobody's there to give.
+
+*Claude Code example*: in a CI script running `claude -p` with no one watching, you wouldn't set `--permission-mode plan`, since nobody can approve the plan. Instead you'd use `--allowed-tools` to limit what Claude can touch — the scoped-permissions approach used for unattended runs.
 
 **Recap in 3 lines**
 
-1. **One-sentence diff → skip planning; uncertain/multi-file/unfamiliar → plan.**
-2. **Plan mode ≠ effort** — scope-uncertainty vs. per-response reasoning depth are different problems.
+1. **One-sentence diff → skip planning; uncertain, multi-file, or unfamiliar → plan.**
+2. **Plan mode is not the same as effort** — scope-uncertainty and per-response reasoning depth are different problems.
 3. **Plan mode needs a human approver** — unattended pipelines should use scoped permissions instead.

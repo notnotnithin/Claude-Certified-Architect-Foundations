@@ -305,16 +305,22 @@ If a document genuinely can't be fixed, an uncapped loop burns time and money fo
 
 ## Exam Objective Note: CCAR-F 4.4 — Validation, Retry, and Feedback Loops
 
-**Which failures a check can actually catch**
+**What a check can actually catch, and what it can't**
 
-A syntax/type check happily passes a total that contradicts its own line items — relationships *between* values need real arithmetic your own code performs, not something the model confirms about itself. And self-checking shares the exact failure it's meant to catch: whatever caused a misread in the first place is usually still present when the same reasoning re-checks it.
+A basic syntax or type check will happily pass a total that doesn't match its own line items — checking "is this a number" isn't the same as checking "do these numbers add up." Catching that needs real math, done by your own code, not Claude checking its own work. Asking Claude to re-check itself often doesn't help either: whatever caused it to misread the document the first time is usually still there the second time it looks.
 
-**Retries: variable failure vs. systematic failure**
+**Retrying blind vs. retrying with feedback**
 
-Resending an identical request is just a fresh random sample — it fails about as often as it succeeds, because nothing was actually corrected. Feeding back *what was produced and what was wrong* turns that into a real correction. But a schema that's fundamentally wrong about the documents is not fixed by any number of attempts — that's a design flaw, not noise.
+Just resending the exact same request is like rolling the dice again — it succeeds or fails about as often as before, because nothing was actually fixed. What works is telling Claude exactly what was produced and exactly what was wrong with it — that turns a retry into a real correction.
+
+**Claude Code example**: an extraction returns `items: [2000, 2800]` with `total: 5000` — the math is off (2000 + 2800 = 4800). Re-running the same prompt might just produce 5000 again. Sending back "line items sum to 4800, but total says 5000, please fix" gets a corrected `total: 4800` on the very next try.
+
+**When retrying won't help**
+
+If the schema itself is the wrong fit for the kind of documents you're feeding it, no number of retries fixes that — that's a design flaw, not noise.
 
 **Recap in 3 lines**
 
-1. **Syntax checks miss relationships between values** — catch those with real arithmetic in code, not model self-checking.
-2. **Blind identical retries are just a coin flip** — feedback (what was produced, what was wrong) is what makes a retry a correction.
-3. **Systematic errors (a wrong schema) aren't fixed by retrying** — no number of attempts fixes a design flaw.
+1. A syntax check misses relationships between values — catch those with real math in your own code, not by having Claude check itself.
+2. Resending the same request blind is just a coin flip — feedback on what was produced and what was wrong is what makes a retry actually fix something.
+3. A wrong schema can't be fixed by retrying — that's a design problem, not noise.
